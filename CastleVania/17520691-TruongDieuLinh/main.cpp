@@ -11,9 +11,9 @@
 #include <stdlib.h>
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
-#define MAIN_WINDOW_TITLE L"00 - Intro"
+#define MAIN_WINDOW_TITLE L"CastleVania"
 
-#define BRICK_TEXTURE_PATH L"brick.png"
+#define SIMON_TEXTURE_PATH L"simon1.png"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 0, 0)
 #define SCREEN_WIDTH 320
@@ -28,10 +28,10 @@ LPDIRECT3DDEVICE9 d3ddv = NULL;				// Direct3D device object
 LPDIRECT3DSURFACE9 backBuffer = NULL;
 LPD3DXSPRITE spriteHandler = NULL;			// Sprite helper library to help us draw 2D image on the screen 
 
-LPDIRECT3DTEXTURE9 texBrick;				// texture object to store brick image
+LPDIRECT3DTEXTURE9 texSimon;				// texture object to store brick image
 
-int brick_x = 100;
-int brick_y = 100;
+int simon_x = 100;
+int simon_y = 100;
 
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -43,7 +43,6 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
-
 	return 0;
 }
 
@@ -105,16 +104,16 @@ void InitDirectX(HWND hWnd)
 void LoadResources()
 {
 	D3DXIMAGE_INFO info;
-	HRESULT result = D3DXGetImageInfoFromFile(BRICK_TEXTURE_PATH, &info);
+	HRESULT result = D3DXGetImageInfoFromFile(SIMON_TEXTURE_PATH, &info);
 	if (result != D3D_OK)
 	{
-		DebugOut(L"[ERROR] GetImageInfoFromFile failed: %s\n", BRICK_TEXTURE_PATH);
+		DebugOut(L"[ERROR] GetImageInfoFromFile failed: %s\n", SIMON_TEXTURE_PATH);
 		return;
 	}
 
 	result = D3DXCreateTextureFromFileEx(
 		d3ddv,								// Pointer to Direct3D device object
-		BRICK_TEXTURE_PATH,					// Path to the image to load
+		SIMON_TEXTURE_PATH,					// Path to the image to load
 		info.Width,							// Texture width
 		info.Height,						// Texture height
 		1,
@@ -123,10 +122,10 @@ void LoadResources()
 		D3DPOOL_DEFAULT,
 		D3DX_DEFAULT,
 		D3DX_DEFAULT,
-		D3DCOLOR_XRGB(255, 255, 255),			// Transparent color
+		D3DCOLOR_XRGB(0, 0, 0),			// Transparent color
 		&info,
 		NULL,
-		&texBrick);								// Created texture pointer
+		&texSimon);								// Created texture pointer
 
 	if (result != D3D_OK)
 	{
@@ -134,16 +133,14 @@ void LoadResources()
 		return;
 	}
 
-	DebugOut(L"[INFO] Texture loaded Ok: %s \n", BRICK_TEXTURE_PATH);
+	DebugOut(L"[INFO] Texture loaded Ok: %s \n", SIMON_TEXTURE_PATH);
 }
 
 /*
 	Update world status for this frame
 	dt: time period between beginning of last frame and beginning of this frame
 */
-void Update(DWORD dt)
-{
-}
+void Update(DWORD dt){}
 
 /*
 Render a frame
@@ -157,8 +154,8 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		D3DXVECTOR3 p((float)brick_x, (float)brick_y, 0);
-		spriteHandler->Draw(texBrick, NULL, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
+		D3DXVECTOR3 p((float)simon_x, (float)simon_y, 0);
+		spriteHandler->Draw(texSimon, NULL, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
 
 		spriteHandler->End();
 		d3ddv->EndScene();
