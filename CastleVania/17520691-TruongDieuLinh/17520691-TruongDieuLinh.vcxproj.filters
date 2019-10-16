@@ -13,36 +13,48 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Framwork">
+      <UniqueIdentifier>{621057fb-4cd6-43b5-8eef-e65708f75c40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framwork\MapReader">
+      <UniqueIdentifier>{50c3bfeb-7bb3-4634-bea8-9470e02688ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framwork\GameObjects">
+      <UniqueIdentifier>{a0fca5ca-b640-400d-ab08-0063ab872c72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framwork\GameComponent">
+      <UniqueIdentifier>{a9fb47d3-fc23-4a56-9e0d-a252be31eab2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="debug.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Framwork\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Simon.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Framwork\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Framwork\GameComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="debug.cpp">
+      <Filter>Framwork\GameComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="debug.h">
-      <Filter>Header Files</Filter>
+      <Filter>Framwork\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Simon.h">
-      <Filter>Header Files</Filter>
+      <Filter>Framwork\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Framwork\GameComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="debug.h">
+      <Filter>Framwork\GameComponent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

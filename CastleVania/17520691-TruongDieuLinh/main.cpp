@@ -18,7 +18,7 @@
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
-#define MAX_FRAME_RATE 10
+#define MAX_FRAME_RATE 60
 
 CGame* game;
 CSimon* simon;
