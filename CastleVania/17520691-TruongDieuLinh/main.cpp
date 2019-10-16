@@ -3,16 +3,15 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
-#include <signal.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <time.h>
-#include <stdlib.h>
+#include "debug.h"
+#include "Game.h"
+#include "GameObject.h"
+#include "Simon.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"CastleVania"
 
+//DINH NGHIA HINH ANH
 #define SIMON_TEXTURE_PATH L"simon1.png"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 0, 0)
@@ -21,18 +20,8 @@
 
 #define MAX_FRAME_RATE 10
 
-
-LPDIRECT3D9 d3d = NULL;						// Direct3D handle
-LPDIRECT3DDEVICE9 d3ddv = NULL;				// Direct3D device object
-
-LPDIRECT3DSURFACE9 backBuffer = NULL;
-LPD3DXSPRITE spriteHandler = NULL;			// Sprite helper library to help us draw 2D image on the screen 
-
-LPDIRECT3DTEXTURE9 texSimon;				// texture object to store brick image
-
-int simon_x = 100;
-int simon_y = 100;
-
+CGame* game;
+CSimon* simon;
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -46,116 +35,43 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void DebugOut(wchar_t* fmt, ...)
-{
-	va_list argp;
-	va_start(argp, fmt);
-	wchar_t dbg_out[4096];
-	vswprintf_s(dbg_out, fmt, argp);
-	va_end(argp);
-	OutputDebugString(dbg_out);
-}
-
-void InitDirectX(HWND hWnd)
-{
-	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
-
-	D3DPRESENT_PARAMETERS d3dpp;
-
-	ZeroMemory(&d3dpp, sizeof(d3dpp));
-
-	d3dpp.Windowed = TRUE;
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
-	d3dpp.BackBufferCount = 1;
-
-	RECT r;
-	GetClientRect(hWnd, &r);	// retrieve Window width & height 
-
-	d3dpp.BackBufferHeight = r.bottom + 1;
-	d3dpp.BackBufferWidth = r.right + 1;
-
-	d3d->CreateDevice(
-		D3DADAPTER_DEFAULT,
-		D3DDEVTYPE_HAL,
-		hWnd,
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-		&d3dpp,
-		&d3ddv);
-
-	if (d3ddv == NULL)
-	{
-		OutputDebugString(L"[ERROR] CreateDevice failed\n");
-		return;
-	}
-
-	d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);
-
-	// Initialize sprite helper from Direct3DX helper library
-	D3DXCreateSprite(d3ddv, &spriteHandler);
-
-	OutputDebugString(L"[INFO] InitGame is done\n");
-
-}
 
 /*
 	Load all game resources. In this example, only load brick image
 */
 void LoadResources()
 {
-	D3DXIMAGE_INFO info;
-	HRESULT result = D3DXGetImageInfoFromFile(SIMON_TEXTURE_PATH, &info);
-	if (result != D3D_OK)
-	{
-		DebugOut(L"[ERROR] GetImageInfoFromFile failed: %s\n", SIMON_TEXTURE_PATH);
-		return;
-	}
-
-	result = D3DXCreateTextureFromFileEx(
-		d3ddv,								// Pointer to Direct3D device object
-		SIMON_TEXTURE_PATH,					// Path to the image to load
-		info.Width,							// Texture width
-		info.Height,						// Texture height
-		1,
-		D3DUSAGE_DYNAMIC,
-		D3DFMT_UNKNOWN,
-		D3DPOOL_DEFAULT,
-		D3DX_DEFAULT,
-		D3DX_DEFAULT,
-		D3DCOLOR_XRGB(0, 0, 0),			// Transparent color
-		&info,
-		NULL,
-		&texSimon);								// Created texture pointer
-
-	if (result != D3D_OK)
-	{
-		OutputDebugString(L"[ERROR] CreateTextureFromFile failed\n");
-		return;
-	}
-
-	DebugOut(L"[INFO] Texture loaded Ok: %s \n", SIMON_TEXTURE_PATH);
+	simon = new CSimon(SIMON_TEXTURE_PATH);
+	simon->SetPosition(10.0f, 130.0f);
 }
 
 /*
 	Update world status for this frame
 	dt: time period between beginning of last frame and beginning of this frame
 */
-void Update(DWORD dt){}
+void Update(DWORD dt)
+{
+	simon->Update(dt);
+}
 
 /*
 Render a frame
 */
 void Render()
 {
+	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
+	LPDIRECT3DSURFACE9 bb = game->GetBackBuffer();
+	LPD3DXSPRITE spriteHandler = game->GetSpriteHandler();
+
 	if (d3ddv->BeginScene())
 	{
-		// Clear screen (back buffer) with a color
-		d3ddv->ColorFill(backBuffer, NULL, BACKGROUND_COLOR);
+		// Clear back buffer with a color
+		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		D3DXVECTOR3 p((float)simon_x, (float)simon_y, 0);
-		spriteHandler->Draw(texSimon, NULL, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
+		/* CODE HERE*/
+		simon->Render();
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -251,7 +167,9 @@ int Run()
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
-	InitDirectX(hWnd);
+
+	game = CGame::GetInstance();
+	game->InitDirectX(hWnd); 
 
 	LoadResources();
 	Run();
