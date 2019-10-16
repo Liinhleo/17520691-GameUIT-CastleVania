@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
+#include "KeyEventHandler.h"
 
 class CGame
 {
@@ -14,9 +15,21 @@ class CGame
 	LPDIRECT3DSURFACE9 backBuffer = NULL;
 	LPD3DXSPRITE spriteHandler = NULL;			// Sprite helper library to help us draw 2D image on the screen 
 
+	LPDIRECTINPUT8       di;		// The DirectInput object         
+	LPDIRECTINPUTDEVICE8 didv;		// The keyboard device 
+
+	BYTE  keyStates[256];			// DirectInput keyboard state buffer 
+	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE];		// Buffered keyboard data
+
+	LPKEYEVENTHANDLER keyHandler;
+
 public:
+	void InitKeyboard(LPKEYEVENTHANDLER handler);
 	void InitDirectX(HWND hWnd);
-	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture);
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom);
+
+	int IsKeyDown(int KeyCode);
+	void ProcessKeyboard();
 
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }

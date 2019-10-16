@@ -6,22 +6,53 @@
 #include "debug.h"
 #include "Game.h"
 #include "GameObject.h"
+#include "Textures.h"
 #include "Simon.h"
+#include "Animations.h"
+#include "SampleKeyHander.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"CastleVania"
 
-//DINH NGHIA HINH ANH
-#define SIMON_TEXTURE_PATH L"simon1.png"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 0, 0)
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
+#define ID_TEX_SIMON 0
+
+
 #define MAX_FRAME_RATE 60
 
 CGame* game;
 CSimon* simon;
+
+SampleKeyHander* keyHandler;
+void SampleKeyHander::OnKeyDown(int KeyCode)
+{
+	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	switch (KeyCode)
+	{
+	case DIK_SPACE:
+		simon->SetState(SIMON_STATE_JUMP);
+		break;
+	}
+}
+
+void SampleKeyHander::OnKeyUp(int KeyCode)
+{
+	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+}
+
+void SampleKeyHander::KeyState(BYTE* states)
+{
+	if (game->IsKeyDown(DIK_RIGHT))
+		simon->SetState(SIMON_STATE_WALKING_RIGHT);
+	else if (game->IsKeyDown(DIK_LEFT))
+		simon->SetState(SIMON_STATE_WALKING_LEFT);
+	else simon->SetState(SIMON_STATE_IDLE);
+}
+
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -37,12 +68,33 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 
 /*
-	Load all game resources. In this example, only load brick image
+	Load all game resources
+	In this example: load textures, sprites, animations and simon object
 */
 void LoadResources()
 {
-	simon = new CSimon(SIMON_TEXTURE_PATH);
-	simon->SetPosition(10.0f, 130.0f);
+	CTextures* textures = CTextures::GetInstance();
+	textures->Add(ID_TEX_SIMON, L"textures\\simon.png",D3DCOLOR_XRGB(176, 224, 248));
+
+	CSprites* sprites = CSprites::GetInstance();
+	CAnimations* animations = CAnimations::GetInstance();
+
+	LPDIRECT3DTEXTURE9 texsimon = textures->Get(ID_TEX_SIMON);
+	
+	sprites->Add(10001, 246, 154, 260, 181, texsimon);
+
+
+	LPANIMATION ani;
+
+	ani = new CAnimation(100);
+	ani->Add(10001);
+	animations->Add(400, ani);
+
+	
+	simon = new CSimon();
+	CSimon::AddAnimation(400);		// idle right
+	simon->SetPosition(0.0f, 100.0f);
+
 }
 
 /*
@@ -170,6 +222,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	game = CGame::GetInstance();
 	game->InitDirectX(hWnd); 
+
+	keyHandler = new SampleKeyHander();
+	game->InitKeyboard(keyHandler);
 
 	LoadResources();
 	Run();
