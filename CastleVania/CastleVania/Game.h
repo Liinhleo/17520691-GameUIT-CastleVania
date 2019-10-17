@@ -31,6 +31,7 @@ class CGame
 	LPDIRECT3DSURFACE9 backBuffer = NULL;		
 	LPD3DXSPRITE spriteHandler = NULL;			// Sprite helper library to help us draw 2D image on the screen 
 
+	
 	LPDIRECTINPUT8       di;		// The DirectInput object         
 	LPDIRECTINPUTDEVICE8 didv;		// The keyboard device 
 
@@ -39,6 +40,7 @@ class CGame
 
 	LPKEYEVENTHANDLER keyHandler;
 
+	// camera
 	float cam_x = 0.0f;
 	float cam_y = 0.0f;
 

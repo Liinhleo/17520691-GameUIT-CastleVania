@@ -40,10 +40,9 @@
 
 #define MAX_FRAME_RATE 60
 
-#define ID_TEX_MARIO 0
+#define ID_TEX_SIMON 0
 #define ID_TEX_ENEMY 10
 #define ID_TEX_MISC 20
-#define ID_TEX_SIMON 30
 
 CGame *game;
 CSimon* simon;
@@ -105,7 +104,6 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
-
 	return 0;
 }
 
@@ -123,24 +121,32 @@ void LoadResources()
 	CTextures* textures = CTextures::GetInstance();
 	LPANIMATION ani;
 
+
 	/*===========LOAD TEXTURES========= */
 	textures->Add(ID_TEX_MISC, L"textures\\misc.png", D3DCOLOR_XRGB(176, 224, 248));
-	textures->Add(ID_TEX_SIMON, L"textures\\full-simon.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_TEX_SIMON, L"textures\\full-simon.png", D3DCOLOR_XRGB(0, 0, 255));
 	textures->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 
 	/*===========SIMON========= */
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 
-	sprites->Add(10001, 246, 154, 260, 181, texSimon);		// idle right
-	sprites->Add(10002, 275, 154, 290, 181, texSimon);		// walk right
-	sprites->Add(10003, 304, 154, 321, 181, texSimon);
+	sprites->Add(10001, 740, 4, 764, 63, texSimon);		// idle right
+	sprites->Add(10002, 794, 4, 826, 63, texSimon);		// walk right
+	sprites->Add(10003, 915, 4, 950, 63, texSimon);
 
-	sprites->Add(10011, 186, 154, 200, 181, texSimon);		// idle left
-	sprites->Add(10012, 155, 154, 170, 181, texSimon);		// walk left
-	sprites->Add(10013, 125, 154, 140, 181, texSimon);
 
-	sprites->Add(10099, 215, 120, 231, 135, texSimon);		// die 
+	sprites->Add(10011, 193, 4, 220, 64, texSimon);		// idle left
+	sprites->Add(10012, 134, 4, 166, 64, texSimon);		// walk left
+	sprites->Add(10013, 12, 5, 45, 64, texSimon);
+
+
+	sprites->Add(10051, 675, 6, 710, 52, texSimon);		//jump right
+	sprites->Add(10062, 252, 6, 286, 52, texSimon);		//jump left
+
+
+	sprites->Add(10099,240,236,300,263, texSimon);		// die 
+
 
 	ani = new CAnimation(100);	// idle  right
 	ani->Add(10001);
@@ -162,9 +168,23 @@ void LoadResources()
 	ani->Add(10013);
 	animations->Add(501, ani);
 
+
 	ani = new CAnimation(100);		// Simon die
 	ani->Add(10099);
 	animations->Add(599, ani);
+
+
+	ani = new CAnimation(100);	// // jump right 
+	ani->Add(10001);
+	ani->Add(10051);
+	animations->Add(505, ani);
+
+
+	ani = new CAnimation(100);	// // jump left 
+	ani->Add(10011);
+	ani->Add(10062);
+	animations->Add(506, ani);
+
 
 	simon = new CSimon();
 
@@ -174,10 +194,13 @@ void LoadResources()
 	simon->AddAnimation(500);		// walk right 
 	simon->AddAnimation(501);		// walk left 
 
+	simon->AddAnimation(505);		// jump right 
+	simon->AddAnimation(506);		// jump left 
+
 	simon->AddAnimation(599);		// die
 
 
-	simon->SetPosition(80.0f, 0);
+	simon->SetPosition(50.0f, 0);
 	objects.push_back(simon);
 
 
@@ -190,7 +213,8 @@ void LoadResources()
 
 	animations->Add(601, ani);
 
-	// ground
+
+	// create array ground
 	for (int i = 0; i < 30; i++)
 	{
 		CBrick* brick = new CBrick();
