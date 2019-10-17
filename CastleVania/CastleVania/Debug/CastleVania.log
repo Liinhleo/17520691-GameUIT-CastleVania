@@ -1,0 +1,20 @@
+﻿  Brick.cpp
+  debug.cpp
+  Game.cpp
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\Game.cpp(63,39): warning C4244: 'argument': conversion from 'double' to 'FLOAT', possible loss of data
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\Game.cpp(63,21): warning C4244: 'argument': conversion from 'double' to 'FLOAT', possible loss of data
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\Game.cpp(262,26): warning C4305: '=': truncation from '__int64' to 'float'
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\Game.cpp(263,24): warning C4305: '=': truncation from '__int64' to 'float'
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\Game.cpp(273,26): warning C4305: '=': truncation from '__int64' to 'float'
+  GameObject.cpp
+  Goomba.cpp
+  main.cpp
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\Game.cpp(274,24): warning C4305: '=': truncation from '__int64' to 'float'
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(214,20): warning C4018: '<': signed/unsigned mismatch
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(219,20): warning C4018: '<': signed/unsigned mismatch
+  Simon.cpp
+  Sprites.cpp
+  Textures.cpp
+  Generating Code...
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(251,21): warning C4018: '<': signed/unsigned mismatch
+  CastleVania.vcxproj -> G:\17520691-GameUIT-CastleVania\CastleVania\Debug\CastleVania.exe
