@@ -27,6 +27,7 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Whip.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -54,6 +55,7 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Whip.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

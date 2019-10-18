@@ -1,7 +1,6 @@
-﻿  Simon.cpp
-  main.cpp
-G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(238,20): warning C4018: '<': signed/unsigned mismatch
-G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(243,20): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(275,21): warning C4018: '<': signed/unsigned mismatch
+﻿  main.cpp
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(249,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(286,20): warning C4018: '<': signed/unsigned mismatch
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(291,20): warning C4018: '<': signed/unsigned mismatch
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(323,21): warning C4018: '<': signed/unsigned mismatch
   CastleVania.vcxproj -> G:\17520691-GameUIT-CastleVania\CastleVania\Debug\CastleVania.exe

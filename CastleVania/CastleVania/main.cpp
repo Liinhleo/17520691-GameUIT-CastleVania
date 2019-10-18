@@ -27,9 +27,9 @@
 #include "GameObject.h"
 #include "Textures.h"
 
-#include "Mario.h"
 #include "Brick.h"
 #include "Simon.h"
+#include "Goomba.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
@@ -46,7 +46,7 @@
 
 CGame *game;
 CSimon* simon;
-
+CGoomba* goomba;
 
 vector<LPGAMEOBJECT> objects;
 
@@ -74,7 +74,6 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		break;
 	}
 }
-
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
@@ -126,26 +125,47 @@ void LoadResources()
 	textures->Add(ID_TEX_MISC, L"textures\\misc.png", D3DCOLOR_XRGB(176, 224, 248));
 	textures->Add(ID_TEX_SIMON, L"textures\\full-simon.png", D3DCOLOR_XRGB(0, 0, 255));
 	textures->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_TEX_ENEMY, L"textures\\enemies.png", D3DCOLOR_XRGB(3, 26, 110));
 
 
 	/*===========SIMON========= */
 	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
 
-	sprites->Add(10001, 740, 4, 764, 63, texSimon);		// idle right
-	sprites->Add(10002, 794, 4, 826, 63, texSimon);		// walk right
+	sprites->Add(10001, 740, 4, 764, 63, texSimon);			// idle right
+	sprites->Add(10002, 794, 4, 826, 63, texSimon);			// walk right
 	sprites->Add(10003, 915, 4, 950, 63, texSimon);
 
 
-	sprites->Add(10011, 193, 4, 220, 64, texSimon);		// idle left
-	sprites->Add(10012, 134, 4, 166, 64, texSimon);		// walk left
+	sprites->Add(10011, 193, 4, 220, 64, texSimon);			// idle left
+	sprites->Add(10012, 134, 4, 166, 64, texSimon);			// walk left
 	sprites->Add(10013, 12, 5, 45, 64, texSimon);
 
 
-	sprites->Add(10051, 675, 6, 710, 52, texSimon);		//jump right
-	sprites->Add(10062, 252, 6, 286, 52, texSimon);		//jump left
+	sprites->Add(10051, 675, 6, 710, 52, texSimon);			//jump right
+	sprites->Add(10062, 252, 6, 286, 52, texSimon);			//jump left
 
+	sprites->Add(10099, 240, 236, 300, 263, texSimon);			// die 
 
-	sprites->Add(10099,240,236,300,263, texSimon);		// die 
+	// chua set ID
+	//sprites->Add(11, 310, 216, 344, 263, texSimon);		// sit left
+	//sprites->Add(12, 615, 214, 648, 263, texSimon);		// sit right
+
+	//sprites->Add(13, 311, 4, 360, 64, texSimon);		// attack left
+	//sprites->Add(14, 370, 4, 404, 64, texSimon);		// attack left
+	//sprites->Add(15, 419, 4, 464, 64, texSimon);		// attack left
+
+	//sprites->Add(16, 599, 4, 648, 64, texSimon);		// attack right
+	//sprites->Add(17, 554, 4, 589, 64, texSimon);		// attack right
+	//sprites->Add(18, 494, 4, 539, 64, texSimon);		// attack right
+
+	//sprites->Add(13, 429, 84, 479, 130, texSimon);		// sit attack left
+	//sprites->Add(14, 59, 152, 104, 196, texSimon);		// sit attack left
+
+	//sprites->Add(16, 615, 214, 648, 263, texSimon);		// sit attack right
+	//sprites->Add(17, 480, 84, 529, 130, texSimon);		// sit attack right
+
+	//sprites->Add(16, 16, 72, 49, 130, texSimon);		// hurt left
+	//sprites->Add(17, 909, 729, 943, 130, texSimon);		// hurt right
 
 
 	ani = new CAnimation(100);	// idle  right
@@ -176,13 +196,13 @@ void LoadResources()
 
 	ani = new CAnimation(100);	// // jump right 
 	ani->Add(10001);
-	ani->Add(10051);
+	ani->Add(10031);
 	animations->Add(505, ani);
 
 
 	ani = new CAnimation(100);	// // jump left 
 	ani->Add(10011);
-	ani->Add(10062);
+	ani->Add(10032);
 	animations->Add(506, ani);
 
 
@@ -202,6 +222,34 @@ void LoadResources()
 
 	simon->SetPosition(50.0f, 0);
 	objects.push_back(simon);
+
+
+	/*===========GOOMBA========= */
+
+	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
+	sprites->Add(30001, 5, 14, 21, 29, texEnemy);
+	sprites->Add(30002, 25, 14, 41, 29, texEnemy);
+
+	sprites->Add(30003, 45, 21, 61, 29, texEnemy); // die sprite
+
+	ani = new CAnimation(300);		// Goomba walk
+	ani->Add(30001);
+	ani->Add(30002);
+	animations->Add(701, ani);
+
+	ani = new CAnimation(1000);		// Goomba dead
+	ani->Add(30003);
+	animations->Add(702, ani);
+
+	for (int i = 0; i < 4; i++)
+	{
+		goomba = new CGoomba();
+		goomba->AddAnimation(701);
+		goomba->AddAnimation(702);
+		goomba->SetPosition(200 + i * 60, 135);
+		goomba->SetState(GOOMBA_STATE_WALKING);
+		objects.push_back(goomba);
+	}
 
 
 	/*===========BRICK========= */

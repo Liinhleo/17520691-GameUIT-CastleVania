@@ -2,9 +2,9 @@
 #include "GameObject.h"
 
 #define SIMON_WALKING_SPEED			0.1f 
-
 #define SIMON_JUMP_SPEED_Y			0.5f
 #define SIMON_JUMP_DEFLECT_SPEED	0.2f
+
 #define SIMON_GRAVITY				0.002f
 #define SIMON_DIE_DEFLECT_SPEED		0.5f
 
@@ -13,14 +13,22 @@
 #define SIMON_STATE_WALKING_LEFT	200
 #define SIMON_STATE_JUMP			300
 #define SIMON_STATE_DIE				400
+//#define SIMON_STATE_SIT				500
+//#define SIMON_STATE_ATTACK			600
+//#define SIMON_STATE_SIT_ATTACK		700
+//#define SIMON_STATE_HURT			800
+
 
 #define SIMON_ANI_IDLE_RIGHT		0
 #define SIMON_ANI_IDLE_LEFT			1
-
 #define SIMON_ANI_WALKING_RIGHT		2
 #define SIMON_ANI_WALKING_LEFT		3
-
 #define SIMON_ANI_DIE				4
+//#define SIMON_ANI_SIT				5
+//#define SIMON_ANI_ATTACK			6
+//#define SIMON_ANI_SIT_ATTACK		7
+//#define SIMON_ANI_HURT				8
+
 
 #define SIMON_BBOX_WIDTH  30
 #define SIMON_BBOX_HEIGHT 58
