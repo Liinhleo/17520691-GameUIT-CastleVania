@@ -26,6 +26,7 @@
     <ClCompile Include="Textures.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Whip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -52,6 +53,7 @@
     <ClInclude Include="Textures.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="Whip.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

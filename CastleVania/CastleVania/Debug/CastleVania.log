@@ -1,1 +1,7 @@
-﻿  CastleVania.vcxproj -> G:\17520691-GameUIT-CastleVania\CastleVania\Debug\CastleVania.exe
+﻿  Simon.cpp
+  main.cpp
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(238,20): warning C4018: '<': signed/unsigned mismatch
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(243,20): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+G:\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(275,21): warning C4018: '<': signed/unsigned mismatch
+  CastleVania.vcxproj -> G:\17520691-GameUIT-CastleVania\CastleVania\Debug\CastleVania.exe
