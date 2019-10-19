@@ -27,9 +27,12 @@
 #include "GameObject.h"
 #include "Textures.h"
 
+#include "Mario.h"
 #include "Brick.h"
 #include "Simon.h"
 #include "Goomba.h"
+
+#include "tinyxml.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
@@ -74,6 +77,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		break;
 	}
 }
+
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
@@ -129,127 +133,117 @@ void LoadResources()
 
 
 	/*===========SIMON========= */
-	LPDIRECT3DTEXTURE9 texSimon = textures->Get(ID_TEX_SIMON);
-
-	sprites->Add(10001, 740, 4, 764, 63, texSimon);			// idle right
-	sprites->Add(10002, 794, 4, 826, 63, texSimon);			// walk right
-	sprites->Add(10003, 915, 4, 950, 63, texSimon);
-
-
-	sprites->Add(10011, 193, 4, 220, 64, texSimon);			// idle left
-	sprites->Add(10012, 134, 4, 166, 64, texSimon);			// walk left
-	sprites->Add(10013, 12, 5, 45, 64, texSimon);
-
-
-	sprites->Add(10051, 675, 6, 710, 52, texSimon);			//jump right
-	sprites->Add(10062, 252, 6, 286, 52, texSimon);			//jump left
-
-	sprites->Add(10099, 240, 236, 300, 263, texSimon);			// die 
-
-	// chua set ID
-	//sprites->Add(11, 310, 216, 344, 263, texSimon);		// sit left
-	//sprites->Add(12, 615, 214, 648, 263, texSimon);		// sit right
-
-	//sprites->Add(13, 311, 4, 360, 64, texSimon);		// attack left
-	//sprites->Add(14, 370, 4, 404, 64, texSimon);		// attack left
-	//sprites->Add(15, 419, 4, 464, 64, texSimon);		// attack left
-
-	//sprites->Add(16, 599, 4, 648, 64, texSimon);		// attack right
-	//sprites->Add(17, 554, 4, 589, 64, texSimon);		// attack right
-	//sprites->Add(18, 494, 4, 539, 64, texSimon);		// attack right
-
-	//sprites->Add(13, 429, 84, 479, 130, texSimon);		// sit attack left
-	//sprites->Add(14, 59, 152, 104, 196, texSimon);		// sit attack left
-
-	//sprites->Add(16, 615, 214, 648, 263, texSimon);		// sit attack right
-	//sprites->Add(17, 480, 84, 529, 130, texSimon);		// sit attack right
-
-	//sprites->Add(16, 16, 72, 49, 130, texSimon);		// hurt left
-	//sprites->Add(17, 909, 729, 943, 130, texSimon);		// hurt right
-
-
-	ani = new CAnimation(100);	// idle  right
-	ani->Add(10001);
-	animations->Add(400, ani);
-
-	ani = new CAnimation(100);	// idle  left
-	ani->Add(10011);
-	animations->Add(401, ani);
-
-	ani = new CAnimation(100);	// walk right 
-	ani->Add(10001);
-	ani->Add(10002);
-	ani->Add(10003);
-	animations->Add(500, ani);
-
-	ani = new CAnimation(100);	// // walk left 
-	ani->Add(10011);
-	ani->Add(10012);
-	ani->Add(10013);
-	animations->Add(501, ani);
-
-
-	ani = new CAnimation(100);		// Simon die
-	ani->Add(10099);
-	animations->Add(599, ani);
-
-
-	ani = new CAnimation(100);	// // jump right 
-	ani->Add(10001);
-	ani->Add(10031);
-	animations->Add(505, ani);
-
-
-	ani = new CAnimation(100);	// // jump left 
-	ani->Add(10011);
-	ani->Add(10032);
-	animations->Add(506, ani);
-
-
+	LPDIRECT3DTEXTURE9 texSimon;
 	simon = new CSimon();
 
-	simon->AddAnimation(400);		// idle right 
-	simon->AddAnimation(401);		// idle left 
+	TiXmlDocument doc("SimonSprites.xml");
 
-	simon->AddAnimation(500);		// walk right 
-	simon->AddAnimation(501);		// walk left 
+	if (!doc.LoadFile())
+	{
+		DebugOut(L"Can't read XML file");
+		MessageBox(NULL, L"Can't Read XML File", L"Error", MB_OK);
+		return;
+	}
+	else
+	{
+		DebugOut(L"[INFO]Read XML success\n");
+	}
+	
+	// get info root
+	TiXmlElement* root = doc.RootElement();
+	TiXmlElement* sprite = nullptr;
+	TiXmlElement* animation = nullptr;
+	TiXmlElement* texture = nullptr;
+	// gameObjectId = 0 -- Simon
 
-	simon->AddAnimation(505);		// jump right 
-	simon->AddAnimation(506);		// jump left 
+	for (texture = root->FirstChildElement(); texture != NULL; texture = texture->NextSiblingElement())
+	{
+		int textureId;
+		int gameObjectId;
+		texture->QueryIntAttribute("textureId", &textureId);
+		texture->QueryIntAttribute("gameObjectId", &gameObjectId);
 
-	simon->AddAnimation(599);		// die
+		texSimon = textures->Get(textureId);
+
+		for (animation = texture->FirstChildElement(); animation != NULL; animation = animation->NextSiblingElement())
+		{
+			int aniId, frameTime;
+			animation->QueryIntAttribute("frameTime", &frameTime);
+			LPANIMATION ani;
+			ani = new CAnimation(frameTime);
+			for (sprite = animation->FirstChildElement(); sprite != NULL; sprite = sprite->NextSiblingElement())
+			{
+				int left, top, right, bottom, id;
+				sprite->QueryIntAttribute("id", &id);
+				sprite->QueryIntAttribute("top", &top);
+				sprite->QueryIntAttribute("left", &left);
+				sprite->QueryIntAttribute("right", &right);
+				sprite->QueryIntAttribute("bottom", &bottom);
+				sprites->Add(id, left, top, right, bottom, texSimon);
+				ani->Add(id);
+			}
+			animation->QueryIntAttribute("aniId", &aniId);
+			animations->Add(aniId, ani);
+			if (gameObjectId == 0)
+			{
+				simon->AddAnimation(aniId);
+			}
+		};
+	}
+
+	//ani = new CAnimation(100);	// idle  right
+	//ani->Add(10001);
+	//animations->Add(400, ani);
+
+	//ani = new CAnimation(100);	// idle  left
+	//ani->Add(10011);
+	//animations->Add(401, ani);
+
+	//ani = new CAnimation(100);	// walk right 
+	//ani->Add(10001);
+	//ani->Add(10002);
+	//ani->Add(10003);
+	//animations->Add(500, ani);
+
+	//ani = new CAnimation(100);	// // walk left 
+	//ani->Add(10011);
+	//ani->Add(10012);
+	//ani->Add(10013);
+	//animations->Add(501, ani);
+
+
+	//ani = new CAnimation(100);		// Simon die
+	//ani->Add(10099);
+	//animations->Add(599, ani);
+
+
+	//ani = new CAnimation(100);	// // jump right 
+	//ani->Add(10001);
+	//ani->Add(10051);
+	//animations->Add(505, ani);
+
+
+	//ani = new CAnimation(100);	// // jump left 
+	//ani->Add(10011);
+	//ani->Add(10062);
+	//animations->Add(506, ani);
+
+
+
+	//simon->AddAnimation(400);		// idle right 
+	//simon->AddAnimation(401);		// idle left 
+
+	//simon->AddAnimation(500);		// walk right 
+	//simon->AddAnimation(501);		// walk left 
+
+	//simon->AddAnimation(505);		// jump right 
+	//simon->AddAnimation(506);		// jump left 
+
+	//simon->AddAnimation(599);		// die
 
 
 	simon->SetPosition(50.0f, 0);
 	objects.push_back(simon);
-
-
-	/*===========GOOMBA========= */
-
-	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
-	sprites->Add(30001, 5, 14, 21, 29, texEnemy);
-	sprites->Add(30002, 25, 14, 41, 29, texEnemy);
-
-	sprites->Add(30003, 45, 21, 61, 29, texEnemy); // die sprite
-
-	ani = new CAnimation(300);		// Goomba walk
-	ani->Add(30001);
-	ani->Add(30002);
-	animations->Add(701, ani);
-
-	ani = new CAnimation(1000);		// Goomba dead
-	ani->Add(30003);
-	animations->Add(702, ani);
-
-	for (int i = 0; i < 4; i++)
-	{
-		goomba = new CGoomba();
-		goomba->AddAnimation(701);
-		goomba->AddAnimation(702);
-		goomba->SetPosition(200 + i * 60, 135);
-		goomba->SetState(GOOMBA_STATE_WALKING);
-		objects.push_back(goomba);
-	}
 
 
 	/*===========BRICK========= */
@@ -261,6 +255,31 @@ void LoadResources()
 
 	animations->Add(601, ani);
 
+	/*====== GOOMBA==========*/
+
+	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
+	sprites->Add(30001, 5, 14, 21, 29, texEnemy);
+	sprites->Add(30002, 25, 14, 41, 29, texEnemy);
+
+	sprites->Add(30003, 45, 21, 61, 29, texEnemy); // die sprite
+	
+	ani = new CAnimation(300);		// Goomba walk
+	ani->Add(30001);
+	ani->Add(30002);
+	animations->Add(701, ani);
+
+	ani = new CAnimation(1000);		// Goomba dead
+	ani->Add(30003);
+	animations->Add(702, ani);
+	for (int i = 0; i < 4; i++)
+	{
+		goomba = new CGoomba();
+		goomba->AddAnimation(701);
+		goomba->AddAnimation(702);
+		goomba->SetPosition(200 + i * 60, 135);
+		goomba->SetState(GOOMBA_STATE_WALKING);
+		objects.push_back(goomba);
+	}
 
 	// create array ground
 	for (int i = 0; i < 30; i++)

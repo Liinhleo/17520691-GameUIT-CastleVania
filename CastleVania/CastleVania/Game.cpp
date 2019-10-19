@@ -9,9 +9,7 @@ CGame * CGame::__instance = NULL;
 	- hInst: Application instance handle
 	- hWnd: Application window handle
 */
-/*=================Initialize DirectX ===============*/
-
-void CGame::Init(HWND hWnd) 
+void CGame::Init(HWND hWnd)
 {
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
@@ -60,9 +58,8 @@ void CGame::Init(HWND hWnd)
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
 
-//D3DXVECTOR3 p(floor(x), floor(y), 0);
+//D3DXVECTOR3 p(floor(x), floor(y), 0); // https://docs.microsoft.com/vi-vn/windows/desktop/direct3d9/directly-mapping-texels-to-pixels
 // Try removing floor() to see blurry Mario
-
 	D3DXVECTOR3 p(floor(x - cam_x), floor(y - cam_y), 0);
 	RECT r; 
 	r.left = left;
@@ -76,6 +73,7 @@ int CGame::IsKeyDown(int KeyCode)
 {
 	return (keyStates[KeyCode] & 0x80) > 0;
 }
+
 void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
 {
 	HRESULT
@@ -144,6 +142,7 @@ void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
 
 	DebugOut(L"[INFO] Keyboard has been initialized successfully\n");
 }
+
 void CGame::ProcessKeyboard()
 {
 	HRESULT hr; 

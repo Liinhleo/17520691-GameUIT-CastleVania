@@ -26,8 +26,13 @@
     <ClCompile Include="Textures.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Whip.cpp" />
-    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="Whip.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="tinystr.cpp" />
+    <ClCompile Include="tinyxml.cpp" />
+    <ClCompile Include="tinyxmlerror.cpp" />
+    <ClCompile Include="tinyxmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -54,8 +59,11 @@
     <ClInclude Include="Textures.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Whip.h" />
-    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="Whip.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="tinystr.h" />
+    <ClInclude Include="tinyxml.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -64,5 +72,8 @@
     <Filter Include="Source">
       <UniqueIdentifier>{c2cdfcfc-4720-43e0-989f-a1fefa1025ee}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="SimonSprites.xml" />
   </ItemGroup>
 </Project>

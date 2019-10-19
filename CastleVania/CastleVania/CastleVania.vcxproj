@@ -130,7 +130,8 @@
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
-    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="tinystr.h" />
+    <ClInclude Include="tinyxml.h" />
     <ClInclude Include="Whip.h" />
   </ItemGroup>
   <ItemGroup>
@@ -143,8 +144,14 @@
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
-    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="tinystr.cpp" />
+    <ClCompile Include="tinyxml.cpp" />
+    <ClCompile Include="tinyxmlerror.cpp" />
+    <ClCompile Include="tinyxmlparser.cpp" />
     <ClCompile Include="Whip.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="SimonSprites.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
