@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Textures>
   <!-- Simon Sprites -->
-  
+
   <Texture  textureId ="0" gameObjectId ="0">
     <!-- IDLE RIGHT -->
     <Animation aniId="400" frameTime="100" name="IDLE_RIGHT">
       <sprite id="10001" left="740" top="4" right="764" bottom="63" frameTime="100"/>
-    </Animation>
-    
-    <!-- WALK RIGHT -->
-    <Animation aniId="500" frameTime="100" name="WALK_RIGHT">
-      <sprite id="10002" left="794" top="4" right="826" bottom="63" frameTime="100"/>
-      <sprite id="10003" left="915" top="4" right="950" bottom="63" frameTime="100"/>
     </Animation>
 
     <!-- IDLE LEFT -->
@@ -19,27 +13,37 @@
       <sprite id="10011" left="193" top="4" right="220" bottom="63" frameTime="100"/>
     </Animation>
 
+    <!-- WALK RIGHT -->
+    <Animation aniId="500" frameTime="100" name="WALK_RIGHT">
+      <sprite id="10002" left="794" top="4" right="826" bottom="63" frameTime="100"/>
+      <sprite id="10003" left="915" top="4" right="950" bottom="63" frameTime="100"/>
+    </Animation>
+
     <!-- WALK LEFT -->
     <Animation aniId="501" frameTime="100" name="WALK_LEFT">
       <sprite id="10012" left="134" top="4" right="166" bottom="63" frameTime="100"/>
       <sprite id="10013" left="12" top="4" right="45" bottom="63" frameTime="100"/>
-    </Animation>
-    
-    <!-- JUMP RIGHT -->
-    <Animation aniId="405" frameTime="100" name="JUMP_RIGHT">
-      <sprite id="10007" left="675" top="6" right="710" bottom="52" frameTime="100"/>
-    </Animation>
-
-    <!-- JUMP LEFT -->
-    <Animation aniId="406" frameTime="100" name="JUMP_LEFT">
-      <sprite id="10008" left="252" top="6" right="286" bottom="52" frameTime="100"/>
     </Animation>
 
     <!-- DIE -->
     <Animation aniId="599" frameTime="100" name="DIE">
       <sprite id="10099" left="240" top="236" right="300" bottom="263" frameTime="100"/>
     </Animation>
-    
+
+
+    <!-- JUMP RIGHT -->
+    <!--
+    <Animation aniId="405" frameTime="100" name="JUMP_RIGHT">
+      <sprite id="10007" left="675" top="6" right="710" bottom="52" frameTime="100"/>
+    </Animation>
+
+    -->
+    <!-- JUMP LEFT -->
+    <!--
+    <Animation aniId="406" frameTime="100" name="JUMP_LEFT">
+      <sprite id="10008" left="252" top="6" right="286" bottom="52" frameTime="100"/>
+    </Animation>-->
+
+
   </Texture>
 </Textures>
-    
