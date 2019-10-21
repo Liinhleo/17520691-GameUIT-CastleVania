@@ -28,8 +28,6 @@ struct CCollisionEvent
 	}
 };
 
-
-
 class CGameObject
 {
 public:

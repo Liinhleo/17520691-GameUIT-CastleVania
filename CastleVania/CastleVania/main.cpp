@@ -50,6 +50,7 @@
 CGame *game;
 CSimon* simon;
 CGoomba* goomba;
+CBrick* brick;
 
 vector<LPGAMEOBJECT> objects;
 
@@ -70,10 +71,18 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_SPACE:
 		simon->SetState(SIMON_STATE_JUMP);
 		break;
-	case DIK_A: // reset
+	case DIK_Q: // reset
 		simon->SetState(SIMON_STATE_IDLE);
-		simon->SetPosition(80.0f, 0.0f);
+		simon->SetPosition(0.0f, 0.0f);
 		simon->SetSpeed(0, 0);
+		break;
+
+	case DIK_F:		//attack
+			simon->SetState(SIMON_STATE_ATTACK);
+		break;
+
+	case DIK_DOWN:		//attack
+		simon->SetState(SIMON_STATE_SIT);
 		break;
 	}
 }
@@ -94,6 +103,13 @@ void CSampleKeyHander::KeyState(BYTE *states)
 
 	else if (game->IsKeyDown(DIK_LEFT))
 		simon->SetState(SIMON_STATE_WALKING_LEFT);
+
+	else if (game->IsKeyDown(DIK_BACKSLASH))
+		simon->SetState(SIMON_STATE_JUMP);
+
+	else if (game->IsKeyDown(DIK_F))
+		simon->SetState(SIMON_STATE_ATTACK);
+
 	else
 		simon->SetState(SIMON_STATE_IDLE);
 }
@@ -134,7 +150,10 @@ void LoadResources()
 
 	/*===========SIMON========= */
 	LPDIRECT3DTEXTURE9 texSimon;
+
 	simon = new CSimon();
+	brick = new CBrick();
+
 
 	TiXmlDocument doc("SimonSprites.xml");
 
@@ -163,13 +182,14 @@ void LoadResources()
 		texture->QueryIntAttribute("textureId", &textureId);
 		texture->QueryIntAttribute("gameObjectId", &gameObjectId);
 
-		texSimon = textures->Get(textureId);
+		texSimon = textures->Get(textureId); //SIMON
 
 		for (animation = texture->FirstChildElement(); animation != NULL; animation = animation->NextSiblingElement())
 		{
 			int aniId, frameTime;
 			animation->QueryIntAttribute("frameTime", &frameTime);
 			LPANIMATION ani;
+
 			ani = new CAnimation(frameTime);
 			for (sprite = animation->FirstChildElement(); sprite != NULL; sprite = sprite->NextSiblingElement())
 			{
@@ -190,61 +210,11 @@ void LoadResources()
 			}
 		};
 	}
-
-	//ani = new CAnimation(100);	// idle  right
-	//ani->Add(10001);
-	//animations->Add(400, ani);
-
-	//ani = new CAnimation(100);	// idle  left
-	//ani->Add(10011);
-	//animations->Add(401, ani);
-
-	//ani = new CAnimation(100);	// walk right 
-	//ani->Add(10001);
-	//ani->Add(10002);
-	//ani->Add(10003);
-	//animations->Add(500, ani);
-
-	//ani = new CAnimation(100);	// // walk left 
-	//ani->Add(10011);
-	//ani->Add(10012);
-	//ani->Add(10013);
-	//animations->Add(501, ani);
-
-
-	//ani = new CAnimation(100);		// Simon die
-	//ani->Add(10099);
-	//animations->Add(599, ani);
-
-
-	//ani = new CAnimation(100);	// // jump right 
-	//ani->Add(10001);
-	//ani->Add(10051);
-	//animations->Add(505, ani);
-
-
-	//ani = new CAnimation(100);	// // jump left 
-	//ani->Add(10011);
-	//ani->Add(10062);
-	//animations->Add(506, ani);
-
-
-
-	//simon->AddAnimation(400);		// idle right 
-	//simon->AddAnimation(401);		// idle left 
-
-	//simon->AddAnimation(500);		// walk right 
-	//simon->AddAnimation(501);		// walk left 
-
-	//simon->AddAnimation(505);		// jump right 
-	//simon->AddAnimation(506);		// jump left 
-
-	//simon->AddAnimation(599);		// die
-
-
-	simon->SetPosition(50.0f, 0);
+	
+	simon->SetPosition(0.0f, 0);
 	objects.push_back(simon);
 
+	
 
 	/*===========BRICK========= */
 	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_MISC);
@@ -252,8 +222,15 @@ void LoadResources()
 
 	ani = new CAnimation(100);		// brick
 	ani->Add(20001);
-
 	animations->Add(601, ani);
+
+	for (int i = 0; i < SCREEN_HEIGHT; i++)
+	{
+		brick = new CBrick();
+		brick->AddAnimation(601);
+		brick->SetPosition(0 + i * 16.0f, 185);
+		objects.push_back(brick);
+	}
 
 	/*====== GOOMBA==========*/
 
@@ -276,19 +253,12 @@ void LoadResources()
 		goomba = new CGoomba();
 		goomba->AddAnimation(701);
 		goomba->AddAnimation(702);
-		goomba->SetPosition(200 + i * 60, 135);
+		goomba->SetPosition(200 + i * 60, 170);
 		goomba->SetState(GOOMBA_STATE_WALKING);
 		objects.push_back(goomba);
 	}
 
-	// create array ground
-	for (int i = 0; i < 30; i++)
-	{
-		CBrick* brick = new CBrick();
-		brick->AddAnimation(601);
-		brick->SetPosition(0 + i * 16.0f, 150);
-		objects.push_back(brick);
-	}
+	
 
 }
 
