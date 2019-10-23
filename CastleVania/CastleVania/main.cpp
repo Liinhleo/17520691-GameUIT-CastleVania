@@ -21,6 +21,8 @@
 #include <windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
+#include <fstream>
+#include <string>
 
 #include "debug.h"
 #include "Game.h"
@@ -47,12 +49,15 @@
 #define ID_TEX_ENEMY 10
 #define ID_TEX_MISC 20
 
+using namespace std;
+
 CGame *game;
 CSimon* simon;
 CGoomba* goomba;
 CBrick* brick;
 
 vector<LPGAMEOBJECT> objects;
+vector <LPTEXTURES> textures; 
 
 class CSampleKeyHander: public CKeyEventHandler
 {
@@ -139,7 +144,11 @@ void LoadResources()
 	CAnimations* animations = CAnimations::GetInstance();
 	CTextures* textures = CTextures::GetInstance();
 	LPANIMATION ani;
+	LPDIRECT3DTEXTURE9 tex;
 
+	// Init 
+	simon = new CSimon();
+	brick = new CBrick();
 
 	/*===========LOAD TEXTURES========= */
 	textures->Add(ID_TEX_MISC, L"textures\\misc.png", D3DCOLOR_XRGB(176, 224, 248));
@@ -147,12 +156,42 @@ void LoadResources()
 	textures->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_TEX_ENEMY, L"textures\\enemies.png", D3DCOLOR_XRGB(3, 26, 110));
 	
-	// Init 
-	simon = new CSimon();
-	brick = new CBrick();
+	//
+	////READ FILE TXT
+	//int n, texId;
+	//string link;
+	//int color1, color2, color3;
+	//
+	//ifstream inp("Resources.txt", ios::in);
+	//inp >> n;
+
+	//for (int i = 0; i < n; i++)
+	//{
+	//	inp >> texId;
+	//	getline(inp, link);
+	//	inp>> color1 >> color2 >> color3;
+	//}
+	//inp.close();
+
+	////LOAD TEXTURE
+
+	//for (int i = 0; i < n; i++)
+	//{
+	//	int id = texId;
+	//	string path = link;
+	//	int co1 = color1;
+	//	int co2 = color2;
+	//	int co3 = color3;
+	//	textures = new CTextures();
+	//	tex = CTextures::GetInstance()->Get(id);
+	//}
+
+	
+
+
+	
 
 	/*===========ADD SPRITE + ADD ANIMATION ========= */
-	LPDIRECT3DTEXTURE9 tex;
 
 	TiXmlDocument doc("Textures.xml");
 

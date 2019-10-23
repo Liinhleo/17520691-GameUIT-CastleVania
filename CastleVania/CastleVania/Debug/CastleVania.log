@@ -1,2 +1,6 @@
-﻿  Simon.cpp
+﻿  main.cpp
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(294,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(311,20): warning C4018: '<': signed/unsigned mismatch
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(316,20): warning C4018: '<': signed/unsigned mismatch
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(348,21): warning C4018: '<': signed/unsigned mismatch
   CastleVania.vcxproj -> G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\Debug\CastleVania.exe

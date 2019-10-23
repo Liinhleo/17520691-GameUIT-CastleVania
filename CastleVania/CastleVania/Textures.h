@@ -9,6 +9,10 @@ using namespace std;
 */
 class CTextures
 {
+	// extend
+	//int id;
+	//LPCWSTR filePath;
+
 	static CTextures * __instance;
 
 	unordered_map<int, LPDIRECT3DTEXTURE9> textures;
@@ -20,3 +24,4 @@ public:
 
 	static CTextures * GetInstance();
 };
+typedef CTextures* LPTEXTURES;

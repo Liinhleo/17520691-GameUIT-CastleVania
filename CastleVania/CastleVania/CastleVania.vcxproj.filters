@@ -78,4 +78,7 @@
   <ItemGroup>
     <Xml Include="Textures.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="textures\Resources.txt" />
+  </ItemGroup>
 </Project>
