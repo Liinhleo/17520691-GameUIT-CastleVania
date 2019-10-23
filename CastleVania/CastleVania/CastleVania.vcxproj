@@ -153,7 +153,7 @@
     <ClCompile Include="Whip.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="SimonSprites.xml" />
+    <Xml Include="Textures.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -76,6 +76,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="SimonSprites.xml" />
+    <Xml Include="Textures.xml" />
   </ItemGroup>
 </Project>

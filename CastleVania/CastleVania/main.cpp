@@ -1,4 +1,4 @@
-/* =============================================================
+﻿/* =============================================================
 	INTRODUCTION TO GAME PROGRAMMING SE102
 	
 	SAMPLE 04 - COLLISION
@@ -146,16 +146,15 @@ void LoadResources()
 	textures->Add(ID_TEX_SIMON, L"textures\\full-simon.png", D3DCOLOR_XRGB(0, 0, 255));
 	textures->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(ID_TEX_ENEMY, L"textures\\enemies.png", D3DCOLOR_XRGB(3, 26, 110));
-
-
-	/*===========SIMON========= */
-	LPDIRECT3DTEXTURE9 texSimon;
-
+	
+	// Init 
 	simon = new CSimon();
 	brick = new CBrick();
 
+	/*===========ADD SPRITE + ADD ANIMATION ========= */
+	LPDIRECT3DTEXTURE9 tex;
 
-	TiXmlDocument doc("SimonSprites.xml");
+	TiXmlDocument doc("Textures.xml");
 
 	if (!doc.LoadFile())
 	{
@@ -182,7 +181,7 @@ void LoadResources()
 		texture->QueryIntAttribute("textureId", &textureId);
 		texture->QueryIntAttribute("gameObjectId", &gameObjectId);
 
-		texSimon = textures->Get(textureId); //SIMON
+		tex = textures->Get(textureId); 
 
 		for (animation = texture->FirstChildElement(); animation != NULL; animation = animation->NextSiblingElement())
 		{
@@ -199,7 +198,7 @@ void LoadResources()
 				sprite->QueryIntAttribute("left", &left);
 				sprite->QueryIntAttribute("right", &right);
 				sprite->QueryIntAttribute("bottom", &bottom);
-				sprites->Add(id, left, top, right, bottom, texSimon);
+				sprites->Add(id, left, top, right, bottom, tex);
 				ani->Add(id);
 			}
 			animation->QueryIntAttribute("aniId", &aniId);
@@ -257,8 +256,6 @@ void LoadResources()
 		goomba->SetState(GOOMBA_STATE_WALKING);
 		objects.push_back(goomba);
 	}
-
-	
 
 }
 
