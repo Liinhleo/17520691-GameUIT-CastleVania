@@ -5,6 +5,8 @@
 #include "Game.h"
 #include "Goomba.h"
 
+CSimon* CSimon::__instance = NULL;
+
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
@@ -143,3 +145,8 @@ void CSimon::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	
 }
 
+CSimon* CSimon::GetInstance()
+{
+	if (__instance == NULL) __instance = new CSimon();
+	return __instance;
+}
