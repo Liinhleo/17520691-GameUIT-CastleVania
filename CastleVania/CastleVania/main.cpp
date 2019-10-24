@@ -45,11 +45,9 @@
 
 #define MAX_FRAME_RATE 60
 
-#define ID_TEX_SIMON 0
-#define ID_TEX_ENEMY 10
-#define ID_TEX_MISC 20
-
-using namespace std;
+#define ID_TEX_MISC 1
+#define ID_TEX_SIMON 2
+#define ID_TEX_ENEMY 4
 
 CGame *game;
 CSimon* simon;
@@ -57,7 +55,7 @@ CGoomba* goomba;
 CBrick* brick;
 
 vector<LPGAMEOBJECT> objects;
-vector <LPTEXTURES> textures; 
+vector<LPDIRECT3DTEXTURE9> textures;
 
 class CSampleKeyHander: public CKeyEventHandler
 {
@@ -137,6 +135,19 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	TO-DO: Improve this function by loading texture,sprite,animation,object from file
 */
+
+wchar_t* ConvertToWideChar(char* p) // covert string -> wchar_t*
+{
+	wchar_t* r;
+	r = new wchar_t[strlen(p) + 1];
+
+	char* tempsour = p;
+	wchar_t* tempdest = r;
+	while (*tempdest++ = *tempsour++);
+
+	return r;
+}
+
 void LoadResources()
 {
 	/*===========DECLARE========= */
@@ -144,54 +155,31 @@ void LoadResources()
 	CAnimations* animations = CAnimations::GetInstance();
 	CTextures* textures = CTextures::GetInstance();
 	LPANIMATION ani;
-	LPDIRECT3DTEXTURE9 tex;
 
-	// Init 
 	simon = new CSimon();
-	brick = new CBrick();
-
-	/*===========LOAD TEXTURES========= */
-	textures->Add(ID_TEX_MISC, L"textures\\misc.png", D3DCOLOR_XRGB(176, 224, 248));
-	textures->Add(ID_TEX_SIMON, L"textures\\full-simon.png", D3DCOLOR_XRGB(0, 0, 255));
-	textures->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-	textures->Add(ID_TEX_ENEMY, L"textures\\enemies.png", D3DCOLOR_XRGB(3, 26, 110));
-	
-	//
-	////READ FILE TXT
-	//int n, texId;
-	//string link;
-	//int color1, color2, color3;
-	//
-	//ifstream inp("Resources.txt", ios::in);
-	//inp >> n;
-
-	//for (int i = 0; i < n; i++)
-	//{
-	//	inp >> texId;
-	//	getline(inp, link);
-	//	inp>> color1 >> color2 >> color3;
-	//}
-	//inp.close();
-
-	////LOAD TEXTURE
-
-	//for (int i = 0; i < n; i++)
-	//{
-	//	int id = texId;
-	//	string path = link;
-	//	int co1 = color1;
-	//	int co2 = color2;
-	//	int co3 = color3;
-	//	textures = new CTextures();
-	//	tex = CTextures::GetInstance()->Get(id);
-	//}
-
-	
 
 
-	
+	//READ FILE TXT
+	ifstream inp(L"textures\\Resources.txt", ios::in);
 
-	/*===========ADD SPRITE + ADD ANIMATION ========= */
+	if (inp.fail())
+	{
+		DebugOut(L"[ERROR] Load file failed!");
+		inp.close();
+	}
+
+	string line;
+	while (!inp.eof()) 
+	{
+		string link;
+		int id, r, g, b;
+		inp >> id >> r >> g >> b >>link;
+		textures->Add(id,D3DCOLOR_XRGB(r, g, b), ConvertToWideChar((char*)link.c_str()));
+	}
+
+	/*===========ADD SPRITE + ADD ANIMATION ========= */// Init 
+
+	LPDIRECT3DTEXTURE9 tex;
 
 	TiXmlDocument doc("Textures.xml");
 
@@ -255,14 +243,14 @@ void LoadResources()
 	
 
 	/*===========BRICK========= */
-	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_MISC);
+	LPDIRECT3DTEXTURE9 texMisc = textures->Get(2);
 	sprites->Add(20001, 408, 225, 424, 241, texMisc);
 
 	ani = new CAnimation(100);		// brick
 	ani->Add(20001);
 	animations->Add(601, ani);
 
-	for (int i = 0; i < SCREEN_HEIGHT; i++)
+	for (int i = 0; i < 30; i++)
 	{
 		brick = new CBrick();
 		brick->AddAnimation(601);

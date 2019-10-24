@@ -19,7 +19,7 @@ class CTextures
 
 public: 
 	CTextures();
-	void Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor);
+	void Add(int id, D3DCOLOR transparentColor, LPCWSTR filePath);
 	LPDIRECT3DTEXTURE9 Get(unsigned int i);
 
 	static CTextures * GetInstance();

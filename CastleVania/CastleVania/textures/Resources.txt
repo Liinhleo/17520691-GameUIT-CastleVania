@@ -1,5 +1,4 @@
-4
-1 textures\\misc.png 176 224 248
-2 textures\\full-simon.png 0 0 255
-3 textures\\bbox.png 255 255 255
-4 textures\\enemies.png 3 26 110
+1 176 224 248 textures\\misc.png
+2 255 255 255 textures\\full-simon.png
+3 255 255 255 textures\\bbox.png
+4 3 26 110 textures\\enemies.png

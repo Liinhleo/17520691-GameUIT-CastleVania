@@ -2,7 +2,7 @@
 <Textures>
   <!-- Simon Sprites -->
 
-  <Texture  textureId ="0" gameObjectId ="0">
+  <Texture  textureId ="2" gameObjectId ="0">
     <!-- IDLE RIGHT -->
     <Animation aniId="400" frameTime="100" name="IDLE_RIGHT">
       <sprite id="10001" left="740" top="4" right="764" bottom="63" frameTime="100"/>
