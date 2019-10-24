@@ -40,8 +40,8 @@
 #define MAIN_WINDOW_TITLE L"04 - Collision"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 240
+#define SCREEN_WIDTH 512
+#define SCREEN_HEIGHT 480
 
 #define MAX_FRAME_RATE 60
 
@@ -81,10 +81,12 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		break;
 
 	case DIK_F:		//attack
-			simon->SetState(SIMON_STATE_ATTACK);
+		if (game->IsKeyDown(DIK_DOWN))	// ktra co nhan phim down hay k
+			simon->SetState(SIMON_STATE_SIT_ATTACK);  
+		simon->SetState(SIMON_STATE_ATTACK); // else chi danh 
 		break;
 
-	case DIK_DOWN:		//attack
+	case DIK_DOWN:		//sit
 		simon->SetState(SIMON_STATE_SIT);
 		break;
 	}
@@ -107,14 +109,18 @@ void CSampleKeyHander::KeyState(BYTE *states)
 	else if (game->IsKeyDown(DIK_LEFT))
 		simon->SetState(SIMON_STATE_WALKING_LEFT);
 
-	else if (game->IsKeyDown(DIK_BACKSLASH))
+	else if (game->IsKeyDown(DIK_DOWN))
+		simon->SetState(SIMON_STATE_SIT);
+
+	else if (game->IsKeyDown(DIK_SPACE))
 		simon->SetState(SIMON_STATE_JUMP);
 
 	else if (game->IsKeyDown(DIK_F))
 		simon->SetState(SIMON_STATE_ATTACK);
-
+	
 	else
 		simon->SetState(SIMON_STATE_IDLE);
+
 }
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -157,11 +163,10 @@ void LoadResources()
 	LPANIMATION ani;
 
 	simon = new CSimon();
+	
 
-
-	//READ FILE TXT
+	/*===========READ FILE TXT========= */
 	ifstream inp(L"textures\\Resources.txt", ios::in);
-
 	if (inp.fail())
 	{
 		DebugOut(L"[ERROR] Load file failed!");
@@ -177,10 +182,9 @@ void LoadResources()
 		textures->Add(id,D3DCOLOR_XRGB(r, g, b), ConvertToWideChar((char*)link.c_str()));
 	}
 
+
 	/*===========ADD SPRITE + ADD ANIMATION ========= */// Init 
-
 	LPDIRECT3DTEXTURE9 tex;
-
 	TiXmlDocument doc("Textures.xml");
 
 	if (!doc.LoadFile())
@@ -260,29 +264,29 @@ void LoadResources()
 
 	/*====== GOOMBA==========*/
 
-	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
-	sprites->Add(30001, 5, 14, 21, 29, texEnemy);
-	sprites->Add(30002, 25, 14, 41, 29, texEnemy);
+	//LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
+	//sprites->Add(30001, 5, 14, 21, 29, texEnemy);
+	//sprites->Add(30002, 25, 14, 41, 29, texEnemy);
 
-	sprites->Add(30003, 45, 21, 61, 29, texEnemy); // die sprite
-	
-	ani = new CAnimation(300);		// Goomba walk
-	ani->Add(30001);
-	ani->Add(30002);
-	animations->Add(701, ani);
+	//sprites->Add(30003, 45, 21, 61, 29, texEnemy); // die sprite
+	//
+	//ani = new CAnimation(300);		// Goomba walk
+	//ani->Add(30001);
+	//ani->Add(30002);
+	//animations->Add(701, ani);
 
-	ani = new CAnimation(1000);		// Goomba dead
-	ani->Add(30003);
-	animations->Add(702, ani);
-	for (int i = 0; i < 4; i++)
-	{
-		goomba = new CGoomba();
-		goomba->AddAnimation(701);
-		goomba->AddAnimation(702);
-		goomba->SetPosition(200 + i * 60, 170);
-		goomba->SetState(GOOMBA_STATE_WALKING);
-		objects.push_back(goomba);
-	}
+	//ani = new CAnimation(1000);		// Goomba dead
+	//ani->Add(30003);
+	//animations->Add(702, ani);
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	goomba = new CGoomba();
+	//	goomba->AddAnimation(701);
+	//	goomba->AddAnimation(702);
+	//	goomba->SetPosition(200 + i * 60, 170);
+	//	goomba->SetState(GOOMBA_STATE_WALKING);
+	//	objects.push_back(goomba);
+	//}
 
 }
 
@@ -443,7 +447,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	LoadResources();
 
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH*2, SCREEN_HEIGHT*2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 	Run();
 

@@ -29,11 +29,19 @@
     <ClCompile Include="Whip.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="tinystr.cpp" />
-    <ClCompile Include="tinyxml.cpp" />
-    <ClCompile Include="tinyxmlerror.cpp" />
-    <ClCompile Include="tinyxmlparser.cpp" />
     <ClCompile Include="SampleKeyHander.cpp" />
+    <ClCompile Include="tinystr.cpp">
+      <Filter>XML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml.cpp">
+      <Filter>XML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlerror.cpp">
+      <Filter>XML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlparser.cpp">
+      <Filter>XML</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -63,9 +71,13 @@
     <ClInclude Include="Whip.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="tinystr.h" />
-    <ClInclude Include="tinyxml.h" />
     <ClInclude Include="SampleKeyHander.h" />
+    <ClInclude Include="tinystr.h">
+      <Filter>XML</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml.h">
+      <Filter>XML</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -74,12 +86,24 @@
     <Filter Include="Source">
       <UniqueIdentifier>{c2cdfcfc-4720-43e0-989f-a1fefa1025ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="XML">
+      <UniqueIdentifier>{d09bfba4-b9d8-4ab3-8c86-077a3184b0c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LoadFile">
+      <UniqueIdentifier>{c80796f6-cf6d-4766-9532-e7171b77406b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Textures.xml" />
+    <Text Include="map\mapTXT.txt">
+      <Filter>LoadFile</Filter>
+    </Text>
+    <Text Include="textures\Resources.txt">
+      <Filter>LoadFile</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="textures\Resources.txt" />
-    <Text Include="map\mapTXT.txt" />
+    <Xml Include="Textures.xml">
+      <Filter>LoadFile</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

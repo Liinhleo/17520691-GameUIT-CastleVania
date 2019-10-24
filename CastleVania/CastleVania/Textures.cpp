@@ -9,12 +9,7 @@
 
 CTextures * CTextures::__instance = NULL;
 
-CTextures::CTextures()
-{
-	//this->id = id;
-	//this->filePath = L"Resourses.txt";
-
-}
+CTextures::CTextures(){}
 
 CTextures *CTextures::GetInstance()
 {

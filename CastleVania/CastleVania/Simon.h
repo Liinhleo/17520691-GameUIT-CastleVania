@@ -23,17 +23,18 @@
 #define SIMON_ANI_IDLE_LEFT				1
 #define SIMON_ANI_WALKING_RIGHT			2
 #define SIMON_ANI_WALKING_LEFT			3
-#define SIMON_ANI_DIE					4
-#define SIMON_ANI_JUMP_RIGHT			5
-#define SIMON_ANI_JUMP_LEFT				6
-#define SIMON_ANI_ATTACK_RIGHT			7
-#define SIMON_ANI_ATTACK_LEFT			8
-#define SIMON_ANI_SIT_RIGHT				9
-#define SIMON_ANI_SIT_LEFT				10
-#define SIMON_ANI_SIT_ATTACK_RIGHT		11
-#define SIMON_ANI_SIT_ATTACK_LEFT		12
-#define SIMON_ANI_HURT_RIGHT			13
-#define SIMON_ANI_HURT_LEFT				14
+#define SIMON_ANI_DIE_RIGHT				4
+#define SIMON_ANI_DIE_LEFT				5
+#define SIMON_ANI_JUMP_RIGHT			6
+#define SIMON_ANI_JUMP_LEFT				7
+#define SIMON_ANI_ATTACK_RIGHT			8
+#define SIMON_ANI_ATTACK_LEFT			9
+#define SIMON_ANI_SIT_RIGHT				10
+#define SIMON_ANI_SIT_LEFT				11
+#define SIMON_ANI_SIT_ATTACK_RIGHT		12
+#define SIMON_ANI_SIT_ATTACK_LEFT		13
+#define SIMON_ANI_HURT_RIGHT			14
+#define SIMON_ANI_HURT_LEFT				15
 
 
 #define SIMON_BBOX_WIDTH  30
@@ -49,10 +50,20 @@ class CSimon : public CGameObject
 	int untouchable;
 	DWORD untouchable_start;
 public:
+
+	bool isWalking = false;
+	bool isAttacking = false;
+	bool isJumping = false;
+	bool isSitting = false;
+
+	//bool isHurting;
+
 	CSimon() : CGameObject()
 	{
 		untouchable = 0;
 	}
+
+	
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void SetState(int state);
