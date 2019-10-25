@@ -29,7 +29,6 @@
     <ClCompile Include="Whip.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="SampleKeyHander.cpp" />
     <ClCompile Include="tinystr.cpp">
       <Filter>XML</Filter>
     </ClCompile>
@@ -41,6 +40,12 @@
     </ClCompile>
     <ClCompile Include="tinyxmlparser.cpp">
       <Filter>XML</Filter>
+    </ClCompile>
+    <ClCompile Include="CMap.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CTiles.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,12 +76,17 @@
     <ClInclude Include="Whip.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="SampleKeyHander.h" />
     <ClInclude Include="tinystr.h">
       <Filter>XML</Filter>
     </ClInclude>
     <ClInclude Include="tinyxml.h">
       <Filter>XML</Filter>
+    </ClInclude>
+    <ClInclude Include="CMap.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CTiles.h">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -94,10 +104,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="map\mapTXT.txt">
+    <Text Include="textures\Resources.txt">
       <Filter>LoadFile</Filter>
     </Text>
-    <Text Include="textures\Resources.txt">
+    <Text Include="textures\mapTXT.txt">
       <Filter>LoadFile</Filter>
     </Text>
   </ItemGroup>
@@ -105,5 +115,28 @@
     <Xml Include="Textures.xml">
       <Filter>LoadFile</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="textures\003-entrance.png">
+      <Filter>LoadFile</Filter>
+    </Image>
+    <Image Include="textures\bbox.png">
+      <Filter>LoadFile</Filter>
+    </Image>
+    <Image Include="textures\brick.png">
+      <Filter>LoadFile</Filter>
+    </Image>
+    <Image Include="textures\full-simon.png">
+      <Filter>LoadFile</Filter>
+    </Image>
+    <Image Include="textures\Items.png">
+      <Filter>LoadFile</Filter>
+    </Image>
+    <Image Include="textures\tileset_map1.png">
+      <Filter>LoadFile</Filter>
+    </Image>
+    <Image Include="textures\Level1.png">
+      <Filter>LoadFile</Filter>
+    </Image>
   </ItemGroup>
 </Project>

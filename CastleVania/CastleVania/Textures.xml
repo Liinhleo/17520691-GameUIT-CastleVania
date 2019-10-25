@@ -16,16 +16,16 @@
     <Animation aniId="402" frameTime="100" name="WALK_RIGHT">
       <sprite id="10003" left="840" top="0" right="900" bottom="66" frameTime="100"/>
       <sprite id="10004" left="780" top="0" right="840" bottom="66" frameTime="80"/>
-      <!--<sprite id="10005" left="720" top="0" right="780" bottom="66" frameTime="80"/>
-      <sprite id="10006" left="900" top="0" right="960" bottom="66" frameTime="80"/>-->
+      <sprite id="10005" left="720" top="0" right="780" bottom="66" frameTime="80"/>
+      <sprite id="10006" left="900" top="0" right="960" bottom="66" frameTime="80"/>
     </Animation>
 
     <!-- WALK LEFT -->
     <Animation aniId="403" frameTime="100" name="WALK_LEFT">
       <sprite id="10007" left="60" top="0" right="120" bottom="66" frameTime="100"/>
       <sprite id="10008" left="120" top="0" right="180" bottom="66" frameTime="80"/>
-      <!--<sprite id="10009" left="180" top="0" right="240" bottom="66" frameTime="80"/>
-      <sprite id="10010" left="0" top="0" right="60" bottom="66" frameTime="80"/>-->
+      <sprite id="10009" left="180" top="0" right="240" bottom="66" frameTime="80"/>
+      <sprite id="10010" left="0" top="0" right="60" bottom="66" frameTime="80"/>
     </Animation>
 
     <!-- DIE RIGHT-->

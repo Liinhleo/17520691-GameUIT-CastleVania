@@ -33,15 +33,15 @@
 #include "Brick.h"
 #include "Simon.h"
 #include "Goomba.h"
-
+#include "CMap.h"
 #include "tinyxml.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
-#define SCREEN_WIDTH 512
-#define SCREEN_HEIGHT 480
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
 
 #define MAX_FRAME_RATE 60
 
@@ -49,10 +49,16 @@
 #define ID_TEX_SIMON 2
 #define ID_TEX_ENEMY 4
 
+#define ID_MAP1 100000
+
+#define ID_TEX_MAP1 100000
+
 CGame *game;
 CSimon* simon;
 CGoomba* goomba;
 CBrick* brick;
+CMap* map;
+
 
 vector<LPGAMEOBJECT> objects;
 vector<LPDIRECT3DTEXTURE9> textures;
@@ -160,10 +166,18 @@ void LoadResources()
 	CSprites* sprites = CSprites::GetInstance();
 	CAnimations* animations = CAnimations::GetInstance();
 	CTextures* textures = CTextures::GetInstance();
+	CMap* map = CMap::GetInstance();
+
 	LPANIMATION ani;
 
 	simon = new CSimon();
-	
+
+	/*===========READ FILE MAP========= */
+
+	//map->Add(ID_MAP1, L"textures\\mapTXT.txt", ID_TEX_MAP1, L"textures\\tileset_map1.png", D3DCOLOR_XRGB(255, 0, 255));
+	//map->Get(ID_MAP1)->LoadTile();
+
+
 
 	/*===========READ FILE TXT========= */
 	ifstream inp(L"textures\\Resources.txt", ios::in);
@@ -318,7 +332,8 @@ void Update(DWORD dt)
 	cx -= SCREEN_WIDTH / 2;
 	cy -= SCREEN_HEIGHT / 2;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	CGame::GetInstance()->SetCamPos(cx, 0.0f);
+
 }
 
 /*
@@ -336,6 +351,8 @@ void Render()
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+
+		//map->Get(ID_MAP1)->Render();
 
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Render();
