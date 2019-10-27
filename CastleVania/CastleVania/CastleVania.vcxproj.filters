@@ -41,9 +41,6 @@
     <ClCompile Include="tinyxmlparser.cpp">
       <Filter>XML</Filter>
     </ClCompile>
-    <ClCompile Include="CMap.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="CTiles.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -82,9 +79,6 @@
     <ClInclude Include="tinyxml.h">
       <Filter>XML</Filter>
     </ClInclude>
-    <ClInclude Include="CMap.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="CTiles.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -108,6 +102,9 @@
       <Filter>LoadFile</Filter>
     </Text>
     <Text Include="textures\mapTXT.txt">
+      <Filter>LoadFile</Filter>
+    </Text>
+    <Text Include="textures\scene1-map.txt">
       <Filter>LoadFile</Filter>
     </Text>
   </ItemGroup>
@@ -136,6 +133,9 @@
       <Filter>LoadFile</Filter>
     </Image>
     <Image Include="textures\Level1.png">
+      <Filter>LoadFile</Filter>
+    </Image>
+    <Image Include="textures\scene1.png">
       <Filter>LoadFile</Filter>
     </Image>
   </ItemGroup>

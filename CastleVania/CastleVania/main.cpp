@@ -33,15 +33,15 @@
 #include "Brick.h"
 #include "Simon.h"
 #include "Goomba.h"
-#include "CMap.h"
+#include "CTiles.h"
 #include "tinyxml.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 240
+#define SCREEN_WIDTH 512
+#define SCREEN_HEIGHT 480
 
 #define MAX_FRAME_RATE 60
 
@@ -57,7 +57,6 @@ CGame *game;
 CSimon* simon;
 CGoomba* goomba;
 CBrick* brick;
-CMap* map;
 
 
 vector<LPGAMEOBJECT> objects;
@@ -166,7 +165,7 @@ void LoadResources()
 	CSprites* sprites = CSprites::GetInstance();
 	CAnimations* animations = CAnimations::GetInstance();
 	CTextures* textures = CTextures::GetInstance();
-	CMap* map = CMap::GetInstance();
+	
 
 	LPANIMATION ani;
 
@@ -174,8 +173,8 @@ void LoadResources()
 
 	/*===========READ FILE MAP========= */
 
-	//map->Add(ID_MAP1, L"textures\\mapTXT.txt", ID_TEX_MAP1, L"textures\\tileset_map1.png", D3DCOLOR_XRGB(255, 0, 255));
-	//map->Get(ID_MAP1)->LoadTile();
+	string tileSet;
+	CMaps::GetInstance()->Add(L"textures\\scene1-map.txt", L"textures\\scene1.png", 1000, MAP_1_WITDH, MAP_1_HEIGHT);
 
 
 
@@ -352,7 +351,7 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		//map->Get(ID_MAP1)->Render();
+		CMaps::GetInstance()->Get(SCENE_1)->Draw(CGame::GetInstance()->getCamPos());
 
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Render();

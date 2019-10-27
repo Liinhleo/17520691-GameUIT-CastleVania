@@ -1,72 +1,122 @@
 #include "CTiles.h"
-#define SCREEN_WIDTH 320
+#include"Textures.h"
 
-CTile::CTile( int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex) 
+#define OBJECT_SCENE_1 -999
+
+CMaps* CMaps::_instance = NULL;
+
+CMaps* CMaps::GetInstance()
 {
-	this->top = top;
-	this->left = left;
-	this->right = right;
-	this->bottom = bottom;
-	this->texture = tex;
+	if (_instance == NULL) _instance = new CMaps();
+	return _instance;
 }
 
-void CTile::Draw(int x, int y)
+CMap::CMap(int ID, LPCWSTR filePath_tex, LPCWSTR filePath_data, int map_width, int map_height)
 {
-	CGame::GetInstance()->Draw(x, y, texture, left, top, right, bottom);
+	this->ID = ID;
+
+	this->filePath_tex = filePath_tex;
+	this->filePath_data = filePath_data;
+
+	this->map_Width = map_width;
+	this->map_Height = map_height;
+
+	nums_row = map_Height / TILE_HEIGHT;
+	nums_col = map_Width / TILE_WIDTH;
+
+	LoadResources();
+	LoadMap();
 }
 
-
-CTiles::CTiles(int texId, LPCWSTR filePath, D3DCOLOR color)
+void CMap::LoadResources()
 {
-	HRESULT result = D3DXGetImageInfoFromFile(filePath, &info);
-	if (result != D3D_OK)
+	CTextures* texture = CTextures::GetInstance();
+
+	texture->Add(ID, TILEMAP_TRANSPARENT_COLOR, filePath_tex);
+
+	LPDIRECT3DTEXTURE9 texTileMap = texture->Get(ID);
+
+	// lay size texture luu trong texture (tileset)
+	D3DSURFACE_DESC surfaceDesc;
+	int level = 0;
+	texTileMap->GetLevelDesc(level, &surfaceDesc);
+
+	// tính toán s? hàng, s? c?t c?n thi?t ?? ??c các ô tile from file
+	int nums_rowToRead = surfaceDesc.Height / TILE_HEIGHT;
+	int nums_colToRead = surfaceDesc.Width / TILE_WIDTH;
+
+	// Luu list tile tiles theo id_sprite
+	int id_sprite = 1;
+
+	for (UINT i = 0; i < nums_rowToRead; i++)
 	{
-		DebugOut(L"[ERROR] GetImageInfoFromFile failed: %s\n", filePath);
+		for (UINT j = 0; j < nums_colToRead; j++)
+		{
+			int idTile = ID * 1000 + id_sprite;
+			sprites->Add(idTile, TILE_WIDTH * j, TILE_HEIGHT * i, TILE_WIDTH * (j + 1), TILE_HEIGHT * (i + 1), texTileMap);
+			id_sprite = id_sprite + 1;
+		}
+	}
+}
+
+void CMap::LoadMap()
+{
+	fstream inp;
+	inp.open(filePath_data, ios::in);
+
+	if (inp.fail())
+	{
+		DebugOut(L"[ERROR] Load map failed!");
+		inp.close();
 		return;
 	}
 
-	CTextures::GetInstance()->Add(texId, color, filePath);
+	string line;
 
-	tex = CTextures::GetInstance()->Get(texId);
-}
+	while (!inp.eof())
+	{
+		getline(inp, line);
 
-void CTiles::ReadMapTXT(LPCWSTR filePath)
-{
-	ifstream inp(filePath, ios::in);
-	inp >> RowMap >> ColumnMap >> RowTileSet >> ColumnTileSet >> frameWidth >> frameHeight >> DrawPositionX >> DrawPositionY;
-	for (int i = 0; i < RowMap; i++)
-		for (int j = 0; j < ColumnMap; j++)
+		// luu sprite tile vào vector tilemap
+		vector<LPSPRITE> spriteline;
+		stringstream ss(line);
+		int n;
+
+		while (ss >> n)
 		{
-			inp >> TileMap[i][j];
+			int idTile = ID * 1000 + n;
+			spriteline.push_back(sprites->Get(idTile));
 		}
+
+		tilemap.push_back(spriteline);
+	}
+
 	inp.close();
 }
 
-void CTiles::LoadTile() 
+void CMap::Draw(D3DXVECTOR3 camPosition)
 {
+	int start_col_to_draw = (int)camPosition.x / 32;
+	int end_col_to_draw = start_col_to_draw + SCREEN_WIDTH / 32;
 
-	for (int i = 0; i < RowTileSet; i++)
+	for (UINT i = 0; i < nums_row; i++)
 	{
-		for (int j = 0; j < ColumnTileSet; j++)
+		for (UINT j = start_col_to_draw; j <= end_col_to_draw; j++)
 		{
-			int left = j * frameWidth; //32
-			int top = i * frameHeight; //32 
-			int right = left + frameWidth; //32
-			int bottom = top + frameHeight; //32
-			LPTILE tile = new CTile(left, top, right, bottom, tex);
-			tiles.push_back(tile);
+			// +camPosition.x ?? luôn gi? camera ? chính gi?a, vì trong hàm Game::Draw() có tr? cho camPosition.x làm các object ??u di chuy?n theo
+			// +(int)camPosition.x % 32 ?? gi? cho camera chuy?n ??ng m??t
+			float x = TILE_WIDTH * (j - start_col_to_draw) + camPosition.x - (int)camPosition.x % 32; 
+			float y = TILE_HEIGHT * i + 80;
+
+			tilemap[i][j]->Draw(x, y, D3DCOLOR_ARGB(255, 255, 255, 255));
 		}
 	}
 }
 
-void CTiles::Render() 
+void CMaps::Add(LPCWSTR filePath_data, LPCWSTR filePath_tex, int ID, int map_width, int map_height)
 {
-	float cx = CGame::GetInstance()->GetCamPosX();
-	int beginColumn = cx / frameWidth;
-	int endColumn = cx + SCREEN_WIDTH / frameWidth + 1;
-	for (int i = 0; i < RowMap; i++) {
-		for (int j = beginColumn; j < endColumn; j++) {
-			tiles[TileMap[i][j]]->Draw(j * frameWidth + DrawPositionX, i * frameHeight + DrawPositionY);
-		}
-	}
-};
+	LPTILEMAP tilemap = new CMap(ID, filePath_tex, filePath_data, map_width, map_height);
+	tilemaps[ID] = tilemap;
+}
+
+
