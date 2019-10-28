@@ -121,10 +121,17 @@ void CSampleKeyHander::KeyState(BYTE *states)
 		simon->SetState(SIMON_STATE_JUMP);
 
 	else if (game->IsKeyDown(DIK_F))
+	{
+		if (simon->isSitting) simon->SetState(SIMON_STATE_SIT_ATTACK);
 		simon->SetState(SIMON_STATE_ATTACK);
+	}
 	
 	else
+	{
+		if (simon->isSitting) simon->SetState(SIMON_STATE_STAND_UP);
 		simon->SetState(SIMON_STATE_IDLE);
+
+	}
 
 }
 
@@ -267,11 +274,11 @@ void LoadResources()
 	ani->Add(20001);
 	animations->Add(601, ani);
 
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 200; i++)
 	{
 		brick = new CBrick();
 		brick->AddAnimation(601);
-		brick->SetPosition(0 + i * 16.0f, 185);
+		brick->SetPosition(0 + i * 16.0f, 370);
 		objects.push_back(brick);
 	}
 

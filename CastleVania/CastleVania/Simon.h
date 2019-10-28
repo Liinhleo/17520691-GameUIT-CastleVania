@@ -1,7 +1,9 @@
 #pragma once
 #include "GameObject.h"
+#include "Sprites.h"
 
 #define SIMON_WALKING_SPEED			0.1f 
+
 
 #define SIMON_JUMP_SPEED_Y			0.5f
 #define SIMON_JUMP_DEFLECT_SPEED	0.2f
@@ -17,7 +19,7 @@
 #define SIMON_STATE_SIT				600
 #define SIMON_STATE_SIT_ATTACK		700
 #define SIMON_STATE_HURT			800
-
+#define SIMON_STATE_STAND_UP		900
 
 #define SIMON_ANI_IDLE_RIGHT			0
 #define SIMON_ANI_IDLE_LEFT				1
@@ -42,14 +44,19 @@
 
 #define SIMON_UNTOUCHABLE_TIME 5000
 
+#define MAX_FRAME_ATTACK 3
+
+
 
 class CSimon : public CGameObject
 {
 	static CSimon* __instance; // trong game chi co 1 player
-
 	int untouchable;
 	DWORD untouchable_start;
 public:
+	
+	int ani;
+
 
 	bool isWalking = false;
 	bool isAttacking = false;

@@ -7,8 +7,38 @@
 
 CSimon* CSimon::__instance = NULL;
 
+CSimon* CSimon::GetInstance()
+{
+	if (__instance == NULL) __instance = new CSimon();
+	return __instance;
+}
+
+void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	if (isSitting)
+	{
+		left = x;
+		top = y;
+
+		right = x;
+		bottom = y + SIMON_BBOX_HEIGHT - 10;
+	}
+	else
+	{
+		left = x;
+		top = y;
+
+		right = x;
+		bottom = y + SIMON_BBOX_HEIGHT ;
+
+	}
+
+}
+
+
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+
 
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
@@ -48,8 +78,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty*dy + ny*0.4f;
 		
-		if (nx!=0) vx = 0; //va cham theo phuong ngang (static item) 
-		if (ny!=0) vy = 0; // va cham ground 
+		if (nx!=0) vx = 0; //nx - va cham theo phuong ngang (static item) 
+		if (ny!=0) vy = 0; // ny - va cham ground 
 
 
 
@@ -86,9 +116,13 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	/* HAM KTRA DE TRANH LAP LAI ANI LIEN TUC */
-	if (vy == 0)
+	if (vy == 0) //va cham dat
+	{
 		isJumping = false;
+	}
 
+	if (animations[ani]->getCurrentFrame() >= MAX_FRAME_ATTACK)
+		isAttacking = false;
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -96,7 +130,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CSimon::Render()
 {
-	int ani;
+	
 	if (state == SIMON_STATE_DIE)
 	{
 		if (nx > 0) ani = SIMON_ANI_DIE_RIGHT;
@@ -132,6 +166,7 @@ void CSimon::Render()
 			if (nx > 0) ani = SIMON_ANI_ATTACK_LEFT;
 			else ani = SIMON_ANI_ATTACK_RIGHT;
 		}
+
 	}
 
 	else
@@ -163,12 +198,16 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_WALKING_RIGHT:
+		if (isJumping)
+			return;
 		isWalking = true;
 		vx = SIMON_WALKING_SPEED;
 		nx = 1;
 		break;
 
 	case SIMON_STATE_WALKING_LEFT: 
+		if (isJumping)
+			return;
 		isWalking = true;
 		vx = -SIMON_WALKING_SPEED;
 		nx = -1;
@@ -177,34 +216,40 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_JUMP: 
 		if (isJumping == true)
 			return;
+		isWalking = false;
 		vy = -SIMON_JUMP_SPEED_Y;
 		isJumping = true;
 		break;
 
-	case SIMON_STATE_SIT:			
+	case SIMON_STATE_SIT:
+		if (isSitting)
+		{
+			isWalking = false;
+			return;
+		}
+		y = y + 10;
 		isSitting = true;
 		vx = 0;
 		break;
 
-	case SIMON_STATE_ATTACK:
+	case SIMON_STATE_STAND_UP: // de tranh TH simon rot xuong(do chan dinh vien gach)
+		y = y - 10;
+		isSitting = false;
+		vx = 0;
+		break;
+
+	case SIMON_STATE_ATTACK:	
 		isAttacking = true;
 		vx = 0;
 		break;
+	
+	case SIMON_STATE_SIT_ATTACK:		
+		vx = 0;
+		break;
+
+	
 	}
 }
 
-void CSimon::GetBoundingBox(float &left, float &top, float &right, float &bottom)
-{
-	left = x;
-	top = y; 
 
-	right = x;
-	bottom = y + SIMON_BBOX_HEIGHT;
-	
-}
 
-CSimon* CSimon::GetInstance()
-{
-	if (__instance == NULL) __instance = new CSimon();
-	return __instance;
-}

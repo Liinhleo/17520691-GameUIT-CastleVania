@@ -11,9 +11,9 @@
 #include "Debug.h"
 #include "Textures.h"
 
-#define SCREEN_WIDTH 320
+#define SCREEN_WIDTH 512
 
-#define TILEMAP_TRANSPARENT_COLOR		D3DCOLOR_XRGB(5,5,5)
+#define TILEMAP_TRANSPARENT_COLOR		D3DCOLOR_XRGB(255,0,255)
 
 #define MAP_1_WITDH			1536
 #define MAP_1_HEIGHT		320
