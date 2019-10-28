@@ -62,8 +62,12 @@ public:
 	bool isAttacking = false;
 	bool isJumping = false;
 	bool isSitting = false;
-
 	//bool isHurting;
+
+	/*void AttackingState();
+	void WalkingState();
+	void JumpingState();
+	void SittingState();*/
 
 	CSimon() : CGameObject()
 	{

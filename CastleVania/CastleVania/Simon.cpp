@@ -149,11 +149,7 @@ void CSimon::Render()
 		else ani = SIMON_ANI_JUMP_LEFT;
 	}
 
-	else if (isSitting)
-	{
-		if (nx > 0) ani = SIMON_ANI_SIT_RIGHT;
-		else ani = SIMON_ANI_SIT_LEFT;
-	}
+	
 
 	else if (isAttacking)
 	{
@@ -167,6 +163,12 @@ void CSimon::Render()
 			else ani = SIMON_ANI_ATTACK_RIGHT;
 		}
 
+	}
+
+	else if (isSitting)
+	{
+		if (nx > 0) ani = SIMON_ANI_SIT_RIGHT;
+		else ani = SIMON_ANI_SIT_LEFT;
 	}
 
 	else
@@ -198,38 +200,53 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_WALKING_RIGHT:
-		if (isJumping)
+		if (isSitting)
+		{
+			vx = 0;
 			return;
-		isWalking = true;
-		vx = SIMON_WALKING_SPEED;
+		}
+		else if (isJumping)
+		{
+			vx = SIMON_WALKING_SPEED;
+			return;
+		}
+		isWalking = true;		vx = SIMON_WALKING_SPEED;
 		nx = 1;
 		break;
 
 	case SIMON_STATE_WALKING_LEFT: 
-		if (isJumping)
+		if (isSitting)
+		{
+			vx = 0;
 			return;
+		}
+		else if (isJumping)
+		{
+			vx = -SIMON_WALKING_SPEED;
+			return;
+		}
 		isWalking = true;
 		vx = -SIMON_WALKING_SPEED;
 		nx = -1;
+		
 		break;
 
 	case SIMON_STATE_JUMP: 
-		if (isJumping == true)
+		if (isJumping)
 			return;
+
 		isWalking = false;
 		vy = -SIMON_JUMP_SPEED_Y;
 		isJumping = true;
 		break;
 
-	case SIMON_STATE_SIT:
-		if (isSitting)
-		{
-			isWalking = false;
+	case SIMON_STATE_SIT:	
+		if (isAttacking||isSitting) // dang ngoi thi khong thuc hien cau lenh duoi -> tranh tang bien y -> simon rot :) 
 			return;
-		}
+		isWalking = false;
+		vx = 0;
 		y = y + 10;
 		isSitting = true;
-		vx = 0;
 		break;
 
 	case SIMON_STATE_STAND_UP: // de tranh TH simon rot xuong(do chan dinh vien gach)
@@ -239,17 +256,30 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_ATTACK:	
+	
 		isAttacking = true;
 		vx = 0;
 		break;
 	
-	case SIMON_STATE_SIT_ATTACK:		
-		vx = 0;
-		break;
-
 	
 	}
 }
 
 
-
+//void CSimon::AttackingState()
+//{
+//
+//}
+//void CSimon::WalkingState()
+//{
+//	
+//}
+//void CSimon::JumpingState()
+//{
+//	
+//}
+//
+//void CSimon::SittingState()
+//{
+//	
+//}
