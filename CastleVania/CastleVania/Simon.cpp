@@ -116,13 +116,17 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	/* HAM KTRA DE TRANH LAP LAI ANI LIEN TUC */
+	// han che nhay lien tuc
 	if (vy == 0) //va cham dat
 	{
 		isJumping = false;
 	}
 
+	// Han che Attacking lien tuc
 	if (animations[ani]->getCurrentFrame() >= MAX_FRAME_ATTACK)
 		isAttacking = false;
+
+	// 
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -130,11 +134,33 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CSimon::Render()
 {
-	
 	if (state == SIMON_STATE_DIE)
 	{
 		if (nx > 0) ani = SIMON_ANI_DIE_RIGHT;
 		else ani = SIMON_ANI_DIE_LEFT;
+	}
+
+	else if (isAttacking)
+	{
+		if (isSitting) {
+			if (nx > 0) ani = SIMON_ANI_SIT_ATTACK_RIGHT;
+			else ani = SIMON_ANI_SIT_ATTACK_LEFT;
+		}
+		else {
+			if (nx > 0) ani = SIMON_ANI_ATTACK_RIGHT;
+			else ani = SIMON_ANI_ATTACK_LEFT;
+		}
+	}
+	else if (isJumping)
+	{
+		if (isAttacking) {
+			if (nx > 0) ani = SIMON_ANI_ATTACK_RIGHT;
+			else ani = SIMON_ANI_ATTACK_LEFT;
+		}
+		else {
+			if (nx > 0) ani = SIMON_ANI_JUMP_RIGHT;
+			else ani = SIMON_ANI_JUMP_LEFT;
+		}
 	}
 
 	else if (isWalking)
@@ -143,28 +169,7 @@ void CSimon::Render()
 		else ani = SIMON_ANI_WALKING_LEFT;
 	}
 
-	else if (isJumping)
-	{
-		if (nx > 0) ani = SIMON_ANI_JUMP_RIGHT;
-		else ani = SIMON_ANI_JUMP_LEFT;
-	}
-
 	
-
-	else if (isAttacking)
-	{
-		if (isSitting)
-		{
-			if (nx > 0) ani = SIMON_ANI_SIT_ATTACK_RIGHT;
-			else ani = SIMON_ANI_SIT_ATTACK_LEFT;
-		}
-		else {
-			if (nx > 0) ani = SIMON_ANI_ATTACK_LEFT;
-			else ani = SIMON_ANI_ATTACK_RIGHT;
-		}
-
-	}
-
 	else if (isSitting)
 	{
 		if (nx > 0) ani = SIMON_ANI_SIT_RIGHT;
@@ -186,6 +191,9 @@ void CSimon::Render()
 
 void CSimon::SetState(int state)
 {
+	// chua co nhay danh
+	// di nhay roi tha chua dung quy dao
+
 	CGameObject::SetState(state);
 
 	switch (state)
@@ -195,6 +203,8 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_IDLE:
+		if (isJumping)
+			return;
 		isWalking = false;
 		vx = 0;
 		break;
@@ -202,39 +212,36 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_WALKING_RIGHT:
 		if (isSitting)
 		{
-			vx = 0;
+			nx = 1;
 			return;
 		}
 		else if (isJumping)
-		{
-			vx = SIMON_WALKING_SPEED;
 			return;
-		}
-		isWalking = true;		vx = SIMON_WALKING_SPEED;
+		isWalking = true;		
+		vx = SIMON_WALKING_SPEED;
 		nx = 1;
 		break;
 
 	case SIMON_STATE_WALKING_LEFT: 
 		if (isSitting)
 		{
-			vx = 0;
+			nx = -1;
 			return;
 		}
 		else if (isJumping)
-		{
-			vx = -SIMON_WALKING_SPEED;
 			return;
-		}
+
 		isWalking = true;
 		vx = -SIMON_WALKING_SPEED;
 		nx = -1;
 		
 		break;
 
-	case SIMON_STATE_JUMP: 
+	case SIMON_STATE_JUMP: 		
+		
 		if (isJumping)
 			return;
-
+		
 		isWalking = false;
 		vy = -SIMON_JUMP_SPEED_Y;
 		isJumping = true;
@@ -256,12 +263,9 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_ATTACK:	
-	
+		isWalking = false;
 		isAttacking = true;
-		vx = 0;
-		break;
-	
-	
+		break;	
 	}
 }
 

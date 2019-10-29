@@ -116,13 +116,6 @@ void CSampleKeyHander::KeyState(BYTE *states)
 
 	else if (game->IsKeyDown(DIK_DOWN))
 		simon->SetState(SIMON_STATE_SIT);
-
-	else if (game->IsKeyDown(DIK_SPACE))
-		simon->SetState(SIMON_STATE_JUMP);
-
-	else if (game->IsKeyDown(DIK_F))
-		simon->SetState(SIMON_STATE_ATTACK);
-	
 	else
 	{
 		if (simon->isSitting) simon->SetState(SIMON_STATE_STAND_UP);
