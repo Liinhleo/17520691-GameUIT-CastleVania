@@ -81,7 +81,7 @@
     <!-- SIT_ATTACK RIGHT -->
     <Animation aniId="412" frameTime="100" name="SIT_ATTACK_RIGHT">
       <sprite id="10023" left="480" top="84" right="540" bottom="132" frameTime="100"/>
-      <sprite id="10024" left="900" top="150" right="960" bottom="198" frameTime="100"/>
+      <sprite id="10024" left="900" top="150" right="960" bottom="198" frameTime="100" />
       <sprite id="10025" left="840" top="150" right="900" bottom="198" frameTime="100"/>
       <sprite id="10021" left="600" top="216" right="660" bottom="264" frameTime="100"/>
     </Animation>
@@ -105,6 +105,63 @@
     </Animation>
   </Texture>
 
-  
-  
- </Textures>
+
+  <!-- Whip -->
+  <Texture  textureId ="5" gameObjectId ="1">
+    <!-- LEVEL 1 RIGHT -->
+    <Animation aniId="150" name="LEVEL1_RIGHT">
+      <sprite id="10051" left="1272" top="0" right="1484" bottom="66"/>
+      <sprite id="10052" left="1060" top="0" right="1272" bottom="66"/>
+      <sprite id="10053" left="848" top="0" right="1060" bottom="66"/>
+      <sprite id="10057" left="636" top="0" right="848" bottom="66"/>
+    </Animation>
+
+    <!-- LEVEL 1 LEFT -->
+    <Animation aniId="151" name="LEVEL1_LEFT">
+      <sprite id="10054" left="0" top="0" right="212" bottom="66"/>
+      <sprite id="10055" left="212" top="0" right="424" bottom="66"/>
+      <sprite id="10056" left="424" top="0" right="636" bottom="66"/>
+      <sprite id="10057" left="636" top="0" right="848" bottom="66"/>
+    </Animation>
+
+    <!-- LEVEL 2 RIGHT -->
+    <Animation aniId="152" name="LEVEL2_RIGHT">
+      <sprite id="10058" left="1272" top="66" right="1484" bottom="132"/>
+      <sprite id="10059" left="1060" top="66" right="1272" bottom="132"/>
+      <sprite id="10060" left="848" top="66" right="1060" bottom="132"/>
+      <sprite id="10057" left="636" top="0" right="848" bottom="66"/>
+    </Animation>
+
+    <!-- LEVEL 2 LEFT -->
+    <Animation aniId="153" name="LEVEL2_LEFT">
+      <sprite id="10061" left="0" top="66" right="212" bottom="132"/>
+      <sprite id="10062" left="212" top="66" right="424" bottom="132"/>
+      <sprite id="10063" left="424" top="66" right="636" bottom="132"/>
+      <sprite id="10057" left="636" top="0" right="848" bottom="66"/>
+    </Animation>
+
+    <!-- LEVEL 3 RIGHT -->
+    <Animation aniId="154" name="LEVEL3_RIGHT">
+      <sprite id="10064" left="1272" top="132" right="1484" bottom="198"/>
+      <sprite id="10065" left="1060" top="132" right="1272" bottom="198"/>
+      <sprite id="10066" left="848" top="132" right="1060" bottom="198"/>
+      <sprite id="10057" left="636" top="0" right="848" bottom="66"/>
+    </Animation>
+
+    <!-- LEVEL 3 LEFT -->
+    <Animation aniId="155" name="LEVEL3_LEFT">
+      <sprite id="10067" left="0" top="132" right="212" bottom="198"/>
+      <sprite id="10068" left="212" top="132" right="424" bottom="198"/>
+      <sprite id="10069" left="424" top="132" right="636" bottom="198"/>
+      <sprite id="10057" left="636" top="0" right="848" bottom="66"/>
+    </Animation>
+
+    <!-- DISABLE -->
+    <Animation aniId="155" name="LEVEL3_LEFT">
+      <sprite id="10057" left="636" top="0" right="848" bottom="66"/>
+    </Animation>
+    
+  </Texture>
+
+
+</Textures>

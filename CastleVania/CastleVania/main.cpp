@@ -29,7 +29,7 @@
 #include "GameObject.h"
 #include "Textures.h"
 
-#include "Mario.h"
+#include "Whip.h"
 #include "Brick.h"
 #include "Simon.h"
 #include "Goomba.h"
@@ -45,9 +45,12 @@
 
 #define MAX_FRAME_RATE 60
 
-#define ID_TEX_MISC 1
-#define ID_TEX_SIMON 2
-#define ID_TEX_ENEMY 4
+#define ID_TEX_BRICK	1
+#define ID_TEX_SIMON	2
+#define ID_TEX_ENEMY	4
+#define ID_TEX_WHIP		5
+#define ID_TEX_ITEM		6
+
 
 #define ID_MAP1 100000
 
@@ -57,7 +60,7 @@ CGame *game;
 CSimon* simon;
 CGoomba* goomba;
 CBrick* brick;
-
+CWhip* whip;
 
 vector<LPGAMEOBJECT> objects;
 vector<LPDIRECT3DTEXTURE9> textures;
@@ -86,6 +89,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		break;
 
 	case DIK_F:		//attack
+		whip->SetState(WHIP_STATE_HIT);
 		if (game->IsKeyDown(DIK_DOWN))	// ktra co nhan phim down hay k
 			simon->SetState(SIMON_STATE_SIT_ATTACK);  
 		simon->SetState(SIMON_STATE_ATTACK); // else chi danh 
@@ -167,7 +171,7 @@ void LoadResources()
 	LPANIMATION ani;
 
 	simon = new CSimon();
-
+	whip = new CWhip();
 	/*===========READ FILE MAP========= */
 
 	string tileSet;
@@ -248,17 +252,20 @@ void LoadResources()
 			{
 				simon->AddAnimation(aniId);
 			}
+			else 
+				whip->AddAnimation(aniId);
 		};
 	}
 	
 	simon->SetPosition(0.0f, 0);
 	objects.push_back(simon);
 
-	
+	whip->SetPosition(0.0f, 0);
+	objects.push_back(whip);
 
 	/*===========BRICK========= */
-	LPDIRECT3DTEXTURE9 texMisc = textures->Get(2);
-	sprites->Add(20001, 408, 225, 424, 241, texMisc);
+	LPDIRECT3DTEXTURE9 texBrick = textures->Get(2);
+	sprites->Add(20001, 408, 225, 424, 241, texBrick);
 
 	ani = new CAnimation(100);		// brick
 	ani->Add(20001);

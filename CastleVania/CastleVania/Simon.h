@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Sprites.h"
+#include "Whip.h"
 
 #define SIMON_WALKING_SPEED			0.1f 
 
@@ -53,8 +54,8 @@ class CSimon : public CGameObject
 	static CSimon* __instance; // trong game chi co 1 player
 	int untouchable;
 	DWORD untouchable_start;
+
 public:
-	
 	int ani;
 
 
@@ -73,7 +74,6 @@ public:
 	{
 		untouchable = 0;
 	}
-
 	
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();

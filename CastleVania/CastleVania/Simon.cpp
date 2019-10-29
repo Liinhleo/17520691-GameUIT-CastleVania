@@ -151,6 +151,14 @@ void CSimon::Render()
 			else ani = SIMON_ANI_ATTACK_LEFT;
 		}
 	}
+
+	else if (isSitting)
+	{
+		if (nx > 0) ani = SIMON_ANI_SIT_RIGHT;
+		else ani = SIMON_ANI_SIT_LEFT;
+	}
+
+
 	else if (isJumping)
 	{
 		if (isAttacking) {
@@ -169,12 +177,6 @@ void CSimon::Render()
 		else ani = SIMON_ANI_WALKING_LEFT;
 	}
 
-	
-	else if (isSitting)
-	{
-		if (nx > 0) ani = SIMON_ANI_SIT_RIGHT;
-		else ani = SIMON_ANI_SIT_LEFT;
-	}
 
 	else
 	{
@@ -210,26 +212,28 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_WALKING_RIGHT:
-		if (isSitting)
+		if (isJumping||isAttacking)
+			return;
+
+		else if (isSitting)
 		{
 			nx = 1;
 			return;
 		}
-		else if (isJumping)
-			return;
 		isWalking = true;		
 		vx = SIMON_WALKING_SPEED;
 		nx = 1;
 		break;
 
 	case SIMON_STATE_WALKING_LEFT: 
-		if (isSitting)
+		if (isJumping || isAttacking)
+			return;
+
+		else if (isSitting)
 		{
 			nx = -1;
 			return;
 		}
-		else if (isJumping)
-			return;
 
 		isWalking = true;
 		vx = -SIMON_WALKING_SPEED;
@@ -237,11 +241,9 @@ void CSimon::SetState(int state)
 		
 		break;
 
-	case SIMON_STATE_JUMP: 		
-		
-		if (isJumping)
-			return;
-		
+	case SIMON_STATE_JUMP: 				
+		if (isJumping||isSitting)
+			return;		
 		isWalking = false;
 		vy = -SIMON_JUMP_SPEED_Y;
 		isJumping = true;
@@ -262,7 +264,7 @@ void CSimon::SetState(int state)
 		vx = 0;
 		break;
 
-	case SIMON_STATE_ATTACK:	
+	case SIMON_STATE_ATTACK:
 		isWalking = false;
 		isAttacking = true;
 		break;	
