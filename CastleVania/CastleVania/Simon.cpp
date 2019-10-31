@@ -146,6 +146,10 @@ void CSimon::Render()
 
 	else if (isAttacking)
 	{
+		whip->SetPosition(x-80,y);
+		whip->nx = nx;
+		whip->Render();
+
 		if (isSitting) {
 			if (nx > 0) ani = SIMON_ANI_SIT_ATTACK_RIGHT;
 			else ani = SIMON_ANI_SIT_ATTACK_LEFT;
@@ -192,7 +196,7 @@ void CSimon::Render()
 	if (untouchable) alpha = 128; // blur -> lam mo 
 	animations[ani]->Render(x, y, alpha);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CSimon::SetState(int state)
@@ -263,12 +267,15 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_STAND_UP: // de tranh TH simon rot xuong(do chan dinh vien gach)
+		if (isAttacking)
+			return;
 		y = y - 10;
 		isSitting = false;
 		vx = 0;
 		break;
 
 	case SIMON_STATE_ATTACK:
+		whip->GetInstance()->SetState(WHIP_STATE_HIT);
 		isWalking = false;
 		isAttacking = true;
 		break;	

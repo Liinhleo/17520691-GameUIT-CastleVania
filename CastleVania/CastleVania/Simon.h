@@ -3,7 +3,7 @@
 #include "Sprites.h"
 #include "Whip.h"
 
-#define SIMON_WALKING_SPEED			0.6f 
+#define SIMON_WALKING_SPEED			0.1f 
 
 #define SIMON_JUMP_SPEED_Y			0.5f
 #define SIMON_JUMP_DEFLECT_SPEED	0.2f
@@ -58,6 +58,7 @@ class CSimon : public CGameObject
 public:
 	int ani;
 
+	CWhip* whip = CWhip::GetInstance();
 
 	bool isWalking = false;
 	bool isAttacking = false;

@@ -34,6 +34,9 @@
 
 #define WHIP_UNTOUCHABLE_TIME 5000
 
+#define MAX_FRAME_WHIP_ATTACK 3
+
+
 class CWhip : public CGameObject
 {
 	static CWhip* __instance; // trong game chi co 1 player
@@ -41,21 +44,23 @@ class CWhip : public CGameObject
 	int untouchable;
 	DWORD untouchable_start;
 public:
+	int ani; 
+	bool isDisable = false;
+	bool isAble = false;
 
 	CWhip() : CGameObject()
 	{
 		level = WHIP_LEVEL_1;
 		untouchable = 0;
 	}
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
-	virtual void Render();
-	void SetState(int state) { state = WHIP_STATE_DISABLE; }
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
+	void Render();
 	void SetLevel(int l) { level = l; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	static CWhip* GetInstance();
 
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
 
 

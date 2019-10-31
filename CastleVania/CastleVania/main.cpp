@@ -62,7 +62,7 @@ CGame *game;
 CSimon* simon;
 CGoomba* goomba;
 CBrick* brick;
-CWhip* whip;
+CWhip* whip =  CWhip::GetInstance();
 
 vector<LPGAMEOBJECT> objects;
 vector<LPDIRECT3DTEXTURE9> textures;
@@ -173,7 +173,6 @@ void LoadResources()
 	LPANIMATION ani;
 
 	simon = new CSimon();
-	whip = new CWhip();
 	/*===========READ FILE MAP========= */
 
 	string tileSet;
@@ -251,10 +250,8 @@ void LoadResources()
 			animation->QueryIntAttribute("aniId", &aniId);
 			animations->Add(aniId, ani);
 			if (gameObjectId == 0)
-			{
 				simon->AddAnimation(aniId);
-			}
-			else 
+			else if (gameObjectId == 1)
 				whip->AddAnimation(aniId);
 		};
 	}
@@ -262,8 +259,6 @@ void LoadResources()
 	simon->SetPosition(0.0f, 0);
 	objects.push_back(simon);
 
-	whip->SetPosition(0.0f, 0);
-	objects.push_back(whip);
 
 	/*===========BRICK========= */
 	LPDIRECT3DTEXTURE9 texBrick = textures->Get(2);
@@ -328,34 +323,23 @@ void Update(DWORD dt)
 	{
 		objects[i]->Update(dt,&coObjects);
 	}
+	
 
+	// Update camera to follow mario
+	int mapWidth = CMaps::GetInstance()->Get(MAP_1)->GetMapWidth(); // lay do dai map 
+	float cx, cy;
+	simon->GetPosition(cx, cy);
 
-	// Update camera to follow simon
-	float xSimon, ySimon;
-	float camX, camY;
-	simon->GetPosition(xSimon, ySimon);
-	camX = xSimon - SCREEN_WIDTH / 2;
+	cx = cx - SCREEN_WIDTH / 2 + 30 ; // vi tri cam luon de Simon o giua man hinh
+	//cy -= SCREEN_HEIGHT / 2;
 
-	int mapWidth = CMaps::GetInstance()->Get(MAP_1)->GetMapWidth(); // lay do dai map
+	if (cx < 0) //TH: Simon o dau map
+		cx = 0;
 
-	if (xSimon - SCREEN_WIDTH / 2 < 0)
-	{
-		camX = 0.0f;
-		CGame::GetInstance()->SetCamPos(camX, 0.0f);
-	}
-	else if (mapWidth - xSimon < SCREEN_WIDTH / 2)
-	{
+	else if (cx + SCREEN_WIDTH > mapWidth) // TH: Simon di qua 1/2 cuoi map
 		return;
-	}
-	else
-	{
-		CGame::GetInstance()->SetCamPos(camX, 0.0f);
-	}
 
-	std::cout << xSimon << endl;
-	std::cout << camX << endl;
-
-
+	CGame::GetInstance()->SetCamPos(cx, 0.0f);
 }
 
 /*

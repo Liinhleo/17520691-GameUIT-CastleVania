@@ -1,5 +1,13 @@
 #include "Whip.h"
 
+CWhip* CWhip::__instance = NULL;
+
+CWhip* CWhip::GetInstance()
+{
+	if (__instance == NULL) __instance = new CWhip();
+	return __instance;
+}
+
 void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
@@ -78,12 +86,15 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//}
 	}
 
+
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CWhip::Render()
 {
+	CGameObject::SetState(state);
+
 	int ani;
 	if (state == WHIP_STATE_HIT)
 	{
@@ -111,6 +122,7 @@ void CWhip::Render()
 	animations[ani]->Render(x, y, alpha);
 	//RenderBoundingBox();
 }
+
 
 void CWhip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

@@ -1,6 +1,0 @@
-﻿  main.cpp
-G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(322,20): warning C4018: '<': signed/unsigned mismatch
-G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(327,20): warning C4018: '<': signed/unsigned mismatch
-G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(335,14): warning C4101: 'camY': unreferenced local variable
-G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(382,21): warning C4018: '<': signed/unsigned mismatch
-  CastleVania.vcxproj -> G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\Debug\CastleVania.exe
