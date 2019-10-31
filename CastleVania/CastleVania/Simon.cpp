@@ -1,6 +1,6 @@
 #include <algorithm>
 #include "debug.h"
-
+#include <iostream>
 #include "Simon.h"
 #include "Game.h"
 #include "Goomba.h"
@@ -38,7 +38,6 @@ void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-
 
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
@@ -114,6 +113,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	}
+	// ngan Simon rot ra man hinh
+
+	if (x <= 0)
+		x = 0;
+
 
 	/* HAM KTRA DE TRANH LAP LAI ANI LIEN TUC */
 	// han che nhay lien tuc
@@ -185,7 +189,7 @@ void CSimon::Render()
 	}
 
 	int alpha = 255;
-	if (untouchable) alpha = 128;
+	if (untouchable) alpha = 128; // blur -> lam mo 
 	animations[ani]->Render(x, y, alpha);
 
 	RenderBoundingBox();

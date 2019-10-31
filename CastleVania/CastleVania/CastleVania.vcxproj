@@ -156,7 +156,6 @@
     <Xml Include="Textures.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="textures\mapTXT.txt" />
     <Text Include="textures\Resources.txt" />
     <Text Include="textures\scene1-map.txt" />
   </ItemGroup>
@@ -164,11 +163,15 @@
     <Image Include="textures\003-entrance.png" />
     <Image Include="textures\bbox.png" />
     <Image Include="textures\brick.png" />
+    <Image Include="textures\enemies.png" />
     <Image Include="textures\full-simon.png" />
     <Image Include="textures\Items.png" />
     <Image Include="textures\Level1.png" />
+    <Image Include="textures\mario.png" />
+    <Image Include="textures\misc.png" />
     <Image Include="textures\scene1.png" />
     <Image Include="textures\tileset_map1.png" />
+    <Image Include="textures\whip-full.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,6 @@
 #include "CTiles.h"
 #include"Textures.h"
+#include <iostream>
 
 #define OBJECT_SCENE_1 -999
 
@@ -30,6 +31,7 @@ CMap::CMap(int ID, LPCWSTR filePath_tex, LPCWSTR filePath_data, int map_width, i
 
 void CMap::LoadResources()
 {
+	CSprites * sprites = CSprites::GetInstance();
 	CTextures* texture = CTextures::GetInstance();
 
 	texture->Add(ID, TILEMAP_TRANSPARENT_COLOR, filePath_tex);
@@ -61,6 +63,8 @@ void CMap::LoadResources()
 
 void CMap::LoadMap()
 {
+	CSprites* sprites = CSprites::GetInstance();
+
 	fstream inp;
 	inp.open(filePath_data, ios::in);
 
@@ -106,6 +110,7 @@ void CMap::Draw(D3DXVECTOR3 camPosition)
 			// +camPosition.x ?? luôn gi? camera ? chính gi?a, vì trong hàm Game::Draw() có tr? cho camPosition.x làm các object ??u di chuy?n theo
 			// +(int)camPosition.x % 32 ?? gi? cho camera chuy?n ??ng m??t
 			float x = TILE_WIDTH * (j - start_col_to_draw) + camPosition.x - (int)camPosition.x % 32; 
+
 			float y = TILE_HEIGHT * i + 80;
 
 			tilemap[i][j]->Draw(x, y, D3DCOLOR_ARGB(255, 255, 255, 255));

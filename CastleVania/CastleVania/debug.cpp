@@ -10,3 +10,4 @@ void DebugOut(wchar_t *fmt, ...)
 	va_end(argp);
 	OutputDebugString(dbg_out);
 }
+

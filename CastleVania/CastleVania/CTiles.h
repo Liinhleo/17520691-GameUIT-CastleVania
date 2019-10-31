@@ -18,24 +18,19 @@
 #define MAP_1_WITDH			1536
 #define MAP_1_HEIGHT		320
 
-#define MAP_2_WITDH			5632
-#define MAP_2_HEIGHT		352
-
 #define TILE_WIDTH		32
 #define TILE_HEIGHT		32
 
 #define MAP_MIN_COL	0
 #define MAP_1_MAX_COL	47
-#define MAP_2_MAX_COL	177
 
 // Scene
-#define SCENE_1			1000
-#define SCENE_2			2000
+#define MAP_1			1000
+
 using namespace std;
 
 class CMap
 {
-	CSprites* sprites = CSprites::GetInstance();
 	vector<vector<LPSPRITE>> tilemap;
 
 	int map_Width;					// crong map
@@ -60,7 +55,6 @@ public:
 
 	int GetMapWidth() { return map_Width; }
 };
-
 typedef CMap* LPTILEMAP;
 
 /*

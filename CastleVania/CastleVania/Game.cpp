@@ -2,6 +2,11 @@
 #include "debug.h"
 
 CGame * CGame::__instance = NULL;
+CGame* CGame::GetInstance()
+{
+	if (__instance == NULL) __instance = new CGame();
+	return __instance;
+}
 
 /*
 	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for 
@@ -302,8 +307,3 @@ void CGame::SweptAABB(
 
 }
 
-CGame *CGame::GetInstance()
-{
-	if (__instance == NULL) __instance = new CGame();
-	return __instance;
-}

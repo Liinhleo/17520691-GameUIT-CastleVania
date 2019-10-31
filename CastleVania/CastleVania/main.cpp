@@ -35,6 +35,8 @@
 #include "Goomba.h"
 #include "CTiles.h"
 #include "tinyxml.h"
+#include <iostream>
+
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
@@ -328,14 +330,31 @@ void Update(DWORD dt)
 	}
 
 
-	// Update camera to follow mario
-	float cx, cy;
-	simon->GetPosition(cx, cy);
+	// Update camera to follow simon
+	float xSimon, ySimon;
+	float camX, camY;
+	simon->GetPosition(xSimon, ySimon);
+	camX = xSimon - SCREEN_WIDTH / 2;
 
-	cx -= SCREEN_WIDTH / 2;
-	cy -= SCREEN_HEIGHT / 2;
+	int mapWidth = CMaps::GetInstance()->Get(MAP_1)->GetMapWidth(); // lay do dai map
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f);
+	if (xSimon - SCREEN_WIDTH / 2 < 0)
+	{
+		camX = 0.0f;
+		CGame::GetInstance()->SetCamPos(camX, 0.0f);
+	}
+	else if (mapWidth - xSimon < SCREEN_WIDTH / 2)
+	{
+		return;
+	}
+	else
+	{
+		CGame::GetInstance()->SetCamPos(camX, 0.0f);
+	}
+
+	std::cout << xSimon << endl;
+	std::cout << camX << endl;
+
 
 }
 
@@ -355,7 +374,7 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		CMaps::GetInstance()->Get(SCENE_1)->Draw(CGame::GetInstance()->getCamPos());
+		CMaps::GetInstance()->Get(MAP_1)->Draw(CGame::GetInstance()->getCamPos());
 
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Render();
@@ -468,7 +487,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	LoadResources();
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
-
+	AllocConsole();
+	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
 	Run();
 
 	return 0;
