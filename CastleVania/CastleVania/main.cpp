@@ -36,6 +36,8 @@
 #include "CTiles.h"
 #include "tinyxml.h"
 #include <iostream>
+#include "Dagger.h"
+#include "Candle.h"
 
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
@@ -62,6 +64,8 @@ CGame *game;
 CSimon* simon;
 CGoomba* goomba;
 CBrick* brick;
+CCandle* candle;
+
 CWhip* whip =  CWhip::GetInstance();
 
 vector<LPGAMEOBJECT> objects;
@@ -173,6 +177,7 @@ void LoadResources()
 	LPANIMATION ani;
 
 	simon = new CSimon();
+	candle = new CCandle();
 	/*===========READ FILE MAP========= */
 
 	string tileSet;
@@ -253,12 +258,22 @@ void LoadResources()
 				simon->AddAnimation(aniId);
 			else if (gameObjectId == 1)
 				whip->AddAnimation(aniId);
+			else if (gameObjectId ==3)
+				candle->AddAnimation(aniId);
+
 		};
-	}
-	
+	}	
 	simon->SetPosition(0.0f, 0);
 	objects.push_back(simon);
 
+
+	for (int i = 0; i < 2; i++)
+	{
+		candle->SetState(CANDLE_BIG_STATE_ABLE);
+		candle->SetPosition(i*130, 300);
+		objects.push_back(candle);
+	}
+	
 
 	/*===========BRICK========= */
 	LPDIRECT3DTEXTURE9 texBrick = textures->Get(2);
@@ -274,7 +289,10 @@ void LoadResources()
 		brick->AddAnimation(601);
 		brick->SetPosition(0 + i * 16.0f, 370);
 		objects.push_back(brick);
+		
 	}
+	
+	
 
 	/*====== GOOMBA==========*/
 
@@ -470,9 +488,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	LoadResources();
 
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
-	AllocConsole();
-	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	//SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+	//AllocConsole();
+	//freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
 	Run();
 
 	return 0;

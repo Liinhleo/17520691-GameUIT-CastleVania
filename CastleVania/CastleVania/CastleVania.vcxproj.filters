@@ -44,6 +44,8 @@
     <ClCompile Include="CTiles.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Candle.cpp" />
+    <ClCompile Include="Dagger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -82,6 +84,8 @@
     <ClInclude Include="Whip.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="Candle.h" />
+    <ClInclude Include="Dagger.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

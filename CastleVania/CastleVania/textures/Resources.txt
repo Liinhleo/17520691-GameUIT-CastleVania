@@ -3,3 +3,6 @@
 3 255 255 255 textures\\bbox.png
 4 3 26 110 textures\\enemies.png
 5 255 0 255 textures\\whip-full.png
+6 255 0 255 textures\\weapons-full.png
+7 255 0 255 textures\\item-full.png
+8 255 0 255 textures\\candle-full.png

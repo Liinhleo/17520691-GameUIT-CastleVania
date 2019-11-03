@@ -160,8 +160,86 @@
     <Animation aniId="155" name="LEVEL3_LEFT">
       <sprite id="10057" left="636" top="0" right="848" bottom="66"/>
     </Animation>
-    
   </Texture>
+
+
+  <!-- DAGGER -->
+  <Texture  textureId ="6" gameObjectId ="2">
+    <!--DAGGER RIGHT -->
+    <Animation aniId="156" name="DAGGER_RIGHT">
+      <sprite id="10070" left="204" top="32" right="238" bottom="50"/>
+    </Animation>
+
+    <!--DAGGER LEFT -->
+    <Animation aniId="157" name="DAGGER_LEFT">
+      <sprite id="10071" left="204" top="0" right="238" bottom="18"/>
+    </Animation>
+
+    <!--DAGGER DISABLE -->
+    <Animation aniId="158" name="DAGGER_LEFT">
+      <sprite id="10072" left="-1" top="-1" right="-1" bottom="-1"/>
+    </Animation>
+  </Texture>
+
+  
+  
+  <!-- CANDLE -->
+  <Texture  textureId ="8" gameObjectId ="3">
+    <Animation aniId="251" name="CANDLE_DISABLE">
+      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+    </Animation>
+    
+    <Animation aniId="250" name="CANDLE_BIG_ABLE">
+      <sprite id="10151" left="0" top="0" right="32" bottom="64"/>
+      <sprite id="10152" left="32" top="0" right="64" bottom="64"/>
+    </Animation>
+
+    <!--<Animation aniId="251" name="CANDLE_SMALL">
+      <sprite id="10154" left="64" top="0" right="80" bottom="32"/>
+      <sprite id="10155" left="80" top="0" right="96" bottom="32"/>
+    </Animation>
+
+    <Animation aniId="252" name="FIRE">
+      <sprite id="10156" left="96" top="0" right="128" bottom="64"/>
+      <sprite id="10157" left="128" top="0" right="160" bottom="64"/>
+      <sprite id="10153" left="160" top="0" right="192" bottom="64"/>
+      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+    </Animation>-->
+  </Texture>
+
+
+  <!-- ITEM -->
+  <!--<Texture  textureId ="7" gameObjectId ="1">
+    <Animation aniId="300" name="CANDLE_BIG">
+      <sprite id="10151" left="0" top="0" right="32" bottom="64"/>
+      <sprite id="10152" left="32" top="0" right="64" bottom="64"/>
+      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+
+    </Animation>
+
+    <Animation aniId="301" name="CANDLE_SMALL">
+      <sprite id="10154" left="64" top="0" right="80" bottom="32"/>
+      <sprite id="10155" left="80" top="0" right="96" bottom="32"/>
+      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+    </Animation>
+
+    <Animation aniId="302" name="FIRE">
+      <sprite id="10156" left="96" top="0" right="128" bottom="64"/>
+      <sprite id="10157" left="128" top="0" right="160" bottom="64"/>
+      <sprite id="10153" left="160" top="0" right="192" bottom="64"/>
+      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+    </Animation>
+
+    <Animation aniId="303" name="FIRE">
+      <sprite id="10156" left="96" top="0" right="128" bottom="64"/>
+      <sprite id="10157" left="128" top="0" right="160" bottom="64"/>
+      <sprite id="10153" left="160" top="0" right="192" bottom="64"/>
+      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+    </Animation>
+  </Texture>-->
 
 
 </Textures>

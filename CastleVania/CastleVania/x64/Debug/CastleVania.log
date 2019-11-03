@@ -1,0 +1,29 @@
+﻿  Brick.cpp
+  CTiles.cpp
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\GameObject.h(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  debug.cpp
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\Sprites.h(3,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\debug.cpp(11,27): error C2664: 'void OutputDebugStringA(LPCSTR)': cannot convert argument 1 from 'wchar_t [4096]' to 'LPCSTR'
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\debug.cpp(11,20): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+  Game.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\debugapi.h(55,1): message : see declaration of 'OutputDebugStringA'
+  GameObject.cpp
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\Game.h(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Goomba.cpp
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\GameObject.cpp(1,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  main.cpp
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\GameObject.h(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Simon.cpp
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\main.cpp(23,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Sprites.cpp
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\GameObject.h(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Textures.cpp
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\Sprites.h(3,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  tinystr.cpp
+  tinyxml.cpp
+  tinyxmlerror.cpp
+  tinyxmlparser.cpp
+  Whip.cpp
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\Textures.cpp(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory
+  Generating Code...
+G:\001 new commit\17520691-GameUIT-CastleVania\CastleVania\CastleVania\Game.h(4,10): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory

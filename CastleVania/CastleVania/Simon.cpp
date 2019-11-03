@@ -114,7 +114,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 	// ngan Simon rot ra man hinh
-
 	if (x <= 0)
 		x = 0;
 
@@ -129,8 +128,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Han che Attacking lien tuc
 	if (animations[ani]->getCurrentFrame() >= MAX_FRAME_ATTACK)
 		isAttacking = false;
-
-	// 
+	
+	//update weapon
+	whip->Update(dt, coObjects);
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -201,9 +201,6 @@ void CSimon::Render()
 
 void CSimon::SetState(int state)
 {
-	// chua co nhay danh
-	// di nhay roi tha chua dung quy dao
-
 	CGameObject::SetState(state);
 
 	switch (state)
@@ -300,3 +297,40 @@ void CSimon::SetState(int state)
 //{
 //	
 //}
+
+
+void CSimon::FilterCollision(
+	vector<LPCOLLISIONEVENT>& coEvents,
+	vector<LPCOLLISIONEVENT>& coEventsResult,
+	float& min_tx,
+	float& min_ty,
+	float& nx,
+	float& ny)
+{
+	min_tx = 1.0f;
+	min_ty = 1.0f;
+	int min_ix = -1;
+	int min_iy = -1;
+
+	nx = 0.0f;
+	ny = 0.0f;
+
+	coEventsResult.clear();
+
+	for (UINT i = 0; i < coEvents.size(); i++)
+	{
+		LPCOLLISIONEVENT c = coEvents[i];
+
+		//if (c->t < min_tx && c->nx != 0) {
+		//	min_tx = c->t; nx = c->nx; min_ix = i;
+		//}
+
+		// va cham voi ground
+		if (c->t < min_ty && c->ny != 0) {
+			min_ty = c->t; ny = c->ny; min_iy = i;
+		}
+	}
+
+	if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
+	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
+}

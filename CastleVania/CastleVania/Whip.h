@@ -6,11 +6,11 @@
 #include "GameObject.h"
 #include "Sprites.h"
 #include "Goomba.h"
+#include "Candle.h"
 
 #define WHIP_SPEED			0.1f 
 
 #define WHIP_STATE_HIT			0
-//#define WHIP_STATE_HIT_LEFT		100
 #define WHIP_STATE_DISABLE		100
 
 #define WHIP_ANI_LEVEL1_HIT_RIGHT		0
