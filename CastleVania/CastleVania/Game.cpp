@@ -207,13 +207,13 @@ CGame::~CGame()
 }
 
 /*
-	SweptAABB 
+	SweptAABB  
 */
 void CGame::SweptAABB(
-	float ml, float mt,	float mr, float mb,			
-	float dx, float dy,			
-	float sl, float st, float sr, float sb,
-	float &t, float &nx, float &ny)
+	float ml, float mt,	float mr, float mb,		 // moving obj	
+	float dx, float dy,							// khoang cach giua 2 obj
+	float sl, float st, float sr, float sb,		// static obj
+	float &t, float &nx, float &ny)				// vector chi phuong ; t= time cbi collision
 {
 
 	float dx_entry, dx_exit, tx_entry, tx_exit;
@@ -236,10 +236,10 @@ void CGame::SweptAABB(
 
 	if (br < sl || bl > sr || bb < st || bt > sb) return;
 
+	if (dx == 0 && dy == 0) return;		// neu obj k di chuyen -> k co va cham
+	
 
-	if (dx == 0 && dy == 0) return;		// moving object is not moving > obvious no collision
-
-	if (dx > 0)
+	if (dx > 0) // obj  di chuyen
 	{
 		dx_entry = sl - mr; 
 		dx_exit = sr - ml;

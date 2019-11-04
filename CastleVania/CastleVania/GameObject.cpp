@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
+#include "Candle.h"
 
 CGameObject::CGameObject()
 {
@@ -69,6 +70,10 @@ void CGameObject::CalcPotentialCollisions(
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
+		if (dynamic_cast<CCandle*>(e->obj))
+		{
+			continue;
+		}
 
 		if (e->t > 0 && e->t <= 1.0f)
 			coEvents.push_back(e);
@@ -100,11 +105,15 @@ void CGameObject::FilterCollision(
 		LPCOLLISIONEVENT c = coEvents[i];
 
 		if (c->t < min_tx && c->nx != 0) {
-			min_tx = c->t; nx = c->nx; min_ix = i;
+			min_tx = c->t; 
+			nx = c->nx; 
+			min_ix = i;
 		}
 
 		if (c->t < min_ty  && c->ny != 0) {
-			min_ty = c->t; ny = c->ny; min_iy = i;
+			min_ty = c->t; 
+			ny = c->ny; 
+			min_iy = i;
 		}
 	}
 
@@ -128,7 +137,7 @@ void CGameObject::RenderBoundingBox()
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
-	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
+	CGame::GetInstance()->Draw(l, t, bbox, rect.left, rect.top, rect.right, rect.bottom, 100);
 }
 
 void CGameObject::AddAnimation(int aniId)

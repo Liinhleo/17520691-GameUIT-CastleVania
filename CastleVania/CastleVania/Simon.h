@@ -3,6 +3,7 @@
 #include "Sprites.h"
 #include "Whip.h"
 #include "Dagger.h"
+#include "Candle.h"
 
 #define SIMON_WALKING_SPEED			0.1f 
 
@@ -59,8 +60,6 @@ class CSimon : public CGameObject
 public:
 	int ani;
 
-	CWhip* whip = CWhip::GetInstance();
-	CDagger* dagger = CDagger::GetInstance();
 
 	bool isWalking = false;
 	bool isAttacking = false;
@@ -82,14 +81,7 @@ public:
 	virtual void Render();
 	void SetState(int state);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	void FilterCollision(
-		vector<LPCOLLISIONEVENT>& coEvents,
-		vector<LPCOLLISIONEVENT>& coEventsResult,
-		float& min_tx,
-		float& min_ty,
-		float& nx,
-		float& ny);
-
+	
 	static CSimon* GetInstance();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

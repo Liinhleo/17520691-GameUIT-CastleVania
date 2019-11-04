@@ -50,6 +50,8 @@ public:
 	vector<LPANIMATION> animations;
 
 public: 
+	bool isAble = true;
+
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
@@ -78,6 +80,11 @@ public:
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
 
+	// ktra bbox co trung nhau khong
+	bool CheckAABB(float left_a, float top_a, float right_a, float bottom_a, float left_b, float top_b, float right_b, float bottom_b)
+	{
+		return left_a < right_b && right_a > left_b && top_a < bottom_b && bottom_a > top_b;
+	}
 
 	~CGameObject();
 };

@@ -20,15 +20,14 @@
 //#define CANDLE_SMALL_STATE_PRESENT	600
 
 
-#define CANDLE_ANI_DISABLE			0
 
-#define CANDLE_BIG_ANI_ABLE			1
-//#define CANDLE_BIG_ANI_FIRE		2
-//#define CANDLE_BIG_ANI_ITEM		3
+#define CANDLE_BIG_ANI_ABLE			0
+//#define CANDLE_BIG_ANI_FIRE		1
+//#define CANDLE_BIG_ANI_ITEM		2
 
-//#define CANDLE_SMALL_ANI_ABLE		4
-//#define CANDLE_SMALL_ANI_FIRE		5
-//#define CANDLE_SMALL_ANI_PRESENT	6
+//#define CANDLE_SMALL_ANI_ABLE		3
+//#define CANDLE_SMALL_ANI_FIRE		4
+//#define CANDLE_SMALL_ANI_PRESENT	5
 
 
 #define CANDLE_BIG_BBOX_WIDTH  32
@@ -47,15 +46,12 @@ class CCandle : public CGameObject
 
 public:
 	int ani;
-	bool isAble = false;
-	bool isDisable = false;
+
 
 	CCandle() : CGameObject()
 	{
 		/*untouchable = 0;*/
 	}
-
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	virtual void SetState(int state);
 

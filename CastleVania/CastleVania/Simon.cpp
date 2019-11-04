@@ -51,8 +51,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state!=SIMON_STATE_DIE)
+	if (state != SIMON_STATE_DIE)
+	{
+		
 		CalcPotentialCollisions(coObjects, coEvents);
+
+	}
 
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME) 
@@ -74,45 +78,47 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		// block 
-		x += min_tx*dx + nx*0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty*dy + ny*0.4f;
-		
-		if (nx!=0) vx = 0; //nx - va cham theo phuong ngang (static item) 
-		if (ny!=0) vy = 0; // ny - va cham ground 
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
 
-
-
-		// Collision logic with Goombas
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-
-			if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
-			{
-				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
-
-				// jump on top >> kill Goomba and deflect a bit 
-				if (e->ny < 0)
-				{
-					if (goomba->GetState()!= GOOMBA_STATE_DIE)
-					{
-						goomba->SetState(GOOMBA_STATE_DIE);
-						vy = -SIMON_JUMP_DEFLECT_SPEED;
-					}
-				}
-				else if (e->nx != 0)
-				{
-					if (untouchable==0)
-					{
-						if (goomba->GetState()!=GOOMBA_STATE_DIE)
-						{
-							SetState(SIMON_STATE_DIE);
-						}
-					}
-				}
-			}
-		}
+		if (nx != 0) vx = 0; //nx - va cham theo phuong ngang 
+		if (ny != 0) vy = 0; // ny - va cham ground 
 	}
+
+
+	//	// Collision logic with Goombas
+	//	for (UINT i = 0; i < coEventsResult.size(); i++)
+	//	{
+	//		LPCOLLISIONEVENT e = coEventsResult[i];
+
+	//		if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
+	//		{
+	//			CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
+
+	//			// jump on top >> kill Goomba and deflect a bit 
+	//			if (e->ny < 0)
+	//			{
+	//				if (goomba->GetState()!= GOOMBA_STATE_DIE)
+	//				{
+	//					goomba->SetState(GOOMBA_STATE_DIE);
+	//					vy = -SIMON_JUMP_DEFLECT_SPEED;
+	//				}
+	//			}
+	//			else if (e->nx != 0)
+	//			{
+	//				if (untouchable==0)
+	//				{
+	//					if (goomba->GetState()!=GOOMBA_STATE_DIE)
+	//					{
+	//						SetState(SIMON_STATE_DIE);
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+
+
 	// ngan Simon rot ra man hinh
 	if (x <= 0)
 		x = 0;
@@ -128,9 +134,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// Han che Attacking lien tuc
 	if (animations[ani]->getCurrentFrame() >= MAX_FRAME_ATTACK)
 		isAttacking = false;
-	
-	//update weapon
-	whip->Update(dt, coObjects);
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -146,9 +149,7 @@ void CSimon::Render()
 
 	else if (isAttacking)
 	{
-		whip->SetPosition(x-80,y);
-		whip->nx = nx;
-		whip->Render();
+
 
 		if (isSitting) {
 			if (nx > 0) ani = SIMON_ANI_SIT_ATTACK_RIGHT;
@@ -272,7 +273,8 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_ATTACK:
-		whip->GetInstance()->SetState(WHIP_STATE_HIT);
+		CWhip::GetInstance()->SetPosition(x - 80, y);
+		CWhip::GetInstance()->nx = nx;
 		isWalking = false;
 		isAttacking = true;
 		break;	
@@ -299,38 +301,3 @@ void CSimon::SetState(int state)
 //}
 
 
-void CSimon::FilterCollision(
-	vector<LPCOLLISIONEVENT>& coEvents,
-	vector<LPCOLLISIONEVENT>& coEventsResult,
-	float& min_tx,
-	float& min_ty,
-	float& nx,
-	float& ny)
-{
-	min_tx = 1.0f;
-	min_ty = 1.0f;
-	int min_ix = -1;
-	int min_iy = -1;
-
-	nx = 0.0f;
-	ny = 0.0f;
-
-	coEventsResult.clear();
-
-	for (UINT i = 0; i < coEvents.size(); i++)
-	{
-		LPCOLLISIONEVENT c = coEvents[i];
-
-		//if (c->t < min_tx && c->nx != 0) {
-		//	min_tx = c->t; nx = c->nx; min_ix = i;
-		//}
-
-		// va cham voi ground
-		if (c->t < min_ty && c->ny != 0) {
-			min_ty = c->t; ny = c->ny; min_iy = i;
-		}
-	}
-
-	if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
-	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
-}

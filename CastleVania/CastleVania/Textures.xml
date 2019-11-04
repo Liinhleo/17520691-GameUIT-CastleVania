@@ -155,11 +155,6 @@
       <sprite id="10069" left="424" top="132" right="636" bottom="198"/>
       <sprite id="10057" left="636" top="0" right="848" bottom="66"/>
     </Animation>
-
-    <!-- DISABLE -->
-    <Animation aniId="155" name="LEVEL3_LEFT">
-      <sprite id="10057" left="636" top="0" right="848" bottom="66"/>
-    </Animation>
   </Texture>
 
 
@@ -185,11 +180,6 @@
   
   <!-- CANDLE -->
   <Texture  textureId ="8" gameObjectId ="3">
-    <Animation aniId="251" name="CANDLE_DISABLE">
-      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
-      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
-    </Animation>
-    
     <Animation aniId="250" name="CANDLE_BIG_ABLE">
       <sprite id="10151" left="0" top="0" right="32" bottom="64"/>
       <sprite id="10152" left="32" top="0" right="64" bottom="64"/>

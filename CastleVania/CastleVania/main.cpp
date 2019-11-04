@@ -61,12 +61,10 @@
 #define ID_TEX_MAP1 100000
 
 CGame *game;
-CSimon* simon;
 CGoomba* goomba;
 CBrick* brick;
 CCandle* candle;
 
-CWhip* whip =  CWhip::GetInstance();
 
 vector<LPGAMEOBJECT> objects;
 vector<LPDIRECT3DTEXTURE9> textures;
@@ -86,23 +84,23 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		simon->SetState(SIMON_STATE_JUMP);
+		CSimon::GetInstance()->SetState(SIMON_STATE_JUMP);
 		break;
 	case DIK_Q: // reset
-		simon->SetState(SIMON_STATE_IDLE);
-		simon->SetPosition(0.0f, 0.0f);
-		simon->SetSpeed(0, 0);
+		CSimon::GetInstance()->SetState(SIMON_STATE_IDLE);
+		CSimon::GetInstance()->SetPosition(0.0f, 0.0f);
+		CSimon::GetInstance()->SetSpeed(0, 0);
 		break;
 
 	case DIK_F:		//attack
-		whip->SetState(WHIP_STATE_HIT);
+		CWhip::GetInstance()->SetState(WHIP_STATE_HIT);
 		if (game->IsKeyDown(DIK_DOWN))	// ktra co nhan phim down hay k
-			simon->SetState(SIMON_STATE_SIT_ATTACK);  
-		simon->SetState(SIMON_STATE_ATTACK); // else chi danh 
+			CSimon::GetInstance()->SetState(SIMON_STATE_SIT_ATTACK);
+		CSimon::GetInstance()->SetState(SIMON_STATE_ATTACK); // else chi danh 
 		break;
 
 	case DIK_DOWN:		//sit
-		simon->SetState(SIMON_STATE_SIT);
+		CSimon::GetInstance()->SetState(SIMON_STATE_SIT);
 		break;
 	}
 }
@@ -115,21 +113,22 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 void CSampleKeyHander::KeyState(BYTE *states)
 {
 	// disable control key when Simon die 
-	if (simon->GetState() == SIMON_STATE_DIE) 
+	if (CSimon::GetInstance()->GetState() == SIMON_STATE_DIE) 
 		return;
 
 	if (game->IsKeyDown(DIK_RIGHT))
-		simon->SetState(SIMON_STATE_WALKING_RIGHT);
+		CSimon::GetInstance()->SetState(SIMON_STATE_WALKING_RIGHT);
 
 	else if (game->IsKeyDown(DIK_LEFT))
-		simon->SetState(SIMON_STATE_WALKING_LEFT);
+		CSimon::GetInstance()->SetState(SIMON_STATE_WALKING_LEFT);
 
 	else if (game->IsKeyDown(DIK_DOWN))
-		simon->SetState(SIMON_STATE_SIT);
+		CSimon::GetInstance()->SetState(SIMON_STATE_SIT);
 	else
 	{
-		if (simon->isSitting) simon->SetState(SIMON_STATE_STAND_UP);
-		simon->SetState(SIMON_STATE_IDLE);
+		if (CSimon::GetInstance()->isSitting) 
+			CSimon::GetInstance()->SetState(SIMON_STATE_STAND_UP);
+		CSimon::GetInstance()->SetState(SIMON_STATE_IDLE);
 
 	}
 
@@ -176,8 +175,7 @@ void LoadResources()
 
 	LPANIMATION ani;
 
-	simon = new CSimon();
-	candle = new CCandle();
+	
 	/*===========READ FILE MAP========= */
 
 	string tileSet;
@@ -255,22 +253,24 @@ void LoadResources()
 			animation->QueryIntAttribute("aniId", &aniId);
 			animations->Add(aniId, ani);
 			if (gameObjectId == 0)
-				simon->AddAnimation(aniId);
+				CSimon::GetInstance()->AddAnimation(aniId);
 			else if (gameObjectId == 1)
-				whip->AddAnimation(aniId);
-			else if (gameObjectId ==3)
-				candle->AddAnimation(aniId);
-
+				CWhip::GetInstance()->AddAnimation(aniId);
 		};
 	}	
-	simon->SetPosition(0.0f, 0);
-	objects.push_back(simon);
+	CSimon::GetInstance()->SetPosition(0.0f, 0);
+	objects.push_back(CSimon::GetInstance());
+	objects.push_back(CWhip::GetInstance());
 
 
-	for (int i = 0; i < 2; i++)
-	{
+	
+
+	for (int i = 0; i < 5; i++)
+	{ 
+		candle = new CCandle();
+		candle->AddAnimation(250);
 		candle->SetState(CANDLE_BIG_STATE_ABLE);
-		candle->SetPosition(i*130, 300);
+		candle->SetPosition(150 + i*250 , 300);
 		objects.push_back(candle);
 	}
 	
@@ -334,7 +334,8 @@ void Update(DWORD dt)
 	vector<LPGAMEOBJECT> coObjects;
 	for (int i = 1; i < objects.size(); i++)
 	{
-		coObjects.push_back(objects[i]);
+		if (objects[i]->isAble) //cac obj ton tai thi cho vao list obj co kha nang va cham
+			coObjects.push_back(objects[i]); 
 	}
 
 	for (int i = 0; i < objects.size(); i++)
@@ -346,7 +347,7 @@ void Update(DWORD dt)
 	// Update camera to follow mario
 	int mapWidth = CMaps::GetInstance()->Get(MAP_1)->GetMapWidth(); // lay do dai map 
 	float cx, cy;
-	simon->GetPosition(cx, cy);
+	CSimon::GetInstance()->GetPosition(cx, cy);
 
 	cx = cx - SCREEN_WIDTH / 2 + 30 ; // vi tri cam luon de Simon o giua man hinh
 	//cy -= SCREEN_HEIGHT / 2;
@@ -368,7 +369,7 @@ void Render()
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
 	LPDIRECT3DSURFACE9 bb = game->GetBackBuffer();
 	LPD3DXSPRITE spriteHandler = game->GetSpriteHandler();
-
+	
 	if (d3ddv->BeginScene())
 	{
 		// Clear back buffer with a color
@@ -378,8 +379,12 @@ void Render()
 
 		CMaps::GetInstance()->Get(MAP_1)->Draw(CGame::GetInstance()->getCamPos());
 
-		for (int i = 0; i < objects.size(); i++)
-			objects[i]->Render();
+		for (int i = 1; i < objects.size(); i++)
+		{
+			if (objects[i]->isAble) //ktra trang thai obj -> neu ton tai thi render
+				objects[i]->Render();
+		}
+		objects[0]->Render();
 
 		spriteHandler->End();
 		d3ddv->EndScene();
