@@ -32,13 +32,12 @@
 #include "Whip.h"
 #include "Brick.h"
 #include "Simon.h"
-#include "Goomba.h"
 #include "CTiles.h"
 #include "tinyxml.h"
 #include <iostream>
 #include "Dagger.h"
 #include "Candle.h"
-
+#include "Item.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
@@ -61,7 +60,6 @@
 #define ID_TEX_MAP1 100000
 
 CGame *game;
-CGoomba* goomba;
 CBrick* brick;
 CCandle* candle;
 
@@ -94,6 +92,14 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 
 	case DIK_F:		//attack
 		CWhip::GetInstance()->SetState(WHIP_STATE_HIT);
+		if (game->IsKeyDown(DIK_DOWN))	// ktra co nhan phim down hay k
+			CSimon::GetInstance()->SetState(SIMON_STATE_SIT_ATTACK);
+		CSimon::GetInstance()->SetState(SIMON_STATE_ATTACK); // else chi danh 
+		break;
+
+	
+	case DIK_A:		//attack
+		CDagger::GetInstance()->SetState(DAGGER_STATE_HIT);
 		if (game->IsKeyDown(DIK_DOWN))	// ktra co nhan phim down hay k
 			CSimon::GetInstance()->SetState(SIMON_STATE_SIT_ATTACK);
 		CSimon::GetInstance()->SetState(SIMON_STATE_ATTACK); // else chi danh 
@@ -170,20 +176,17 @@ void LoadResources()
 	/*===========DECLARE========= */
 	CSprites* sprites = CSprites::GetInstance();
 	CAnimations* animations = CAnimations::GetInstance();
-	CTextures* textures = CTextures::GetInstance();
-	
+	CTextures* textures = CTextures::GetInstance();	
 
 	LPANIMATION ani;
 
-	
 	/*===========READ FILE MAP========= */
 
 	string tileSet;
 	CMaps::GetInstance()->Add(L"textures\\scene1-map.txt", L"textures\\scene1.png", 1000, MAP_1_WITDH, MAP_1_HEIGHT);
 
 
-
-	/*===========READ FILE TXT========= */
+	/*===========READ TEXTURE FROM FILE TXT========= */
 	ifstream inp(L"textures\\Resources.txt", ios::in);
 	if (inp.fail())
 	{
@@ -201,7 +204,7 @@ void LoadResources()
 	}
 
 
-	/*===========ADD SPRITE + ADD ANIMATION ========= */// Init 
+	/*===========ADD SPRITE + ADD ANIMATION ========= */
 	LPDIRECT3DTEXTURE9 tex;
 	TiXmlDocument doc("Textures.xml");
 
@@ -256,70 +259,47 @@ void LoadResources()
 				CSimon::GetInstance()->AddAnimation(aniId);
 			else if (gameObjectId == 1)
 				CWhip::GetInstance()->AddAnimation(aniId);
+			else if (gameObjectId == 2)
+				CDagger::GetInstance()->AddAnimation(aniId);
 		};
 	}	
 	CSimon::GetInstance()->SetPosition(0.0f, 0);
 	objects.push_back(CSimon::GetInstance());
 	objects.push_back(CWhip::GetInstance());
+	objects.push_back(CDagger::GetInstance());
 
 
-	
-
+	/*===========CANDLE========= */
 	for (int i = 0; i < 5; i++)
 	{ 
 		candle = new CCandle();
 		candle->AddAnimation(250);
+		candle->AddAnimation(251);
+		candle->AddAnimation(252);
 		candle->SetState(CANDLE_BIG_STATE_ABLE);
-		candle->SetPosition(150 + i*250 , 300);
+		candle->SetPosition(150 + i*250 , 310);
 		objects.push_back(candle);
 	}
 	
-
 	/*===========BRICK========= */
-	LPDIRECT3DTEXTURE9 texBrick = textures->Get(2);
-	sprites->Add(20001, 408, 225, 424, 241, texBrick);
-
-	ani = new CAnimation(100);		// brick
-	ani->Add(20001);
-	animations->Add(601, ani);
-
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 100; i++) //			map_width / brick_width = 96 -> lay 100 vien gach
 	{
 		brick = new CBrick();
 		brick->AddAnimation(601);
-		brick->SetPosition(0 + i * 16.0f, 370);
-		objects.push_back(brick);
-		
+		brick->SetPosition( - BRICK_BBOX_WIDTH + i * 16.0f, 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
+		objects.push_back(brick);	
 	}
+
+	for (int i = 0; i < 10; i++) // wall invisible cuoi map de simon k di ra khoi map
+	{
+		brick = new CBrick();		
+		brick->AddAnimation(601);
+		brick->SetPosition(CMaps::GetInstance()->Get(MAP_1)->GetMapWidth() - 30.0f , 350.0f - i * BRICK_BBOX_WIDTH);
+		objects.push_back(brick);
+
+	}
+
 	
-	
-
-	/*====== GOOMBA==========*/
-
-	//LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
-	//sprites->Add(30001, 5, 14, 21, 29, texEnemy);
-	//sprites->Add(30002, 25, 14, 41, 29, texEnemy);
-
-	//sprites->Add(30003, 45, 21, 61, 29, texEnemy); // die sprite
-	//
-	//ani = new CAnimation(300);		// Goomba walk
-	//ani->Add(30001);
-	//ani->Add(30002);
-	//animations->Add(701, ani);
-
-	//ani = new CAnimation(1000);		// Goomba dead
-	//ani->Add(30003);
-	//animations->Add(702, ani);
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	goomba = new CGoomba();
-	//	goomba->AddAnimation(701);
-	//	goomba->AddAnimation(702);
-	//	goomba->SetPosition(200 + i * 60, 170);
-	//	goomba->SetState(GOOMBA_STATE_WALKING);
-	//	objects.push_back(goomba);
-	//}
-
 }
 
 /*
@@ -337,7 +317,6 @@ void Update(DWORD dt)
 		if (objects[i]->isAble) //cac obj ton tai thi cho vao list obj co kha nang va cham
 			coObjects.push_back(objects[i]); 
 	}
-
 	for (int i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Update(dt,&coObjects);

@@ -70,7 +70,8 @@ void CGameObject::CalcPotentialCollisions(
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
-		if (dynamic_cast<CCandle*>(e->obj))
+
+		if (dynamic_cast<CCandle*>(e->obj)) // neu obj la candle thi k push vao coEvents
 		{
 			continue;
 		}

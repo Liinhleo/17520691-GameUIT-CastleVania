@@ -66,9 +66,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 
 	// No collision occured, proceed normally
-	if (coEvents.size()==0)
+	// No collision occured, proceed normally
+	if (coEvents.size() == 0)
 	{
-		x += dx; 
+		x += dx;
 		y += dy;
 	}
 	else
@@ -81,8 +82,45 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) vx = 0; //nx - va cham theo phuong ngang 
-		if (ny != 0) vy = 0; // ny - va cham ground 
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
+
+		//// Collision logic with Goombas
+		//for (UINT i = 0; i < coEventsResult.size(); i++)
+		//{
+		//	LPCOLLISIONEVENT e = coEventsResult[i];
+
+		//	if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
+		//	{
+		//		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
+		//		// jump on top >> kill Goomba and deflect a bit 
+		//		if (e->ny < 0)
+		//		{
+		//			if (goomba->GetState() != GOOMBA_STATE_DIE)
+		//			{
+		//				goomba->SetState(GOOMBA_STATE_DIE);
+		//				vy = -MARIO_JUMP_DEFLECT_SPEED;
+		//			}
+		//		}
+		//		else if (e->nx != 0)
+		//		{
+		//			if (untouchable == 0)
+		//			{
+		//				if (goomba->GetState() != GOOMBA_STATE_DIE)
+		//				{
+		//					if (level > MARIO_LEVEL_SMALL)
+		//					{
+		//						level = MARIO_LEVEL_SMALL;
+		//						StartUntouchable();
+		//					}
+		//					else
+		//						SetState(MARIO_STATE_DIE);
+		//				}
+		//			}
+		//		}
+		/*	}
+		}*/
 	}
 
 
@@ -137,6 +175,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	CWhip::GetInstance()->SetPosition(x - 80, y);
+	CWhip::GetInstance()->nx = nx;
+
+	CDagger::GetInstance()->SetPosition(x + 10, y);
+	CDagger::GetInstance()->nx = nx;
 }
 
 void CSimon::Render()
@@ -273,8 +317,6 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_ATTACK:
-		CWhip::GetInstance()->SetPosition(x - 80, y);
-		CWhip::GetInstance()->nx = nx;
 		isWalking = false;
 		isAttacking = true;
 		break;	

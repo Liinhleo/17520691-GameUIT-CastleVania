@@ -2,7 +2,6 @@
 #include "Simon.h"
 
 CWhip* CWhip::__instance = NULL;
-
 CWhip* CWhip::GetInstance()
 {
 	if (__instance == NULL) __instance = new CWhip();
@@ -11,6 +10,8 @@ CWhip* CWhip::GetInstance()
 
 void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	
+	
 	if (CSimon::GetInstance()->isAttacking && animations[ani]->getCurrentFrame() == 2 ) // 2: frame roi duoc danh ra 
 	{
 		for (UINT i = 1; i < coObjects->size(); i++)
@@ -22,10 +23,10 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
 			{
-
 				if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
 				{
-					coObjects->at(i)->SetState(CANDLE_STATE_DISABLE);
+					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
+					
 				}
 			}
 		}
@@ -58,7 +59,6 @@ void CWhip::Render()
 		RenderBoundingBox();
 	}
 }
-
 
 void CWhip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

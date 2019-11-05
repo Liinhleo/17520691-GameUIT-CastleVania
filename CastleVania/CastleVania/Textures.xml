@@ -163,17 +163,15 @@
     <!--DAGGER RIGHT -->
     <Animation aniId="156" name="DAGGER_RIGHT">
       <sprite id="10070" left="204" top="32" right="238" bottom="50"/>
+      <sprite id="10070" left="204" top="32" right="238" bottom="50"/>      
     </Animation>
 
     <!--DAGGER LEFT -->
     <Animation aniId="157" name="DAGGER_LEFT">
       <sprite id="10071" left="204" top="0" right="238" bottom="18"/>
+      <sprite id="10071" left="204" top="0" right="238" bottom="18"/>
     </Animation>
 
-    <!--DAGGER DISABLE -->
-    <Animation aniId="158" name="DAGGER_LEFT">
-      <sprite id="10072" left="-1" top="-1" right="-1" bottom="-1"/>
-    </Animation>
   </Texture>
 
   
@@ -185,7 +183,7 @@
       <sprite id="10152" left="32" top="0" right="64" bottom="64"/>
     </Animation>
 
-    <!--<Animation aniId="251" name="CANDLE_SMALL">
+    <Animation aniId="251" name="CANDLE_SMALL">
       <sprite id="10154" left="64" top="0" right="80" bottom="32"/>
       <sprite id="10155" left="80" top="0" right="96" bottom="32"/>
     </Animation>
@@ -194,13 +192,14 @@
       <sprite id="10156" left="96" top="0" right="128" bottom="64"/>
       <sprite id="10157" left="128" top="0" right="160" bottom="64"/>
       <sprite id="10153" left="160" top="0" right="192" bottom="64"/>
-      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
-    </Animation>-->
+    </Animation>
+    
+    
   </Texture>
 
 
-  <!-- ITEM -->
-  <!--<Texture  textureId ="7" gameObjectId ="1">
+  <!--ITEM -->
+  <Texture  textureId ="7" gameObjectId ="1">
     <Animation aniId="300" name="CANDLE_BIG">
       <sprite id="10151" left="0" top="0" right="32" bottom="64"/>
       <sprite id="10152" left="32" top="0" right="64" bottom="64"/>
@@ -229,7 +228,13 @@
       <sprite id="10153" left="160" top="0" right="192" bottom="64"/>
       <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
     </Animation>
-  </Texture>-->
+  </Texture>
+  
+  <!-- BRICK -->
+  <Texture  textureId ="1" gameObjectId ="3">
+    <Animation aniId="601" name="BRICK">
+      <sprite id="20001" left="408" top="225" right="424" bottom="241"/>
+    </Animation>
 
-
+  </Texture>
 </Textures>
