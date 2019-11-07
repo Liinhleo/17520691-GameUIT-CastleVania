@@ -28,11 +28,12 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += dx;
 
 
-		float left_a, top_a, right_a, bottom_a;// obj khac
-		float left, top, right, bottom; // dagger
 		//Xet va cham voi candle bang bbox 
 		for (UINT i = 1; i < coObjects->size(); i++)
 		{
+			float left_a, top_a, right_a, bottom_a;// obj khac
+			float left, top, right, bottom; // dagger
+
 			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a);			// bbox obj 
 			GetBoundingBox(left, top, right, bottom);									// bbox dagger 
 
@@ -42,15 +43,12 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
 					SetState(DAGGER_STATE_DISABLE);
-
 				}
+
 			}
 		}
 	}
-	//if (isFlying)
-	//{
 
-	//}
 	if (x > CGame::GetInstance()->GetCam_x() + SCREEN_WIDTH  && x < 512)
 	{
 		isFlying = false;

@@ -192,44 +192,43 @@
       <sprite id="10156" left="96" top="0" right="128" bottom="64"/>
       <sprite id="10157" left="128" top="0" right="160" bottom="64"/>
       <sprite id="10153" left="160" top="0" right="192" bottom="64"/>
-    </Animation>
-    
-    
+    </Animation>  
   </Texture>
 
 
   <!--ITEM -->
   <Texture  textureId ="7" gameObjectId ="1">
-    <Animation aniId="300" name="CANDLE_BIG">
-      <sprite id="10151" left="0" top="0" right="32" bottom="64"/>
-      <sprite id="10152" left="32" top="0" right="64" bottom="64"/>
-      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
-      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
-
+    <Animation aniId="300" name="BIG_HEART">
+      <sprite id="10201" left="16" top="0" right="40" bottom="20"/>
     </Animation>
 
-    <Animation aniId="301" name="CANDLE_SMALL">
-      <sprite id="10154" left="64" top="0" right="80" bottom="32"/>
-      <sprite id="10155" left="80" top="0" right="96" bottom="32"/>
-      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
-      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+    <Animation aniId="301" name="SMALL_HEART">
+      <sprite id="10202" left="0" top="0" right="16" bottom="16"/>
     </Animation>
 
-    <Animation aniId="302" name="FIRE">
-      <sprite id="10156" left="96" top="0" right="128" bottom="64"/>
-      <sprite id="10157" left="128" top="0" right="160" bottom="64"/>
-      <sprite id="10153" left="160" top="0" right="192" bottom="64"/>
-      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+    <Animation aniId="302" name="UPGRADE_WHIP">
+      <sprite id="10203" left="130" top="0" right="162" bottom="32"/>
     </Animation>
 
-    <Animation aniId="303" name="FIRE">
-      <sprite id="10156" left="96" top="0" right="128" bottom="64"/>
-      <sprite id="10157" left="128" top="0" right="160" bottom="64"/>
-      <sprite id="10153" left="160" top="0" right="192" bottom="64"/>
-      <sprite id="10153" left="-1" top="-1" right="-1" bottom="-1"/>
+    <Animation aniId="303" name="DAGGER">
+      <sprite id="10204" left="162" top="0" right="194" bottom="18"/>
     </Animation>
+
+    <Animation aniId="304" name="AXE">
+      <sprite id="10205" left="256" top="0" right="286" bottom="28"/>
+    </Animation>
+
+    <Animation aniId="305" name="STOP_WATCH">
+      <sprite id="10206" left="194" top="0" right="224" bottom="32"/>
+    </Animation>
+
+    <Animation aniId="306" name="HOLLY_WATER">
+      <sprite id="10207" left="30" top="32" right="62" bottom="64"/>
+    </Animation>
+
   </Texture>
-  
+
+
   <!-- BRICK -->
   <Texture  textureId ="1" gameObjectId ="3">
     <Animation aniId="601" name="BRICK">

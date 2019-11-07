@@ -24,12 +24,10 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
 				{
 					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
-					
 				}
 			}
 		}
 	}
-
 }
 
 void CWhip::Render()

@@ -272,14 +272,13 @@ void LoadResources()
 	for (int i = 0; i < 5; i++)
 	{ 
 		candle = new CCandle();
-		candle->AddAnimation(250);
-		candle->AddAnimation(251);
-		candle->AddAnimation(252);
-		candle->SetState(CANDLE_BIG_STATE_ABLE);
+		
+		candle->SetState(CANDLE_STATE_ABLE);
 		candle->SetPosition(150 + i*250 , 310);
 		objects.push_back(candle);
 	}
-	
+
+
 	/*===========BRICK========= */
 	for (int i = 0; i < 100; i++) //			map_width / brick_width = 96 -> lay 100 vien gach
 	{
