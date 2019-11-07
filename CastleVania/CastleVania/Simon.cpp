@@ -179,7 +179,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CWhip::GetInstance()->SetPosition(x - 80, y);
 	CWhip::GetInstance()->nx = nx;
 
-	CDagger::GetInstance()->SetPosition(x + 10, y);
+
 	CDagger::GetInstance()->nx = nx;
 }
 
@@ -317,6 +317,10 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_ATTACK:
+		if (CDagger::GetInstance()->isFlying)
+		{
+			CDagger::GetInstance()->SetPosition(x + 10, y);
+		}
 		isWalking = false;
 		isAttacking = true;
 		break;	

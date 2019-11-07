@@ -50,7 +50,6 @@
     <ClCompile Include="Dagger.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -95,7 +94,6 @@
     <ClInclude Include="Candle.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

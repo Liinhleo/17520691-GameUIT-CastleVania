@@ -8,7 +8,7 @@
 #include "Goomba.h"
 #include "Simon.h"
 
-#define DAGGER_SPEED			0.2f 
+#define DAGGER_SPEED			0.3f 
 
 #define DAGGER_STATE_HIT			0
 #define DAGGER_STATE_DISABLE		100
@@ -28,7 +28,7 @@ class CDagger : public CGameObject
 	
 public:
 	int ani;
-	bool isFlyaway = true;
+	bool isFlying = false;
 	CDagger() : CGameObject(){}
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
