@@ -11,6 +11,7 @@
 #define WHIP_SPEED			0.1f 
 
 #define WHIP_STATE_HIT			0
+#define WHIP_STATE_DISABLE		100
 
 #define WHIP_ANI_LEVEL1_HIT_RIGHT		0
 #define WHIP_ANI_LEVEL1_HIT_LEFT		1
@@ -39,7 +40,7 @@ class CWhip : public CGameObject
 	int level;
 public:
 	int ani; 
-
+	bool isWhip = false;
 
 	CWhip() : CGameObject()
 	{
@@ -51,7 +52,7 @@ public:
 
 	//bool CheckCollision(float left_a, float top_a, float right_a, float bottom_a, float left_b, float top_b, float right_b, float bottom_b);
 
-
+	void SetState(int state);
 	static CWhip* GetInstance();
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

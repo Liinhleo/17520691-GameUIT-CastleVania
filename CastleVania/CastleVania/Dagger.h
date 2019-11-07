@@ -29,6 +29,8 @@ class CDagger : public CGameObject
 public:
 	int ani;
 	bool isFlying = false;
+
+
 	CDagger() : CGameObject(){}
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);

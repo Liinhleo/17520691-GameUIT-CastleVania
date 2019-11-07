@@ -10,8 +10,6 @@ CWhip* CWhip::GetInstance()
 
 void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	
-	
 	if (CSimon::GetInstance()->isAttacking && animations[ani]->getCurrentFrame() == 2 ) // 2: frame roi duoc danh ra 
 	{
 		for (UINT i = 1; i < coObjects->size(); i++)
@@ -36,7 +34,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CWhip::Render()
 {
-	if (CSimon::GetInstance()->isAttacking)
+	if (CSimon::GetInstance()->isAttacking && isWhip)
 	{
 
 		if (level == WHIP_LEVEL_1)
@@ -101,5 +99,19 @@ void CWhip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 		}
 	}
 		
+}
+
+void CWhip::SetState(int state)
+{
+	switch (state)
+	{
+	case WHIP_STATE_HIT:
+		isWhip = true;
+		break;
+
+	case WHIP_STATE_DISABLE:
+		isWhip = false;
+		break;
+	}
 }
 

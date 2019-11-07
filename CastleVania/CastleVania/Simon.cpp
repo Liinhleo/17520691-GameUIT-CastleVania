@@ -179,8 +179,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CWhip::GetInstance()->SetPosition(x - 80, y);
 	CWhip::GetInstance()->nx = nx;
 
-
-	CDagger::GetInstance()->nx = nx;
 }
 
 void CSimon::Render()
@@ -194,7 +192,6 @@ void CSimon::Render()
 	else if (isAttacking)
 	{
 
-
 		if (isSitting) {
 			if (nx > 0) ani = SIMON_ANI_SIT_ATTACK_RIGHT;
 			else ani = SIMON_ANI_SIT_ATTACK_LEFT;
@@ -203,6 +200,7 @@ void CSimon::Render()
 			if (nx > 0) ani = SIMON_ANI_ATTACK_RIGHT;
 			else ani = SIMON_ANI_ATTACK_LEFT;
 		}
+
 	}
 
 	else if (isSitting)
@@ -236,6 +234,8 @@ void CSimon::Render()
 		if (nx > 0) ani = SIMON_ANI_IDLE_RIGHT;
 		else ani = SIMON_ANI_IDLE_LEFT;
 	}
+
+	
 
 	int alpha = 255;
 	if (untouchable) alpha = 128; // blur -> lam mo 
@@ -320,7 +320,10 @@ void CSimon::SetState(int state)
 		if (CDagger::GetInstance()->isFlying)
 		{
 			CDagger::GetInstance()->SetPosition(x + 10, y);
+			CWhip::GetInstance()->SetState(WHIP_STATE_DISABLE);
 		}
+
+
 		isWalking = false;
 		isAttacking = true;
 		break;	
