@@ -8,8 +8,11 @@
 
 
 #define ITEM_GRAVITY				0.2f
-#define SMALL_HEART_GRAVITY				0.02f
+#define SMALL_HEART_GRAVITY			0.02f
 
+// xet bien do roi cua small heart
+#define MAX_SPEED					0.2f
+#define MIN_SPEED					-0.2f
 
 #define CANDLE_STATE_DISABLE			0
 #define CANDLE_STATE_ABLE				100
@@ -67,7 +70,8 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	
-	virtual void SetState(int state);
+	virtual void SetState(int state);	
+	int GetState() { return state; }
 
 	void SetAniCandle(int idCandle);
 	void SetAniItem(int idItem);

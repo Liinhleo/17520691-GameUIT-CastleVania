@@ -25,6 +25,7 @@ CCandle::CCandle()
 	AddAnimation(250); // big candle
 	AddAnimation(251); // small candle
 	AddAnimation(252); // fire
+
 	AddAnimation(300);
 	AddAnimation(301);
 	AddAnimation(302);
@@ -40,7 +41,36 @@ void CCandle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 
 	CGameObject::Update(dt);
-	vy += ITEM_GRAVITY;
+	//vy += ITEM_GRAVITY;
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	// turn off collision when die 
+	CalcPotentialCollisions(coObjects, coEvents);
+	
+
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		// block 
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
+
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
+	}
+
 
 	if (isFire)
 	{
@@ -57,6 +87,19 @@ void CCandle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isFallingItem)
 	{
 		timeStart += dt;
+
+		if (ani == ITEM_ANI_SMALL_HEART)
+		{
+
+			if (vy != 0 )
+			{
+				if (vx <= MIN_SPEED || vx >= MAX_SPEED)
+					nx = -nx;
+			}
+			vx += SMALL_HEART_GRAVITY * nx;
+
+		}
+
 		if (timeStart > MAX_TIME_STATE_ITEM)
 		{
 			isFallingItem = false;
@@ -64,6 +107,10 @@ void CCandle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			timeStart = 0;
 		}
 	}
+
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
 }
 
 void CCandle::Render()
@@ -75,7 +122,7 @@ void CCandle::Render()
 	if (isFire)
 		ani = ANI_FIRE;
 	else if (isFallingItem)
-		SetAniItem(1);
+		SetAniItem(idItem);
 	int alpha = 255;
 	animations[ani]->Render(x, y, alpha);
 	RenderBoundingBox();
@@ -106,6 +153,9 @@ void CCandle::SetState(int state)
 	}
 }
 
+
+
+
 void CCandle::SetAniCandle(int idCandle) // set ani cho candle cu the (xu ly man sau)
 {
 	
@@ -126,8 +176,7 @@ void CCandle::SetAniCandle(int idCandle) // set ani cho candle cu the (xu ly man
 
 void CCandle::SetAniItem(int idItem) // set ani cho tung item cu the
 {
-	if (isFallingItem)
-	{
+
 		this->idItem = idItem; 
 
 		switch (idItem)
@@ -142,7 +191,9 @@ void CCandle::SetAniItem(int idItem) // set ani cho tung item cu the
 		case 1:
 			ani = ITEM_ANI_SMALL_HEART;
 			vy = SMALL_HEART_GRAVITY;
-			x += vx * dt;
+
+			
+
 			break;
 
 		case 2:
@@ -171,6 +222,6 @@ void CCandle::SetAniItem(int idItem) // set ani cho tung item cu the
 			break;
 
 		}
-	}
+
 }
 

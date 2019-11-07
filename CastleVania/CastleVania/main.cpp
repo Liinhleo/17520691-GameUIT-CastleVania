@@ -272,9 +272,28 @@ void LoadResources()
 	for (int i = 0; i < 5; i++)
 	{ 
 		candle = new CCandle();
-		
 		candle->SetState(CANDLE_STATE_ABLE);
-		candle->SetPosition(150 + i*250 , 310);
+		candle->SetPosition(150 + i*250 , 305);
+
+		switch (i)
+		{
+		case 0:
+			candle->SetAniItem(0);
+			break;
+		case 1:
+			candle->SetAniItem(1);
+			break;
+
+		case 2:
+			candle->SetAniItem(2);
+			break;
+
+		case 3:
+			candle->SetAniItem(3);
+			break;
+
+		}
+			
 		objects.push_back(candle);
 	}
 

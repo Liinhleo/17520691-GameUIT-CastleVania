@@ -11,15 +11,20 @@ CDagger* CDagger::GetInstance()
 
 void CDagger::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x;
-	top = y;
-	right = left + DAGGER_BBOX_WIDTH;
-	bottom = top + DAGGER_BBOX_HEIGHT;
+	if (isFlying && !CWhip::GetInstance()->isWhip)
+	{
+		left = x;
+		top = y;
+		right = left + DAGGER_BBOX_WIDTH;
+		bottom = top + DAGGER_BBOX_HEIGHT;
+	}
 }
 
 
 void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	
+
 	CGameObject::Update(dt);
 
 	// Calculate dx, dy 
@@ -39,10 +44,12 @@ void CDagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
 			{
+				
 				if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
 				{
 					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
 					SetState(DAGGER_STATE_DISABLE);
+
 				}
 
 			}
@@ -67,8 +74,9 @@ void CDagger::Render()
 		else ani = DAGGER_ANI_HIT_LEFT;
 		int alpha = 255;
 		animations[ani]->Render(x, y, alpha);
-		
 	}
+	RenderBoundingBox();
+
 }
 
 void CDagger::SetState(int state)

@@ -17,18 +17,18 @@ void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom
 {
 	if (isSitting)
 	{
-		left = x;
+		left = x + 15;
 		top = y;
 
-		right = x;
+		right = left +SIMON_BBOX_WIDTH;
 		bottom = y + SIMON_BBOX_HEIGHT - 10;
 	}
 	else
 	{
-		left = x;
+		left = x + 15;
 		top = y;
 
-		right = x;
+		right = left + SIMON_BBOX_WIDTH;
 		bottom = y + SIMON_BBOX_HEIGHT ;
 
 	}
@@ -82,45 +82,24 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
+		if (nx != 0) vx = 0;	//va cham theo phuong x
+		if (ny != 0) vy = 0;	//va cham theo truc y
 
-		//// Collision logic with Goombas
-		//for (UINT i = 0; i < coEventsResult.size(); i++)
-		//{
-		//	LPCOLLISIONEVENT e = coEventsResult[i];
+		for (UINT i = 1; i < coObjects->size(); i++)
+		{
+			float left_a, top_a, right_a, bottom_a;// obj khac
+			float left, top, right, bottom; // simon
+			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox obj khac
+			GetBoundingBox(left, top, right, bottom);					// bbox whip 
 
-		//	if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
-		//	{
-		//		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-
-		//		// jump on top >> kill Goomba and deflect a bit 
-		//		if (e->ny < 0)
-		//		{
-		//			if (goomba->GetState() != GOOMBA_STATE_DIE)
-		//			{
-		//				goomba->SetState(GOOMBA_STATE_DIE);
-		//				vy = -MARIO_JUMP_DEFLECT_SPEED;
-		//			}
-		//		}
-		//		else if (e->nx != 0)
-		//		{
-		//			if (untouchable == 0)
-		//			{
-		//				if (goomba->GetState() != GOOMBA_STATE_DIE)
-		//				{
-		//					if (level > MARIO_LEVEL_SMALL)
-		//					{
-		//						level = MARIO_LEVEL_SMALL;
-		//						StartUntouchable();
-		//					}
-		//					else
-		//						SetState(MARIO_STATE_DIE);
-		//				}
-		//			}
-		//		}
-		/*	}
-		}*/
+			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
+			{
+				if (dynamic_cast<CCandle*>(coObjects->at(i)) && coObjects->at(i)->GetState()== CANDLE_STATE_FALLING_ITEM) // if e->obj is CANDLE 				
+				{
+					coObjects->at(i)->SetState(CANDLE_STATE_DISABLE);
+				}
+			}
+		}
 	}
 
 
@@ -241,7 +220,7 @@ void CSimon::Render()
 	if (untouchable) alpha = 128; // blur -> lam mo 
 	animations[ani]->Render(x, y, alpha);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CSimon::SetState(int state)
@@ -319,7 +298,7 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_ATTACK:
 		if (CDagger::GetInstance()->isFlying)
 		{
-			CDagger::GetInstance()->SetPosition(x + 10, y);
+			CDagger::GetInstance()->SetPosition(x + 50, y);
 			CWhip::GetInstance()->SetState(WHIP_STATE_DISABLE);
 		}
 
