@@ -44,6 +44,7 @@ public:
 	int nx;	 
 
 	int state;
+	int itemstate;
 
 	DWORD dt; 
 
@@ -58,6 +59,8 @@ public:
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
 	int GetState() { return this->state; }
+	int GetItemState() { return this->itemstate; }
+
 
 	void RenderBoundingBox();
 
@@ -78,7 +81,9 @@ public:
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
+	
 	virtual void SetState(int state) { this->state = state; }
+	virtual void SetItemState(int itemstate) { this->itemstate = itemstate; }
 
 	// ktra bbox co trung nhau khong
 	bool CheckAABB(float left_a, float top_a, float right_a, float bottom_a, float left_b, float top_b, float right_b, float bottom_b)

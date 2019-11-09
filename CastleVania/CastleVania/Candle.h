@@ -47,7 +47,6 @@
 
 class CCandle : public CGameObject
 {
-	int idItem;
 	int timeStart = 0;
 	int width;
 	int height;
@@ -74,5 +73,9 @@ public:
 	int GetState() { return state; }
 
 	void SetAniCandle(int idCandle);
-	void SetAniItem(int idItem);
+
+
+	void SetItemState(int itemstate);
+	int GetStateItem() { return itemstate; }
+
 };

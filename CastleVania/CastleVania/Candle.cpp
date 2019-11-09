@@ -17,6 +17,8 @@ void CCandle::GetBoundingBox(float& left, float& top, float& right, float& botto
 		right = x + CANDLE_SMALL_BBOX_WIDTH;
 		bottom = y + CANDLE_SMALL_BBOX_HEIGHT;
 	}
+
+
 }
 
 CCandle::CCandle()
@@ -122,7 +124,7 @@ void CCandle::Render()
 	if (isFire)
 		ani = ANI_FIRE;
 	else if (isFallingItem)
-		SetAniItem(idItem);
+		SetItemState(itemstate);
 	int alpha = 255;
 	animations[ani]->Render(x, y, alpha);
 	RenderBoundingBox();
@@ -144,7 +146,7 @@ void CCandle::SetState(int state)
 
 	case CANDLE_STATE_FALLING_ITEM:
 		isFallingItem = true;
-		SetAniItem(idItem);
+		SetItemState(itemstate);
 		break;
 
 	case CANDLE_STATE_DISABLE:
@@ -152,8 +154,6 @@ void CCandle::SetState(int state)
 		break;
 	}
 }
-
-
 
 
 void CCandle::SetAniCandle(int idCandle) // set ani cho candle cu the (xu ly man sau)
@@ -174,54 +174,63 @@ void CCandle::SetAniCandle(int idCandle) // set ani cho candle cu the (xu ly man
 	}
 }
 
-void CCandle::SetAniItem(int idItem) // set ani cho tung item cu the
+void CCandle::SetItemState(int itemstate)
 {
+	CGameObject::SetItemState(itemstate);
+	itemstate = this->itemstate;
+	switch (itemstate)
+	{
+	case 0:
+		ani = ITEM_ANI_BIG_HEART;
+		width = BIG_HEART_BBOX;
+		height = BIG_HEART_BBOX;
+		vy = ITEM_GRAVITY;
+		break;
 
-		this->idItem = idItem; 
+	case 1:
+		ani = ITEM_ANI_SMALL_HEART;
+		width = SMALL_HEART_BBOX;
+		height = SMALL_HEART_BBOX;
+		vy = SMALL_HEART_GRAVITY;
+		break;
 
-		switch (idItem)
-		{
-		case 0:
-			ani = ITEM_ANI_BIG_HEART;
-			//width = BIG_HEART_BBOX;
-			//height = BIG_HEART_BBOX;
-			vy = ITEM_GRAVITY;
-			break;
+	case 2:
+		ani = ITEM_ANI_UPGRADE_WHIP;
+		width = WEAPON_BBOX;
+		height = WEAPON_BBOX;
+		vy = ITEM_GRAVITY;
+		break;
 
-		case 1:
-			ani = ITEM_ANI_SMALL_HEART;
-			vy = SMALL_HEART_GRAVITY;
+	case 3:
+		ani = ITEM_ANI_DAGGER;
+		width = WEAPON_BBOX;
+		height = WEAPON_BBOX;
+		vy = ITEM_GRAVITY;
+		break;
 
-			
+	case 4:
+		ani = ITEM_ANI_AXE;
+		width = WEAPON_BBOX;
+		height = WEAPON_BBOX;
+		vy = ITEM_GRAVITY;
+		break;
 
-			break;
+	case 5:
+		ani = ITEM_ANI_STOP_WATCH;
+		width = WEAPON_BBOX;
+		height = WEAPON_BBOX;
+		vy = ITEM_GRAVITY;
+		break;
 
-		case 2:
-			ani = ITEM_ANI_UPGRADE_WHIP;
-			vy = ITEM_GRAVITY;
-			break;
+	case 6:
+		ani = ITEM_ANI_HOLLY_WATER;
+		width = WEAPON_BBOX;
+		height = WEAPON_BBOX;
+		vy = ITEM_GRAVITY;
+		break;
 
-		case 3:
-			ani = ITEM_ANI_DAGGER;
-			vy = ITEM_GRAVITY;
-			break;
-
-		case 4:
-			ani = ITEM_ANI_AXE;
-			vy = ITEM_GRAVITY;
-			break;
-
-		case 5:
-			ani = ITEM_ANI_STOP_WATCH;
-			vy = ITEM_GRAVITY;
-			break;
-
-		case 6:
-			ani = ITEM_ANI_HOLLY_WATER;
-			vy = ITEM_GRAVITY;
-			break;
-
-		}
-
+	
+	}
 }
+
 

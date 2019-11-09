@@ -278,18 +278,18 @@ void LoadResources()
 		switch (i)
 		{
 		case 0:
-			candle->SetAniItem(0);
+			candle->SetItemState(0);
 			break;
 		case 1:
-			candle->SetAniItem(1);
+			candle->SetItemState(1);
 			break;
 
 		case 2:
-			candle->SetAniItem(2);
+			candle->SetItemState(2);
 			break;
 
 		case 3:
-			candle->SetAniItem(3);
+			candle->SetItemState(3);
 			break;
 
 		}
@@ -303,7 +303,7 @@ void LoadResources()
 	{
 		brick = new CBrick();
 		brick->AddAnimation(601);
-		brick->SetPosition( - BRICK_BBOX_WIDTH + i * 16.0f, 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
+		brick->SetPosition( 0 + i * 16.0f, 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
 		objects.push_back(brick);	
 	}
 

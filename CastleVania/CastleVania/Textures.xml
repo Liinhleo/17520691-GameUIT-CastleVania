@@ -92,26 +92,42 @@
       <sprite id="10022" left="300" top="216" right="360" bottom="264" frameTime="100"/>
     </Animation>
 
-     <!-- IDLE RIGHT -->
-    <Animation aniId="414" frameTime="100" name="IDLE_INVISIBLE_RIGHT">
-      <sprite id="10029" left="900" top="0" right="960" bottom="63" frameTime="100"/>
-    </Animation>
-
-    <!-- IDLE LEFT -->
-    <Animation aniId="415" frameTime="100" name="IDLE_INVISIBLE_LEFT">
-      <sprite id="10030" left="0" top="0" right="60" bottom="66" frameTime="100"/>
-    </Animation>
 
     <!-- HURT RIGHT -->
-    <Animation aniId="416" frameTime="100" name="HURT_RIGHT">
+    <Animation aniId="414" frameTime="100" name="HURT_RIGHT">
       <sprite id="10029" left="909" top="72" right="943" bottom="130" frameTime="100"/>
     </Animation>
 
     <!-- HURT LEFT -->
-    <Animation aniId="417" frameTime="100" name="HURT_LEFT">
+    <Animation aniId="415" frameTime="100" name="HURT_LEFT">
       <sprite id="10030" left="16" top="72" right="49" bottom="130" frameTime="100"/>
     </Animation>
+
+
+    <!-- CHANGE COLOR RIGHT -->
+    <Animation aniId="416" frameTime="100" name="CHANGE_COLOR_RIGHT">
+      <sprite id="10031" left="900" top="200" right="960" bottom="266" frameTime="100"/>
+      <sprite id="10032" left="840" top="200" right="900" bottom="266" frameTime="100"/>
+      <sprite id="10033" left="780" top="200" right="840" bottom="266" frameTime="100"/>
+      <sprite id="10034" left="720" top="200" right="780" bottom="266" frameTime="100"/>
+
+    </Animation>
+
+    <!-- CHANGE COLOR LEFT -->
+    <Animation aniId="417" frameTime="100" name="CHANGE_COLOR_LEFT">
+      <sprite id="10035" left="0" top="200" right="60" bottom="266" frameTime="100"/>
+      <sprite id="10036" left="60" top="200" right="120" bottom="266" frameTime="100"/>
+      <sprite id="10037" left="120" top="200" right="180" bottom="266" frameTime="100"/>
+      <sprite id="10038" left="180" top="200" right="240" bottom="266" frameTime="100"/>
+
+    </Animation>
+    
+    
+    
   </Texture>
+  
+  
+  
   
   <!-- Whip -->
   <Texture  textureId ="5" gameObjectId ="1">

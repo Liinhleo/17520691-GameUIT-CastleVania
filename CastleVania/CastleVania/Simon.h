@@ -5,7 +5,7 @@
 #include "Dagger.h"
 #include "Candle.h"
 
-#define SIMON_WALKING_SPEED			0.3f //0.1f 
+#define SIMON_WALKING_SPEED			0.1f //0.3f 
 
 #define SIMON_JUMP_SPEED_Y			0.5f
 #define SIMON_JUMP_DEFLECT_SPEED	0.2f
@@ -23,6 +23,7 @@
 #define SIMON_STATE_SIT_ATTACK		700
 #define SIMON_STATE_HURT			800
 #define SIMON_STATE_STAND_UP		900
+#define SIMON_STATE_CHANGE_COLOR	1000
 
 #define SIMON_ANI_IDLE_RIGHT			0
 #define SIMON_ANI_IDLE_LEFT				1
@@ -40,6 +41,9 @@
 #define SIMON_ANI_SIT_ATTACK_LEFT		13
 #define SIMON_ANI_HURT_RIGHT			14
 #define SIMON_ANI_HURT_LEFT				15
+#define SIMON_ANI_CHANGE_COLOR_RIGHT	16
+#define SIMON_ANI_CHANGE_COLOR_LEFT		17
+
 
 
 #define SIMON_BBOX_WIDTH  30
@@ -65,7 +69,7 @@ public:
 	bool isAttacking = false;
 	bool isJumping = false;
 	bool isSitting = false;
-	
+	bool isChangeColor = false;
 	//bool isHurting;
 
 	/*void AttackingState();

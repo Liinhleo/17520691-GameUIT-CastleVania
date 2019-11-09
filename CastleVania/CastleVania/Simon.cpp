@@ -38,6 +38,11 @@ void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	if (isChangeColor) // khi doi mau thi vx = 0
+	{
+		vx = 0;
+		isWalking = false;
+	}
 
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
@@ -58,8 +63,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	}
 
-	// reset untouchable timer if untouchable time has passed
-	if ( GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME) 
+ 	if ( GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME) 
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -96,7 +100,15 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			{
 				if (dynamic_cast<CCandle*>(coObjects->at(i)) && coObjects->at(i)->GetState()== CANDLE_STATE_FALLING_ITEM) // if e->obj is CANDLE 				
 				{
+					if (coObjects->at(i)->GetItemState() == 2)
+					{
+						SetState(SIMON_STATE_CHANGE_COLOR);
+						CWhip::GetInstance()->SetLevel(2);
+					}
+
 					coObjects->at(i)->SetState(CANDLE_STATE_DISABLE);
+		
+
 				}
 			}
 		}
@@ -148,9 +160,13 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isJumping = false;
 	}
 
-	// Han che Attacking lien tuc
+
+	// Han che Attacking/ doi mau lien tuc
 	if (animations[ani]->getCurrentFrame() >= MAX_FRAME_ATTACK)
+	{
 		isAttacking = false;
+		isChangeColor = false;
+	}
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -200,6 +216,11 @@ void CSimon::Render()
 			else ani = SIMON_ANI_JUMP_LEFT;
 		}
 	}
+	else if (isChangeColor)
+	{
+		if (nx > 0)	ani = SIMON_ANI_CHANGE_COLOR_RIGHT;
+		else ani = SIMON_ANI_CHANGE_COLOR_LEFT;
+	}
 
 	else if (isWalking)
 	{	
@@ -237,6 +258,11 @@ void CSimon::SetState(int state)
 		if (isJumping)
 			return;
 		isWalking = false;
+		vx = 0;
+		break;
+
+	case SIMON_STATE_CHANGE_COLOR:
+		isChangeColor = true;
 		vx = 0;
 		break;
 
