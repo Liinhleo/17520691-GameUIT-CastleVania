@@ -2,10 +2,10 @@
 #include "GameObject.h"
 #include "Sprites.h"
 #include "Whip.h"
-#include "Dagger.h"
 #include "Candle.h"
+#include "Weapon.h"
 
-#define SIMON_WALKING_SPEED			0.1f //0.3f 
+#define SIMON_WALKING_SPEED			0.3f //0.3f 
 
 #define SIMON_JUMP_SPEED_Y			0.5f
 #define SIMON_JUMP_DEFLECT_SPEED	0.2f
@@ -44,8 +44,6 @@
 #define SIMON_ANI_CHANGE_COLOR_RIGHT	16
 #define SIMON_ANI_CHANGE_COLOR_LEFT		17
 
-
-
 #define SIMON_BBOX_WIDTH  30
 #define SIMON_BBOX_HEIGHT 58
 
@@ -64,6 +62,9 @@ class CSimon : public CGameObject
 public:
 	int ani;
 
+	int curSupWeapon;
+
+	bool isUsingSupWeapon = false;
 
 	bool isWalking = false;
 	bool isAttacking = false;
@@ -77,8 +78,11 @@ public:
 	void JumpingState();
 	void SittingState();*/
 
-	CSimon() : CGameObject()
+
+
+	CSimon()
 	{
+
 		untouchable = 0;
 	}
 	
@@ -88,6 +92,9 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	
 	static CSimon* GetInstance();
-
+	bool IscollisionItem(CCandle *item = NULL);
+	//void SetSubWeapon(CCandle* item); // set vu khi phu cho Simon
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void AttackingState();
+
 };

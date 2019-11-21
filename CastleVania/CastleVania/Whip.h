@@ -5,7 +5,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
-#include "Goomba.h"
+#include "Weapon.h"
 #include "Candle.h"
 
 #define WHIP_SPEED			0.1f 
@@ -30,7 +30,8 @@
 
 #define WHIP_UNTOUCHABLE_TIME 5000
 
-#define MAX_FRAME_WHIP_ATTACK 3
+#define MAX_LEVEL				3
+#define MAX_FRAME_WHIP_ATTACK	3
 #define DISTANCE_XWHIP_HANDSIMON  135 // kc tu vi tri x cua whip toi khoang cach ban tay cua simon (ban tay tren whip trung tay simon - 5px)
 
 
@@ -46,11 +47,13 @@ public:
 	{
 		level = WHIP_LEVEL_1;
 	}
+
+	void SetLevel(int l) { level = l; }
+	void UpgradeWhip();
+
+
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	void Render();
-	void SetLevel(int l) { level = l; }
-
-	//bool CheckCollision(float left_a, float top_a, float right_a, float bottom_a, float left_b, float top_b, float right_b, float bottom_b);
 
 	void SetState(int state);
 	static CWhip* GetInstance();

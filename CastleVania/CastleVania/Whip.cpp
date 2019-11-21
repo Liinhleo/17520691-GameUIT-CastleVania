@@ -8,6 +8,13 @@ CWhip* CWhip::GetInstance()
 	return __instance;
 }
 
+void CWhip::UpgradeWhip()
+{
+	if (level == MAX_LEVEL)
+		return;
+	level = level + 1;
+}
+
 void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (CSimon::GetInstance()->isAttacking && animations[ani]->getCurrentFrame() == 2 ) // 2: frame roi duoc danh ra 
@@ -16,14 +23,16 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			float left_a, top_a, right_a, bottom_a;// obj khac
 			float left, top, right, bottom; // whip
+
 			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox obj khac
 			GetBoundingBox(left, top, right, bottom);					// bbox whip 
+
 
 			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
 			{
 				if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
 				{
-					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
+					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);					
 				}
 			}
 		}

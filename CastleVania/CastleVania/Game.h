@@ -41,11 +41,15 @@ class CGame
 	LPKEYEVENTHANDLER keyHandler;
 
 	// camera
+	/*float *cam_x ;
+	float *cam_y ;*/
+
 	float cam_x = 0.0f;
 	float cam_y = 0.0f;
 
 public:
 	void InitKeyboard(LPKEYEVENTHANDLER handler);
+	void InitCameraPos(float* camx, float* camy);
 	void Init(HWND hWnd);
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
 

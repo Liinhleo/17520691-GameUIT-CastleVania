@@ -32,11 +32,14 @@
 #include "Whip.h"
 #include "Brick.h"
 #include "Simon.h"
-#include "CTiles.h"
+//#include "CTiles.h"
 #include "tinyxml.h"
 #include <iostream>
 #include "Dagger.h"
 #include "Candle.h"
+#include "Weapon.h"
+#include "CTileMap.h"
+//#include "Camera.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
@@ -54,14 +57,13 @@
 #define ID_TEX_ITEM		6
 
 
-#define ID_MAP1 100000
-
-#define ID_TEX_MAP1 100000
+//#define ID_MAP 1000
+//#define ID_TEX_MAP1 100000
 
 CGame *game;
 CBrick* brick;
 CCandle* candle;
-
+Weapon* weapon;
 
 vector<LPGAMEOBJECT> objects;
 vector<LPDIRECT3DTEXTURE9> textures;
@@ -78,34 +80,27 @@ CSampleKeyHander * keyHandler;
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	CSimon* simon = CSimon::GetInstance();
+
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		CSimon::GetInstance()->SetState(SIMON_STATE_JUMP);
+		simon->SetState(SIMON_STATE_JUMP);
 		break;
 	case DIK_Q: // reset
-		CSimon::GetInstance()->SetState(SIMON_STATE_IDLE);
-		CSimon::GetInstance()->SetPosition(0.0f, 0.0f);
-		CSimon::GetInstance()->SetSpeed(0, 0);
+		simon->SetState(SIMON_STATE_IDLE);
+		simon->SetPosition(0.0f, 0.0f);
+		simon->SetSpeed(0, 0);
 		break;
 
-	case DIK_F:		//attack
-		CWhip::GetInstance()->SetState(WHIP_STATE_HIT);
+	case DIK_F:		//attack				
 		if (game->IsKeyDown(DIK_DOWN))	// ktra co nhan phim down hay k
-			CSimon::GetInstance()->SetState(SIMON_STATE_SIT_ATTACK);
-		CSimon::GetInstance()->SetState(SIMON_STATE_ATTACK); // else chi danh 
-		break;
-
-	
-	case DIK_A:		//attack
-		CDagger::GetInstance()->SetState(DAGGER_STATE_HIT);
-		if (game->IsKeyDown(DIK_DOWN))	// ktra co nhan phim down hay k
-			CSimon::GetInstance()->SetState(SIMON_STATE_SIT_ATTACK);
-		CSimon::GetInstance()->SetState(SIMON_STATE_ATTACK); // else chi danh 
+			simon->SetState(SIMON_STATE_SIT_ATTACK);
+		simon->SetState(SIMON_STATE_ATTACK); // else chi danh 
 		break;
 
 	case DIK_DOWN:		//sit
-		CSimon::GetInstance()->SetState(SIMON_STATE_SIT);
+		simon->SetState(SIMON_STATE_SIT);
 		break;
 	}
 }
@@ -181,8 +176,8 @@ void LoadResources()
 
 	/*===========READ FILE MAP========= */
 
-	string tileSet;
-	CMaps::GetInstance()->Add(L"textures\\scene1-map.txt", L"textures\\scene1.png", 1000, MAP_1_WITDH, MAP_1_HEIGHT);
+	//string tileSet;
+	CTileMaps::GetInstance()->LoadResource(1000);
 
 
 	/*===========READ TEXTURE FROM FILE TXT========= */
@@ -193,7 +188,6 @@ void LoadResources()
 		inp.close();
 	}
 
-	string line;
 	while (!inp.eof()) 
 	{
 		string link;
@@ -258,15 +252,11 @@ void LoadResources()
 				CSimon::GetInstance()->AddAnimation(aniId);
 			else if (gameObjectId == 1)
 				CWhip::GetInstance()->AddAnimation(aniId);
-			else if (gameObjectId == 2)
-				CDagger::GetInstance()->AddAnimation(aniId);
 		};
 	}	
 	CSimon::GetInstance()->SetPosition(0.0f, 0);
 	objects.push_back(CSimon::GetInstance());
 	objects.push_back(CWhip::GetInstance());
-	objects.push_back(CDagger::GetInstance());
-
 
 	/*===========CANDLE========= */
 	for (int i = 0; i < 5; i++)
@@ -289,6 +279,9 @@ void LoadResources()
 			break;
 
 		case 3:
+			candle->SetItemState(2);
+			break;
+		case 4:
 			candle->SetItemState(3);
 			break;
 
@@ -306,16 +299,6 @@ void LoadResources()
 		brick->SetPosition( 0 + i * 16.0f, 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
 		objects.push_back(brick);	
 	}
-
-	for (int i = 0; i < 10; i++) // wall invisible cuoi map de simon k di ra khoi map
-	{
-		brick = new CBrick();		
-		brick->AddAnimation(601);
-		brick->SetPosition(CMaps::GetInstance()->Get(MAP_1)->GetMapWidth() - 30.0f , 350.0f - i * BRICK_BBOX_WIDTH);
-		objects.push_back(brick);
-
-	}
-
 	
 }
 
@@ -341,7 +324,8 @@ void Update(DWORD dt)
 	
 
 	// Update camera to follow mario
-	int mapWidth = CMaps::GetInstance()->Get(MAP_1)->GetMapWidth(); // lay do dai map 
+	//int mapWidth = CTileMaps::GetInstance()->Get(MAP_1)->GetMapWidth(); // lay do dai map 
+	int mapWidth = 1536;
 	float cx, cy;
 	CSimon::GetInstance()->GetPosition(cx, cy);
 
@@ -373,7 +357,7 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		CMaps::GetInstance()->Get(MAP_1)->Draw(CGame::GetInstance()->getCamPos());
+		CTileMaps::GetInstance()->GetMap(1000)->DrawMap();
 
 		for (int i = 1; i < objects.size(); i++)
 		{
@@ -489,9 +473,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	LoadResources();
 
-	//SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
-	//AllocConsole();
-	//freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+	AllocConsole();
+	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
 	Run();
 
 	return 0;

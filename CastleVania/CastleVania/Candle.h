@@ -3,8 +3,6 @@
 #include "debug.h"
 #include "Sprites.h"
 #include "Game.h"
-#include "Whip.h"
-#include "Dagger.h"
 
 
 #define ITEM_GRAVITY				0.2f
@@ -53,6 +51,8 @@ class CCandle : public CGameObject
 public:
 	int ani;
 	
+
+
 	bool isShow = true;
 	bool isFire = false;
 	bool isFallingItem = false;
@@ -64,16 +64,15 @@ public:
 		this->width = width;
 		this->height = heigth;
 	}
-	void CCandle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
-	virtual void Render();
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void Render();
+	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	
-	virtual void SetState(int state);	
-	int GetState() { return state; }
-
 	void SetAniCandle(int idCandle);
 
+
+	void SetState(int state);
 
 	void SetItemState(int itemstate);
 	int GetStateItem() { return itemstate; }

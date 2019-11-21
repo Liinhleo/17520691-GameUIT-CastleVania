@@ -122,8 +122,6 @@
 
     </Animation>
     
-    
-    
   </Texture>
   
   
@@ -181,18 +179,48 @@
   </Texture>
 
 
-  <!-- DAGGER -->
+  <!-- WEAPON SUPPORT -->
   <Texture  textureId ="6" gameObjectId ="2">
     <!--DAGGER RIGHT -->
     <Animation aniId="156" name="DAGGER_RIGHT">
       <sprite id="10070" left="204" top="32" right="238" bottom="50"/>
-      <sprite id="10070" left="204" top="32" right="238" bottom="50"/>      
     </Animation>
 
     <!--DAGGER LEFT -->
     <Animation aniId="157" name="DAGGER_LEFT">
       <sprite id="10071" left="204" top="0" right="238" bottom="18"/>
-      <sprite id="10071" left="204" top="0" right="238" bottom="18"/>
+    </Animation>
+
+    <!--AXE RIGHT -->
+    <Animation aniId="158" name="AXE_RIGHT">
+      <sprite id="10072" left="84" top="0" right="114" bottom="28"/>
+      <sprite id="10073" left="114" top="0" right="144" bottom="28"/>
+      <sprite id="10074" left="144" top="0" right="174" bottom="28"/>
+      <sprite id="10075" left="174" top="0" right="204" bottom="28"/>
+    </Animation>
+    
+    <!--AXE LEFT -->
+    <Animation aniId="159" name="AXE_LEFT">
+      <sprite id="10075" left="174" top="0" right="204" bottom="28"/>
+      <sprite id="10074" left="144" top="0" right="174" bottom="28"/> 
+      <sprite id="10073" left="114" top="0" right="144" bottom="28"/>
+      <sprite id="10072" left="84" top="0" right="114" bottom="28"/>
+    </Animation>
+    
+    <!--HOLLY_WATER RIGHT -->
+    <Animation aniId="160" name="HOLLY_WATER_RIGHT">
+      <sprite id="10076" left="268" top="28" right="300" bottom="56"/>
+    </Animation>
+
+    <!--HOLLY_WATER LEFT -->
+    <Animation aniId="161" name="HOLLY_WATER_LEFT">
+      <sprite id="10077" left="268" top="0" right="300" bottom="28"/>
+    </Animation>
+
+    <!--HOLLY_WATER FIRE -->
+    <Animation aniId="162" name="HOLLY_WATER_FIRE">
+      <sprite id="10078" left="332" top="0" right="364" bottom="28"/>
+      <sprite id="10079" left="300" top="0" right="332" bottom="28"/>
     </Animation>
 
   </Texture>
@@ -257,6 +285,74 @@
     <Animation aniId="601" name="BRICK">
       <sprite id="20001" left="408" top="225" right="424" bottom="241"/>
     </Animation>
-
   </Texture>
+
+  <!-- ENEMY -->
+  <Texture  textureId ="4" gameObjectId ="3">
+
+    <Animation aniId="260" name="DOG_RIGHT">
+      <sprite id="10170" left="0" top="65" right="100" bottom="130"/>
+      <sprite id="10171" left="100" top="65" right="200" bottom="130"/>
+      <sprite id="10172" left="200" top="65" right="300" bottom="130"/>
+      <sprite id="10173" left="300" top="65" right="400" bottom="130"/>
+    </Animation>
+
+    <Animation aniId="261" name="DOG_LEFT">
+      <sprite id="10174" left="0" top="0" right="100" bottom="65"/>
+      <sprite id="10175" left="100" top="0" right="200" bottom="65"/>
+      <sprite id="10176" left="200" top="0" right="300" bottom="65"/>
+      <sprite id="10177" left="300" top="0" right="400" bottom="65"/>
+
+    </Animation>
+
+    <Animation aniId="262" name="FISHMAN_RIGHT">
+      <sprite id="10178" left="500" top="65" right="600" bottom="130"/>
+      <sprite id="10179" left="400" top="65" right="500" bottom="130"/>
+      <sprite id="10180" left="600" top="65" right="700" bottom="130"/>
+    </Animation>
+
+    <Animation aniId="263" name="FISHMAN_LEFT">
+      <sprite id="10181" left="500" top="0" right="600" bottom="65"/>
+      <sprite id="10182" left="400" top="0" right="500" bottom="65"/>
+      <sprite id="10183" left="600" top="0" right="700" bottom="65"/>
+    </Animation>
+
+    <Animation aniId="264" name="ZOMBIE_RIGHT">
+      <sprite id="10184" left="800" top="65" right="900" bottom="130"/>
+      <sprite id="10185" left="700" top="65" right="800" bottom="130"/>
+    </Animation>
+
+    <Animation aniId="265" name="ZOMBIE_LEFT">
+      <sprite id="10186" left="800" top="0" right="900" bottom="65"/>
+      <sprite id="10187" left="700" top="0" right="800" bottom="65"/>
+    </Animation>
+
+    <Animation aniId="266" name="BAT_HANG_OUT">
+      <sprite id="10188" left="300" top="130" right="400" bottom="195"/>
+    </Animation>
+
+    <Animation aniId="267" name="BAT_RIGHT">
+      <sprite id="10189" left="600" top="195" right="700" bottom="260"/>
+      <sprite id="10190" left="500" top="195" right="600" bottom="260"/>
+      <sprite id="10191" left="400" top="195" right="500" bottom="260"/>
+      <sprite id="10190" left="500" top="195" right="600" bottom="260"/>
+    </Animation>
+
+    <Animation aniId="268" name="BAT_LEFT">
+      <sprite id="10192" left="600" top="130" right="700" bottom="195"/>
+      <sprite id="10193" left="500" top="130" right="600" bottom="195"/>
+      <sprite id="10194" left="400" top="130" right="500" bottom="195"/>
+      <sprite id="10193" left="500" top="130" right="600" bottom="195"/>
+    </Animation>
+  </Texture>
+
+    <Animation aniId="268" name="BOSS_HANGOUT">
+      <sprite id="10195" left="0" top="130" right="100" bottom="195"/>
+      <sprite id="10196" left="300" top="130" right="400" bottom="195"/> 
+    </Animation>
+
+    <Animation aniId="9" name="BOSS_ATTACK">
+      <sprite id="10197" left="200" top="130" right="300" bottom="195"/>
+      <sprite id="10198" left="100" top="130" right="200" bottom="195"/>
+    </Animation>
 </Textures>

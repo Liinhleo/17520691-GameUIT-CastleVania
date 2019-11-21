@@ -2,6 +2,8 @@
 #include <iostream>
 #include <time.h>
 #include "Brick.h"
+#include "Whip.h"
+#include "Dagger.h"
 
 void CCandle::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -18,7 +20,46 @@ void CCandle::GetBoundingBox(float& left, float& top, float& right, float& botto
 		bottom = y + CANDLE_SMALL_BBOX_HEIGHT;
 	}
 
+	if (state == CANDLE_STATE_FALLING_ITEM)
+	{
+		switch (itemstate)
+		{
+		case 0:
+			right = x + SMALL_HEART_BBOX;
+			bottom = y + SMALL_HEART_BBOX;
+			break;
 
+		case 1:
+			right = x + BIG_HEART_BBOX;
+			bottom = y + BIG_HEART_BBOX;
+			break;
+
+		case 2:
+			right = x + WEAPON_BBOX;
+			bottom = y + WEAPON_BBOX;
+			break;
+
+		case 3:
+			right = x + WEAPON_BBOX;
+			bottom = y + WEAPON_BBOX;
+			break;
+
+		case 4:
+			right = x + WEAPON_BBOX;
+			bottom = y + WEAPON_BBOX;
+			break;
+
+		case 5:
+			right = x + WEAPON_BBOX;
+			bottom = y + WEAPON_BBOX;
+			break;
+
+		case 6:
+			right = x + WEAPON_BBOX;
+			bottom = y + WEAPON_BBOX;
+			break;
+		}
+	}
 }
 
 CCandle::CCandle()
@@ -155,7 +196,6 @@ void CCandle::SetState(int state)
 	}
 }
 
-
 void CCandle::SetAniCandle(int idCandle) // set ani cho candle cu the (xu ly man sau)
 {
 	
@@ -182,50 +222,36 @@ void CCandle::SetItemState(int itemstate)
 	{
 	case 0:
 		ani = ITEM_ANI_BIG_HEART;
-		width = BIG_HEART_BBOX;
-		height = BIG_HEART_BBOX;
 		vy = ITEM_GRAVITY;
 		break;
 
 	case 1:
 		ani = ITEM_ANI_SMALL_HEART;
-		width = SMALL_HEART_BBOX;
-		height = SMALL_HEART_BBOX;
 		vy = SMALL_HEART_GRAVITY;
 		break;
 
 	case 2:
 		ani = ITEM_ANI_UPGRADE_WHIP;
-		width = WEAPON_BBOX;
-		height = WEAPON_BBOX;
 		vy = ITEM_GRAVITY;
 		break;
 
 	case 3:
 		ani = ITEM_ANI_DAGGER;
-		width = WEAPON_BBOX;
-		height = WEAPON_BBOX;
 		vy = ITEM_GRAVITY;
 		break;
 
 	case 4:
 		ani = ITEM_ANI_AXE;
-		width = WEAPON_BBOX;
-		height = WEAPON_BBOX;
 		vy = ITEM_GRAVITY;
 		break;
 
 	case 5:
 		ani = ITEM_ANI_STOP_WATCH;
-		width = WEAPON_BBOX;
-		height = WEAPON_BBOX;
 		vy = ITEM_GRAVITY;
 		break;
 
 	case 6:
 		ani = ITEM_ANI_HOLLY_WATER;
-		width = WEAPON_BBOX;
-		height = WEAPON_BBOX;
 		vy = ITEM_GRAVITY;
 		break;
 

@@ -50,6 +50,9 @@
     <ClCompile Include="Dagger.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="CTileMap.cpp" />
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -94,6 +97,9 @@
     <ClInclude Include="Candle.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="CTileMap.h" />
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
