@@ -44,7 +44,7 @@
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 255)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0) // background black
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 480
 
@@ -174,10 +174,7 @@ void LoadResources()
 
 	LPANIMATION ani;
 
-	/*===========READ FILE MAP========= */
 
-	//string tileSet;
-	CTileMaps::GetInstance()->LoadResource(1000);
 
 
 	/*===========READ TEXTURE FROM FILE TXT========= */
@@ -196,9 +193,14 @@ void LoadResources()
 		textures->Add(id,D3DCOLOR_XRGB(r, g, b), ConvertToWideChar((char*)link.c_str()));
 	}
 
+	LPDIRECT3DTEXTURE9 tex;
+	/*===========READ FILE MAP========= */
+
+	//string tileSet;
+	CTileMaps::GetInstance()->LoadResource(1000);
 
 	/*===========ADD SPRITE + ADD ANIMATION ========= */
-	LPDIRECT3DTEXTURE9 tex;
+
 	TiXmlDocument doc("Textures.xml");
 
 	if (!doc.LoadFile())
@@ -300,6 +302,8 @@ void LoadResources()
 		objects.push_back(brick);	
 	}
 	
+
+
 }
 
 /*
@@ -324,8 +328,9 @@ void Update(DWORD dt)
 	
 
 	// Update camera to follow mario
-	//int mapWidth = CTileMaps::GetInstance()->Get(MAP_1)->GetMapWidth(); // lay do dai map 
-	int mapWidth = 1536;
+	int mapWidth = CTileMaps::GetInstance()->GetMap(1000)->GetMapWidth(); // lay do dai map 
+	std::cout << mapWidth <<endl;
+	//int mapWidth = 1536;
 	float cx, cy;
 	CSimon::GetInstance()->GetPosition(cx, cy);
 

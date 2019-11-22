@@ -1,1 +1,1 @@
-9 255 255 255 map\\tiles_map1.png
+9 255 255 255 map\\tiles1.png

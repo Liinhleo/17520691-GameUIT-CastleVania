@@ -14,35 +14,37 @@
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 480
 #define MAX_SCENE 3
+#define TILE_SIZE	64
 
 class CTileMap
 {
-
+	int mapWidth; //chieu dai map
 	int ID_MAP = 1000;		// id map (map1,2,3)
 	int num_col;
 	int num_row;
 	int num_tiles; //so luong tile trong tileSet (sprite trong ~texture)
 	
-	int cell_begin; //tile bat dau ve
-	int cell_end;
-	//vector<vector<LPSPRITE>> tileMap;
+	int col_begin; //tile bat dau ve
+	int col_end ;
+	vector<vector<int>> tileMap;
 
 
-	int** tileMap; //  ma tran tiles 
+	//int** tileMap; //  ma tran tiles 
 
 public:
 	int idTex; 
 	CTileMap(){}
-	CTileMap(int ID_MAP = 1000);
+	CTileMap(int ID_MAP=1000);
+
+	int GetMapWidth(); // lay chieu dai cua map -> de set cam
 
 	wchar_t* ConvertToWideChar(char* p); // chuyen LWSTR -> char
-
 	void LoadTileSet(); // load texture TILEs (hinh)
 	void GetTile(); // get tung tile 
-	//void GetFileMap(string path); // lay file map theo ID_MAP 
+	//void LoadResource(LPCWSTR path); // load duong link map
+
 	void LoadMap();	//Load cac id vao ma tran map 
 	void DrawMap();
-	//void UpdateMap(D3DXVECTOR3 camPosition); //ve map theo camera
 
 };
 typedef CTileMap* LPTILEMAP;

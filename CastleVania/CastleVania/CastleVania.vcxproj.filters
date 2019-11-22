@@ -41,9 +41,6 @@
     <ClCompile Include="tinyxmlparser.cpp">
       <Filter>LoadFile\XML</Filter>
     </ClCompile>
-    <ClCompile Include="CTiles.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Candle.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -52,7 +49,6 @@
     </ClCompile>
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="CTileMap.cpp" />
-    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -85,9 +81,6 @@
     <ClInclude Include="tinyxml.h">
       <Filter>LoadFile\XML</Filter>
     </ClInclude>
-    <ClInclude Include="CTiles.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="Whip.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -99,7 +92,6 @@
     </ClInclude>
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="CTileMap.h" />
-    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
