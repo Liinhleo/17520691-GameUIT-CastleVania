@@ -46,14 +46,14 @@ void CTileMap::GetTile() //lay ra tung tile -> gan id theo ID_MAP
 {
 	CTextures* textures = CTextures::GetInstance();
 	CSprites* sprites = CSprites::GetInstance();
-	LPDIRECT3DTEXTURE9 tex = textures->Get(idTex);	// lay id Texture (TileSet)
+	LPDIRECT3DTEXTURE9 tex = textures->Get(9);	// lay id Texture (TileSet)
 
 	int ID_Sprite, left_tile, top_tile, right_tile, bottom_tile;	
 
 	//LAY RA GIA TRI SPRITE CHO TUNG TILE TRONG TEXTURE
-	for (int i = 1; i <= num_tiles; i++) // lay tung sprite cua texture
+	for (int i = 0; i <= num_tiles; i++) // lay tung sprite cua texture
 	{
-		ID_Sprite = ID_MAP + i;		// gan ID sprite theo ID_MAP
+		ID_Sprite = ID_MAP + i + 1;		// gan ID sprite theo ID_MAP
 		left_tile = i * 32;
 		top_tile = 0;
 		right_tile = left_tile + 32;
@@ -86,6 +86,7 @@ void CTileMap::GetTile() //lay ra tung tile -> gan id theo ID_MAP
 void CTileMap::LoadMap() // DOC FILE MA TRAN CUA MAP THEO ID MAP
 {
 	CSprites* sprites = CSprites::GetInstance();
+
 	// doc ma tran cua map
 	ifstream inp(L"map\\map1.txt", ios::in);
 
@@ -96,10 +97,10 @@ void CTileMap::LoadMap() // DOC FILE MA TRAN CUA MAP THEO ID MAP
 		return;
 	}
 
-	string line; // doc dong dau tien cua file txt
-	getline(inp, line);
-	stringstream ss(line);
-	ss >> num_tiles >> num_col >> num_row; // doc gia tri hang 1 (sl tile trong texture, col, row)
+	//string line; // doc dong dau tien cua file txt
+	//getline(inp, line);
+	//stringstream ss(line);
+	inp >> num_tiles >> num_col >> num_row; // doc gia tri hang 1 (sl tile trong texture, col, row)
 
 	// Tao ma tran chua gia tri tile cho map 
 	//while (!inp.eof())
@@ -113,15 +114,18 @@ void CTileMap::LoadMap() // DOC FILE MA TRAN CUA MAP THEO ID MAP
 	//		int idTile = ID_MAP + num; // gan idTile theo IDMAP
 	//	}
 	//}
-	
+	int a;
 	tileMap = new int* [num_row];
-	for (int i = 1; i <= num_row; ++i)
+
+	for (int i = 0; i < num_row; ++i)
 	{
 		tileMap[i] = new int[num_col];
-		for (int j = 1; j <= num_col; ++j)
+		for (int j = 0; j < num_col; ++j)
 		{
+			/*inp >> a;
+			tileMap[i][j] = a;*/
 			inp >> tileMap[i][j];
-		}
+ 		}
 	}
 	inp.close();
 
@@ -130,14 +134,25 @@ void CTileMap::LoadMap() // DOC FILE MA TRAN CUA MAP THEO ID MAP
 void CTileMap::DrawMap()
 {
 	CSprites* spritetile = CSprites::GetInstance();
+	CTextures* textures = CTextures::GetInstance();
+	LPDIRECT3DTEXTURE9 tex = textures->Get(9);	// lay id Texture (TileSet)
 
+	float x = 0, y = 0;
 	for (int i = 0; i < num_row; i++)
 	{
-		for (int j = cell_begin; j <= cell_end; j++) // ve tu tile bd den cuoi tile set (update theo vi tri camera)
+		for (int j = cell_begin; j <= num_col; j++) // ve tu tile bd den cuoi tile set (update theo vi tri camera)
 		{
-			CSprites::GetInstance()->Get(ID_MAP + tileMap[i][j]);
+
+			
+			CSprites::GetInstance()->Get(ID_MAP + tileMap[i][j])->Draw(x,y, 255);
+			x = x + 32;
+
+			//CGame::GetInstance()->Draw(x, y, tex, left, top, right, bottom, alpha);
+
 			// chua xu ly neu di den cuoi map
 		}
+		y = y + 32;
+
 	}
 }
 
