@@ -40,7 +40,7 @@
 #include "CTileMap.h"
 #include "Scenes.h"
 #include "ScenePlayer.h"
-//#include "Zombie.h"
+#include "Zombie.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
@@ -68,7 +68,7 @@ CCandle* candle;
 //Scenes * scenes = Scenes::GetInstance();
 //ScenePlayer* scenePlayer = ScenePlayer::GetInstance();
 //Weapon* weapon;
-//CZombie* zombie;
+CZombie* zombie;
 
 vector<LPGAMEOBJECT> objects;
 vector<LPDIRECT3DTEXTURE9> textures;
@@ -302,7 +302,6 @@ void LoadResources()
 	for (int i = 0; i < 100; i++) //			map_width / brick_width = 96 -> lay 100 vien gach
 	{
 		brick = new CBrick();
-		brick->AddAnimation(601);
 		brick->SetPosition( 0 + i * 16.0f, 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
 		objects.push_back(brick);	
 	}
@@ -310,17 +309,16 @@ void LoadResources()
 	for (int i = 0; i < 100; i++) //			map_width / brick_width = 96 -> lay 100 vien gach
 	{
 		brick = new CBrick();
-		brick->AddAnimation(601);
 		brick->SetPosition(0 + i * 16.0f, 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
 		objects.push_back(brick);
 	}
 
 
-	//zombie = new CZombie();
+	zombie = new CZombie();
+	zombie->SetPosition(100, 305);
+	zombie->SetState(ZOMBIE_STATE_WALKING);
 
-	//zombie->SetState(CANDLE_STATE_ABLE);
-	//zombie->SetPosition(150, 305);
-	//objects.push_back(zombie);
+	objects.push_back(zombie);
 }
 
 
