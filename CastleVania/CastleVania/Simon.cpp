@@ -1,44 +1,31 @@
-#include <algorithm>
-#include "debug.h"
-#include <iostream>
 #include "Simon.h"
-#include "Game.h"
-#include "Goomba.h"
 
 CSimon* CSimon::__instance = NULL;
-
 CSimon* CSimon::GetInstance()
 {
 	if (__instance == NULL) __instance = new CSimon();
 	return __instance;
 }
-
 void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+	left = x + 15;
+	top = y;
 	if (isSitting)
 	{
-		left = x + 15;
-		top = y;
-
-		right = left +SIMON_BBOX_WIDTH;
+		right = left + SIMON_BBOX_WIDTH;
 		bottom = y + SIMON_BBOX_HEIGHT - 10;
 	}
 	else
 	{
-		left = x +15;
-		top = y;
-
 		right = left + SIMON_BBOX_WIDTH;
-		bottom = y + SIMON_BBOX_HEIGHT +5 ;
-
+		bottom = y + SIMON_BBOX_HEIGHT + 5;
 	}
-
 }
 
-void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
-	if (isChangeColor) // khi doi mau thi vx = 0
+	// khi doi mau thi vx = 0 (dung yen)
+	if (isChangeColor)
 	{
 		vx = 0;
 		isWalking = false;
@@ -48,7 +35,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	CGameObject::Update(dt);
 
 	// Simple fall down
-	vy += SIMON_GRAVITY*dt;
+	vy += SIMON_GRAVITY * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -58,12 +45,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// turn off collision when die 
 	if (state != SIMON_STATE_DIE)
 	{
-		
 		CalcPotentialCollisions(coObjects, coEvents);
-
 	}
 
- 	if ( GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME) 
+	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -89,52 +74,43 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (nx != 0) vx = 0;	//va cham theo phuong x
 		if (ny != 0) vy = 0;	//va cham theo truc y
 
+		// Xu ly va cham voi item -> Set CurSupWeapon
 		for (UINT i = 1; i < coObjects->size(); i++)
 		{
 			float left_a, top_a, right_a, bottom_a;// obj khac
-			float left, top, right, bottom; // simon
+			float left, top, right, bottom; // whip
+
 			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox obj khac
-			GetBoundingBox(left, top, right, bottom);					// bbox simon 
+			GetBoundingBox(left, top, right, bottom);					// bbox whip 
 
 			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
 			{
-				if (dynamic_cast<CCandle*>(coObjects->at(i))&& coObjects->at(i)->GetState() == CANDLE_STATE_FALLING_ITEM) // if e->obj is CANDLE 				
+				if (dynamic_cast<CCandle*>(coObjects->at(i)) && coObjects->at(i)->GetState() == CANDLE_STATE_FALLING_ITEM) // if e->obj is CANDLE 				
 				{
-					/*if ()
-					{*/
-						Weapon* weapon = new Weapon();
-						weapon->Update(dt, coObjects);
-
-						switch (coObjects->at(i)->GetItemState()) // gan itemstate = subweapon
-						{
-						case 2:
-							SetState(SIMON_STATE_CHANGE_COLOR);
-							CWhip::GetInstance()->UpgradeWhip();
-							break;
-						case 3:
-							weapon->SetState(WeaponType::DAGGER);
-							curSupWeapon = WeaponType::DAGGER;
-							break;
-						case 4:
-							SetState(WeaponType::AXE);
-							curSupWeapon = WeaponType::AXE;
-							break;
-						case 5:
-							SetState(WeaponType::STOP_WATCH);
-							curSupWeapon = WeaponType::STOP_WATCH;
-							break;
-						case 6:
-							SetState(WeaponType::HOLLY_WATER);
-							curSupWeapon = WeaponType::HOLLY_WATER;
-							break;
-						
-						}
-
+					switch (coObjects->at(i)->GetItemState()) // gan itemstate = subweapon
+					{
+						// default weaponType::NONE
+					case 2:
+						SetState(SIMON_STATE_CHANGE_COLOR);
+						CWhip::GetInstance()->UpgradeWhip();
+						break;
+					case 3:
+						curSupWeapon = WeaponType::DAGGER;
+						break;
+					case 4:
+						curSupWeapon = WeaponType::AXE;
+						break;
+					case 5:
+						curSupWeapon = WeaponType::STOP_WATCH;
+						break;
+					case 6:
+						curSupWeapon = WeaponType::HOLLY_WATER;
+						break;
 					}
-				coObjects->at(i)->GetState() == CANDLE_STATE_DISABLE;
+					coObjects->at(i)->SetState(CANDLE_STATE_DISABLE);
 
+				}
 			}
-		
 		}
 
 	}
@@ -177,14 +153,17 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (x <= 0)
 		x = 0;
 
-
 	/* HAM KTRA DE TRANH LAP LAI ANI LIEN TUC */
 	// han che nhay lien tuc
 	if (vy == 0) //va cham dat
-	{
 		isJumping = false;
-	}
 
+
+	CWhip::GetInstance()->SetPosition(x - 80, y);
+	CWhip::GetInstance()->nx = nx;
+
+	subWeapon->nx;
+	subWeapon->SetPosition(x, y);
 
 	// Han che Attacking/ doi mau lien tuc
 	if (animations[ani]->getCurrentFrame() >= MAX_FRAME_ATTACK)
@@ -196,19 +175,16 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
-	CWhip::GetInstance()->SetPosition(x - 80, y);
-	CWhip::GetInstance()->nx = nx;
-
 }
 
 void CSimon::Render()
 {
-	if (state == SIMON_STATE_DIE){
+	if (state == SIMON_STATE_DIE) {
 		if (nx > 0) ani = SIMON_ANI_DIE_RIGHT;
 		else ani = SIMON_ANI_DIE_LEFT;
 	}
 
-	else if (isAttacking){
+	else if (isAttacking) {
 		if (isSitting) {
 			if (nx > 0) ani = SIMON_ANI_SIT_ATTACK_RIGHT;
 			else ani = SIMON_ANI_SIT_ATTACK_LEFT;
@@ -218,7 +194,7 @@ void CSimon::Render()
 			else ani = SIMON_ANI_ATTACK_LEFT;
 		}
 	}
-	else if (isSitting){
+	else if (isSitting) {
 		if (nx > 0) ani = SIMON_ANI_SIT_RIGHT;
 		else ani = SIMON_ANI_SIT_LEFT;
 	}
@@ -233,16 +209,16 @@ void CSimon::Render()
 			else ani = SIMON_ANI_JUMP_LEFT;
 		}
 	}
-	else if (isChangeColor){
+	else if (isChangeColor) {
 		if (nx > 0)	ani = SIMON_ANI_CHANGE_COLOR_RIGHT;
 		else ani = SIMON_ANI_CHANGE_COLOR_LEFT;
 	}
-	else if (isWalking){	
+	else if (isWalking) {
 		if (nx > 0)	ani = SIMON_ANI_WALKING_RIGHT;
 		else ani = SIMON_ANI_WALKING_LEFT;
 	}
 
-	else{
+	else {
 		if (nx > 0) ani = SIMON_ANI_IDLE_RIGHT;
 		else ani = SIMON_ANI_IDLE_LEFT;
 	}
@@ -252,6 +228,13 @@ void CSimon::Render()
 	animations[ani]->Render(x, y, alpha);
 
 	RenderBoundingBox();
+
+	
+	if (isUsingSupWeapon && curSupWeapon != WeaponType::NONE)
+		subWeapon->Render();
+	else
+		CWhip::GetInstance()->Render();
+
 }
 
 void CSimon::SetState(int state)
@@ -277,42 +260,42 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_WALKING_RIGHT:
-		if (isJumping||isAttacking)
+		if (isJumping || isAttacking)
 			return;
 
-		else if (isSitting){
+		else if (isSitting) {
 			nx = 1;
 			return;
 		}
-		isWalking = true;		
+		isWalking = true;
 		vx = SIMON_WALKING_SPEED;
 		nx = 1;
 		break;
 
-	case SIMON_STATE_WALKING_LEFT: 
+	case SIMON_STATE_WALKING_LEFT:
 		if (isJumping || isAttacking)
 			return;
 
-		else if (isSitting)	{
+		else if (isSitting) {
 			nx = -1;
 			return;
 		}
 		isWalking = true;
 		vx = -SIMON_WALKING_SPEED;
 		nx = -1;
-		
+
 		break;
 
-	case SIMON_STATE_JUMP: 				
-		if (isJumping||isSitting)
-			return;		
+	case SIMON_STATE_JUMP:
+		if (isJumping || isSitting)
+			return;
 		isWalking = false;
 		vy = -SIMON_JUMP_SPEED_Y;
 		isJumping = true;
 		break;
 
-	case SIMON_STATE_SIT:	
-		if (isAttacking||isSitting) // dang ngoi thi khong thuc hien cau lenh duoi -> tranh tang bien y -> simon rot :) 
+	case SIMON_STATE_SIT:
+		if (isAttacking || isSitting) // dang ngoi thi khong thuc hien cau lenh duoi -> tranh tang bien y -> simon rot :) 
 			return;
 		isWalking = false;
 		vx = 0;
@@ -323,85 +306,38 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_STAND_UP: // de tranh TH simon rot xuong(do chan dinh vien gach)
 		if (isAttacking)
 			return;
-		y = y - 10;
+		y = y - 15;
 		isSitting = false;
 		vx = 0;
 		break;
 
 	case SIMON_STATE_ATTACK:
 		AttackingState();
-		break;	
+		break;
 	}
 }
 void CSimon::AttackingState()
 {
 	isWalking = false;
 	isAttacking = true;
-	if (CGame::GetInstance()->IsKeyDown(DIK_F) && CGame::GetInstance()->IsKeyDown(DIK_UP))
-	{
 
+	std::cout << "curSubWeapon: " << curSupWeapon << endl;
+
+	if (CGame::GetInstance()->IsKeyDown(DIK_UP) && curSupWeapon != WeaponType::NONE)
+	{
 		isUsingSupWeapon = true;
-		Weapon* supWeapon = new Weapon();
-		supWeapon->SetState(curSupWeapon);
-		supWeapon->SetPosition(x, y);
-		supWeapon->Render();
+		subWeapon->isFlying = true;
+		subWeapon->nx = nx;
+		subWeapon->SetPosition(x, y);
+		subWeapon->SetState(curSupWeapon);
 	}
 	else
 	{
 		isUsingSupWeapon = false;
 		CWhip::GetInstance()->SetState(WHIP_STATE_HIT);
 	}
-
 }
 
-//void CSimon::SetSubWeapon(CCandle* item) // set vu khi phu cho Simon
-//{
-//	if (item->GetItemState() == 2)
-//	{
-//		SetState(SIMON_STATE_CHANGE_COLOR);
-//		CWhip::GetInstance()->SetLevel(2);
-//	}
-//	else
-//	{
-//		switch (item->GetItemState()) // gan itemstate = subweapon
-//		{
-//
-//		case 3:
-//			SetState(WeaponType::DAGGER);
-//			break;
-//		case 4:
-//			SetState(WeaponType::AXE);
-//			break;
-//		case 5:
-//			SetState(WeaponType::STOP_WATCH);
-//			break;
-//		case 6:
-//			SetState(WeaponType::HOLLY_WATER);
-//			break;
-//		default:
-//			break;
-//		}
-//		Weapon* weapon = new Weapon();
-//		weapon->Update(dt);
-//
-//	}
-//}
-
-bool CSimon::IscollisionItem(CCandle* item) // ktra va cham
-{
-	float left_a, top_a, right_a, bottom_a;// obj khac
-	float left, top, right, bottom; // simon
-	item->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox obj khac
-	GetBoundingBox(left, top, right, bottom);					// bbox simon 
-	LPCOLLISIONEVENT e = SweptAABBEx(item); //kt sweptAABB
-	bool res = e->t > 0 && e->t <= 1.0f; // dk va cham
-
-	if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
-		return true;
-
-	delete e;
-	return res;
-}
 
 
 

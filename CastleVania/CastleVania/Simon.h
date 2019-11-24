@@ -1,11 +1,12 @@
 #pragma once
+#include <algorithm>
+#include "debug.h"
+#include <iostream>
 #include "GameObject.h"
-#include "Sprites.h"
-#include "Whip.h"
-#include "Candle.h"
 #include "Weapon.h"
+#include "Whip.h"
 
-#define SIMON_WALKING_SPEED			0.1f //0.3f 
+#define SIMON_WALKING_SPEED			0.3f 
 
 #define SIMON_JUMP_SPEED_Y			0.5f
 #define SIMON_JUMP_DEFLECT_SPEED	0.2f
@@ -60,40 +61,48 @@ class CSimon : public CGameObject
 	DWORD untouchable_start;
 
 public:
-	int ani;
+	Weapon* subWeapon;
+	WeaponType curSupWeapon = WeaponType::NONE;
 
-	int curSupWeapon;
+	CSimon()
+	{
+		SetPosition(0.0f, 0);
+
+		//Simon co vu khi -> weapon state none
+		subWeapon = new Weapon();
+		subWeapon->SetState(curSupWeapon);
+
+		CWhip::GetInstance()->SetState(WHIP_STATE_DISABLE);
+	}
+
 
 	bool isUsingSupWeapon = false;
+	int ani;
+	//CSimon();
 
 	bool isWalking = false;
 	bool isAttacking = false;
 	bool isJumping = false;
 	bool isSitting = false;
 	bool isChangeColor = false;
-	//bool isHurting;
 
 	/*void AttackingState();
 	void WalkingState();
 	void JumpingState();
-	void SittingState();*/
+	void SittingState();
+	bool isHurting;*/
 
-
-
-	CSimon()
-	{
-
-		untouchable = 0;
-	}
-	
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void SetState(int state);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	
+
 	static CSimon* GetInstance();
-	bool IscollisionItem(CCandle *item = NULL);
+
+
+	//bool IscollisionItem(CCandle *item = NULL);
 	//void SetSubWeapon(CCandle* item); // set vu khi phu cho Simon
+
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void AttackingState();
 

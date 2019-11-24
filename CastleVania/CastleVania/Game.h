@@ -40,10 +40,6 @@ class CGame
 
 	LPKEYEVENTHANDLER keyHandler;
 
-	// camera
-	/*float *cam_x ;
-	float *cam_y ;*/
-
 	float cam_x = 0.0f;
 	float cam_y = 0.0f;
 

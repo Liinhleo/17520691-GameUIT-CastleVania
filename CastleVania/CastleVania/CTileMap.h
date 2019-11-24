@@ -6,7 +6,6 @@
 #include <iostream>
 #include <vector>
 
-//#include "Camera.h"
 #include "debug.h"
 #include "Textures.h"
 #include "Sprites.h"
@@ -26,15 +25,13 @@ class CTileMap
 	
 	int col_begin; //tile bat dau ve
 	int col_end ;
-	vector<vector<int>> tileMap;
-
-
-	//int** tileMap; //  ma tran tiles 
+	vector<vector<int>> tileMap;	 //  ma tran tiles 
 
 public:
-	int idTex; 
-	CTileMap(){}
-	CTileMap(int ID_MAP=1000);
+	int idTex;
+
+	CTileMap() {}
+	CTileMap(int ID_MAP = 1000);
 
 	int GetMapWidth(); // lay chieu dai cua map -> de set cam
 
@@ -60,7 +57,7 @@ class CTileMaps
 public:
 	CTileMaps() {};
 	void LoadResource(int ID_MAP);
-	LPTILEMAP GetMap(int ID_MAP) { return tilemaps[ID_MAP]; }
+	LPTILEMAP GetMap(int ID_MAP) { return tilemaps[1000]; }
 	static CTileMaps* GetInstance();
 
 };

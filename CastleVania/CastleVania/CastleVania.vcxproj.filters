@@ -47,8 +47,17 @@
     <ClCompile Include="Dagger.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Weapon.cpp" />
-    <ClCompile Include="CTileMap.cpp" />
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileMap.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes.cpp" />
+    <ClCompile Include="Zombie.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScenePlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
@@ -90,8 +99,17 @@
     <ClInclude Include="Candle.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Weapon.h" />
-    <ClInclude Include="CTileMap.h" />
+    <ClInclude Include="Weapon.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileMap.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes.h" />
+    <ClInclude Include="Zombie.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ScenePlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

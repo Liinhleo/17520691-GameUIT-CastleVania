@@ -1,8 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include "debug.h"
-#include "Sprites.h"
-#include "Game.h"
 
 
 #define ITEM_GRAVITY				0.2f
@@ -38,7 +36,7 @@
 
 #define BIG_HEART_BBOX					23
 #define SMALL_HEART_BBOX				15
-#define WEAPON_BBOX						32
+#define ITEM_WEAPON_BBOX						32
 
 #define MAX_TIME_STATE_FIRE				500
 #define MAX_TIME_STATE_ITEM				2000
@@ -50,9 +48,6 @@ class CCandle : public CGameObject
 	int height;
 public:
 	int ani;
-	
-
-
 	bool isShow = true;
 	bool isFire = false;
 	bool isFallingItem = false;

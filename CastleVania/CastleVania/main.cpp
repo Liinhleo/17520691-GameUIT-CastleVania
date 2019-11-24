@@ -32,14 +32,15 @@
 #include "Whip.h"
 #include "Brick.h"
 #include "Simon.h"
-//#include "CTiles.h"
+
 #include "tinyxml.h"
 #include <iostream>
-#include "Dagger.h"
 #include "Candle.h"
 #include "Weapon.h"
 #include "CTileMap.h"
-//#include "Camera.h"
+#include "Scenes.h"
+#include "ScenePlayer.h"
+//#include "Zombie.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
@@ -60,10 +61,14 @@
 //#define ID_MAP 1000
 //#define ID_TEX_MAP1 100000
 
-CGame *game;
+
+CGame *game	= CGame::GetInstance();
 CBrick* brick;
 CCandle* candle;
-Weapon* weapon;
+//Scenes * scenes = Scenes::GetInstance();
+//ScenePlayer* scenePlayer = ScenePlayer::GetInstance();
+//Weapon* weapon;
+//CZombie* zombie;
 
 vector<LPGAMEOBJECT> objects;
 vector<LPDIRECT3DTEXTURE9> textures;
@@ -167,15 +172,14 @@ wchar_t* ConvertToWideChar(char* p) // covert string -> wchar_t*
 
 void LoadResources()
 {
+	/*scenes->Get(1)->LoadResources();*/
+
 	/*===========DECLARE========= */
 	CSprites* sprites = CSprites::GetInstance();
 	CAnimations* animations = CAnimations::GetInstance();
 	CTextures* textures = CTextures::GetInstance();	
 
 	LPANIMATION ani;
-
-
-
 
 	/*===========READ TEXTURE FROM FILE TXT========= */
 	ifstream inp(L"textures\\Resources.txt", ios::in);
@@ -260,6 +264,7 @@ void LoadResources()
 	objects.push_back(CSimon::GetInstance());
 	objects.push_back(CWhip::GetInstance());
 
+
 	/*===========CANDLE========= */
 	for (int i = 0; i < 5; i++)
 	{ 
@@ -302,9 +307,23 @@ void LoadResources()
 		objects.push_back(brick);	
 	}
 	
+	for (int i = 0; i < 100; i++) //			map_width / brick_width = 96 -> lay 100 vien gach
+	{
+		brick = new CBrick();
+		brick->AddAnimation(601);
+		brick->SetPosition(0 + i * 16.0f, 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
+		objects.push_back(brick);
+	}
 
 
+	//zombie = new CZombie();
+
+	//zombie->SetState(CANDLE_STATE_ABLE);
+	//zombie->SetPosition(150, 305);
+	//objects.push_back(zombie);
 }
+
+
 
 /*
 	Update world status for this frame
@@ -312,8 +331,10 @@ void LoadResources()
 */
 void Update(DWORD dt)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
+	/*scenes->Get(1)->Update(dt);*/
+
+	//// We know that Mario is the first object in the list hence we won't add him into the colliable object list
+	//// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
 	for (int i = 1; i < objects.size(); i++)
@@ -329,8 +350,6 @@ void Update(DWORD dt)
 
 	// Update camera to follow mario
 	int mapWidth = CTileMaps::GetInstance()->GetMap(1000)->GetMapWidth(); // lay do dai map 
-	std::cout << mapWidth <<endl;
-	//int mapWidth = 1536;
 	float cx, cy;
 	CSimon::GetInstance()->GetPosition(cx, cy);
 
@@ -363,6 +382,7 @@ void Render()
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		CTileMaps::GetInstance()->GetMap(1000)->DrawMap();
+		//scenes->Get(1)->Render();
 
 		for (int i = 1; i < objects.size(); i++)
 		{
@@ -469,7 +489,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	game = CGame::GetInstance();
+	//scenes->Add(1, scenePlayer);
 	game->Init(hWnd);
 
 	keyHandler = new CSampleKeyHander();

@@ -3,7 +3,24 @@
 #include <time.h>
 #include "Brick.h"
 #include "Whip.h"
-#include "Dagger.h"
+
+CCandle::CCandle()
+{
+	state = CANDLE_STATE_ABLE;
+
+	AddAnimation(250); // big candle
+	AddAnimation(251); // small candle
+	AddAnimation(252); // fire
+
+	AddAnimation(300);
+	AddAnimation(301);
+	AddAnimation(302);
+	AddAnimation(303);
+	AddAnimation(304);
+	AddAnimation(305);
+	AddAnimation(306);
+}
+
 
 void CCandle::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -35,52 +52,37 @@ void CCandle::GetBoundingBox(float& left, float& top, float& right, float& botto
 			break;
 
 		case 2:
-			right = x + WEAPON_BBOX;
-			bottom = y + WEAPON_BBOX;
+			right = x + ITEM_WEAPON_BBOX;
+			bottom = y + ITEM_WEAPON_BBOX;
 			break;
 
 		case 3:
-			right = x + WEAPON_BBOX;
-			bottom = y + WEAPON_BBOX;
+			right = x + ITEM_WEAPON_BBOX;
+			bottom = y + ITEM_WEAPON_BBOX;
 			break;
 
 		case 4:
-			right = x + WEAPON_BBOX;
-			bottom = y + WEAPON_BBOX;
+			right = x + ITEM_WEAPON_BBOX;
+			bottom = y + ITEM_WEAPON_BBOX;
 			break;
 
 		case 5:
-			right = x + WEAPON_BBOX;
-			bottom = y + WEAPON_BBOX;
+			right = x + ITEM_WEAPON_BBOX;
+			bottom = y + ITEM_WEAPON_BBOX;
 			break;
 
 		case 6:
-			right = x + WEAPON_BBOX;
-			bottom = y + WEAPON_BBOX;
+			right = x + ITEM_WEAPON_BBOX;
+			bottom = y + ITEM_WEAPON_BBOX;
 			break;
 		}
 	}
 }
 
-CCandle::CCandle()
-{
-	ani = CANDLE_STATE_ABLE;
-	AddAnimation(250); // big candle
-	AddAnimation(251); // small candle
-	AddAnimation(252); // fire
-
-	AddAnimation(300);
-	AddAnimation(301);
-	AddAnimation(302);
-	AddAnimation(303);
-	AddAnimation(304);
-	AddAnimation(305);
-	AddAnimation(306);
-}
 
 void CCandle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (!isAble)
+	if (isAble==false)
 		return;
 
 	CGameObject::Update(dt);
@@ -158,18 +160,21 @@ void CCandle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CCandle::Render()
 {
-	ani = ANI_BIG_CANDLE; // default CANDLE BIG 
-
 	if (!isAble)
 		return;
-	if (isFire)
-		ani = ANI_FIRE;
-	else if (isFallingItem)
-		SetItemState(itemstate);
-	int alpha = 255;
-	animations[ani]->Render(x, y, alpha);
-	RenderBoundingBox();
 
+	else
+	{
+		ani = ANI_BIG_CANDLE; // default CANDLE BIG 
+
+		if (isFire)
+			ani = ANI_FIRE;
+		else if (isFallingItem)
+			SetItemState(itemstate);
+		int alpha = 255;
+		animations[ani]->Render(x, y, alpha);
+		RenderBoundingBox();
+	}
 }
 
 void CCandle::SetState(int state)
