@@ -119,19 +119,15 @@ void CTileMap::LoadMap() // DOC FILE MA TRAN CUA MAP THEO ID MAP
 
 void CTileMap::RenderMap()
 {
-	CSprites* spritetile = CSprites::GetInstance();
-	CTextures* textures = CTextures::GetInstance();
-
 	col_begin = floor( CGame::GetInstance()->GetCam_x() / 64 ); // cot bd (lam tron xuong)
 	col_end = col_begin + SCREEN_WIDTH / 64 +1;					// cot ket thuc -> lay du 1 cot 
-
 
 	for (int i = 0; i < num_row; i++)
 	{
 		for (int j = col_begin; j < col_end; j++)
 		{
 			float x = TILE_SIZE * (j - col_begin) - (int)CGame::GetInstance()->GetCam_x() % 64 + CGame::GetInstance()->GetCam_x();
-			float y = TILE_SIZE * i + 80;
+			float y = TILE_SIZE * i + BEGIN_DRAW_Y;
 
 			CSprites::GetInstance()->Get(ID_MAP + tileMap[i][j]+1)->Draw(x, y, 255); // lay id sprite de draw theo ma tran map			
 		}
@@ -139,15 +135,12 @@ void CTileMap::RenderMap()
 	}
 }
 
-
-
 CTileMaps* CTileMaps::__instance = NULL;
 CTileMaps* CTileMaps::GetInstance()
 {
 	if (__instance == NULL) __instance = new CTileMaps();
 	return __instance;
 }
-
 
 void CTileMaps::LoadResource(int ID_MAP) // load map theo ID
 {

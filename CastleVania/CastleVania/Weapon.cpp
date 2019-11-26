@@ -1,7 +1,8 @@
 #include "Weapon.h"
 #include "Candle.h"
-#include "debug.h"
-#include <iostream>
+#include "Game.h"
+#include "Simon.h"
+
 
 Weapon::Weapon()
 {
@@ -19,42 +20,49 @@ Weapon::Weapon()
 
 void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt);
+		CGameObject::Update(dt);
+
+	// Calculate dx, dy 
+	if (isFlying)
+	{
+		x += dx;
+
 	
-		// Calculate dx, dy 
-		if (isFlying)
+
+		//Xet va cham voi candle bang bbox 
+		for (UINT i = 1; i < coObjects->size(); i++)
 		{
-			x += dx;
-	
-	
-			//Xet va cham voi candle bang bbox 
-			for (UINT i = 1; i < coObjects->size(); i++)
+			float left_a, top_a, right_a, bottom_a;// obj khac
+			float left, top, right, bottom; // dagger
+
+			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a);			// bbox obj 
+			GetBoundingBox(left, top, right, bottom);									// bbox dagger 
+
+			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
 			{
-				float left_a, top_a, right_a, bottom_a;// obj khac
-				float left, top, right, bottom; // dagger
-	
-				coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a);			// bbox obj 
-				GetBoundingBox(left, top, right, bottom);									// bbox dagger 
-	
-				if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
+				
+				if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
 				{
-					
-					if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
-					{
-						coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
-						SetState(WeaponType::NONE);
-	
-					}
-	
+					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
+					SetState(WeaponType::NONE);
+					CSimon::GetInstance()->isUsingSupWeapon = false;
+
 				}
+
 			}
 		}
-	/*
-		if (x > CGame::GetInstance()->GetCam_x() + SCREEN_WIDTH  && x < 512)
+
+		if (x > CGame::GetInstance()->GetCam_x() + SCREEN_WIDTH )
 		{
-			isFlying = false;
+			SetState(WeaponType::NONE);
+			CSimon::GetInstance()->isUsingSupWeapon = false;
 			return;
-		}*/
+		}
+	}
+
+
+
+
 }
 
 void Weapon::Render()
@@ -109,6 +117,10 @@ void Weapon::SetState(int state)
 	//this->nx = CSimon::GetInstance()->nx;
 	switch (state)
 	{
+	case WeaponType::NONE:
+		isFlying = false;
+		isThrowing = false;
+		break;
 	case WeaponType::DAGGER:
 		std::cout << "vo state dagger" << endl;
 		isFlying = true;

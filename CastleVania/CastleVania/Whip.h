@@ -1,9 +1,8 @@
 #pragma once
 #include <algorithm>
 
-#include "debug.h"
+#include "define.h"
 #include "Game.h"
-#include "GameObject.h"
 #include "Sprites.h"
 #include "Weapon.h"
 #include "Candle.h"

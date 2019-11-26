@@ -1,8 +1,6 @@
 #pragma once
 #include <algorithm>
-#include "debug.h"
-#include <iostream>
-#include "GameObject.h"
+#include "define.h"
 #include "Weapon.h"
 #include "Whip.h"
 

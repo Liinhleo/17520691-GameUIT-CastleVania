@@ -1,4 +1,17 @@
 #pragma once
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+
+
+#include "GameObject.h"
+
+#include "debug.h"
+
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0) // background black
 #define SCREEN_WIDTH 512
@@ -11,6 +24,9 @@
 #define MAP_2	2000
 #define MAP_3	3000
 
+
+#define BRICK_BBOX_WIDTH  16
+#define BRICK_BBOX_HEIGHT 16
 
 // TEXTURE ID
 /*

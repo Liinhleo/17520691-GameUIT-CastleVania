@@ -21,12 +21,8 @@
 #include <windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-#include <fstream>
-#include <string>
 
-#include "debug.h"
 #include "Game.h"
-#include "GameObject.h"
 #include "Textures.h"
 
 #include "Whip.h"
@@ -35,7 +31,6 @@
 #include "define.h"
 
 #include "tinyxml.h"
-#include <iostream>
 #include "Candle.h"
 #include "Weapon.h"
 #include "CTileMap.h"

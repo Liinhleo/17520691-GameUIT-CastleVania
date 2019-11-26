@@ -1,18 +1,12 @@
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <unordered_map>
 #include <Windows.h>
-#include <iostream>
-#include <vector>
-#include "debug.h"
+
+#include "define.h"
 #include "Textures.h"
 #include "Sprites.h"
-#include "define.h"
 
 #define MAX_SCENE 3
 #define TILE_SIZE	64
-
+#define BEGIN_DRAW_Y	80
 class CTileMap
 {
 	int mapWidth; //chieu dai map

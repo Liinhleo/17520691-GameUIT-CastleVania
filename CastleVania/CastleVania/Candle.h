@@ -1,6 +1,5 @@
 #pragma once
-#include "GameObject.h"
-#include "debug.h"
+#include "define.h"
 
 
 #define ITEM_GRAVITY				0.2f

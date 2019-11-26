@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "define.h"
 
 
 #define ZOMBIE_WALKING_SPEED 0.1f;

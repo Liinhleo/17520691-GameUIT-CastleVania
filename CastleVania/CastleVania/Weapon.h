@@ -1,7 +1,6 @@
 #pragma once
 #include <algorithm>
-
-#include "GameObject.h"
+#include "define.h"
 
 #define WEAPON_GRAVITY			0.002f
 #define DAGGER_SPEED			0.3f

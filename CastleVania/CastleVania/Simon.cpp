@@ -178,20 +178,28 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isHurting = false;
 
 
-	CWhip::GetInstance()->SetPosition(x - 80, y);
-	CWhip::GetInstance()->nx = nx;
+	if (isAttacking)
+	{
+		CWhip::GetInstance()->SetPosition(x - 80, y);
+		CWhip::GetInstance()->nx = nx;
+		CWhip::GetInstance()->Update(dt, coObjects);
 
-	subWeapon->nx;
+		subWeapon->nx; // lay huong cua Simon
+	}
+	if (isUsingSupWeapon)
+	{
+		subWeapon->Update(dt, coObjects);
+	}
+
 
 	// Han che Attacking/ doi mau lien tuc
 	if (animations[ani]->getCurrentFrame() >= MAX_FRAME_ATTACK)
 	{
 		isAttacking = false;
 		isChangeColor = false;
-	}
+	}	
 
-	if (isUsingSupWeapon)
-	
+
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -254,7 +262,7 @@ void CSimon::Render()
 
 	RenderBoundingBox();
 
-	if (isAttacking && isUsingSupWeapon && curSupWeapon != WeaponType::NONE)
+	if (isUsingSupWeapon && curSupWeapon != WeaponType::NONE)
 		subWeapon->Render();
 	else if (isAttacking && !isUsingSupWeapon)
 		CWhip::GetInstance()->Render();
