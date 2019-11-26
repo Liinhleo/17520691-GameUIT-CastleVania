@@ -23,7 +23,7 @@ public:
 	int idTex;
 
 	CTileMap() {}
-	CTileMap(int ID_MAP = 1000);
+	CTileMap(int ID_MAP = MAP_1);
 
 	int GetMapWidth(); // lay chieu dai cua map -> de set cam
 

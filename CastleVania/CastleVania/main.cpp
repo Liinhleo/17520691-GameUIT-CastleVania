@@ -35,7 +35,6 @@
 #include "Weapon.h"
 #include "CTileMap.h"
 #include "Scenes.h"
-#include "ScenePlayer.h"
 #include "Zombie.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
@@ -46,8 +45,8 @@ CGame *game	= CGame::GetInstance();
 CBrick* brick;
 CCandle* candle;
 //Scenes * scenes = Scenes::GetInstance();
-//ScenePlayer* scenePlayer = ScenePlayer::GetInstance();
-//Weapon* weapon;
+
+Weapon* weapon;
 CZombie* zombie;
 
 vector<LPGAMEOBJECT> objects;
@@ -152,7 +151,6 @@ wchar_t* ConvertToWideChar(char* p) // covert string -> wchar_t*
 
 void LoadResources()
 {
-	/*scenes->Get(1)->LoadResources();*/
 
 	/*===========DECLARE========= */
 	CSprites* sprites = CSprites::GetInstance();
@@ -180,7 +178,6 @@ void LoadResources()
 	LPDIRECT3DTEXTURE9 tex;
 	/*===========READ FILE MAP========= */
 
-	//string tileSet;
 	CTileMaps::GetInstance()->LoadResource(MAP_1);
 
 	/*===========ADD SPRITE + ADD ANIMATION ========= */
@@ -237,12 +234,17 @@ void LoadResources()
 		};
 	}
 
+
+
+	//scenes->GetScene(SCENE_1)->LoadResources();
+
+
 	CSimon::GetInstance()->SetPosition(0.0f, 0);
 	objects.push_back(CSimon::GetInstance());
 	objects.push_back(CWhip::GetInstance());
 
 
-	/*===========CANDLE========= */
+	///*===========CANDLE========= */
 	for (int i = 0; i < 5; i++)
 	{ 
 		candle = new CCandle();
@@ -275,7 +277,7 @@ void LoadResources()
 	}
 
 
-	/*===========BRICK========= */
+	///*===========BRICK========= */
 	for (int i = 0; i < 100; i++) //			map_width / brick_width = 96 -> lay 100 vien gach
 	{
 		brick = new CBrick();
@@ -300,10 +302,10 @@ void LoadResources()
 	}
 
 	/*===========ZOMBIE========= */
-	/*zombie = new CZombie();
+	zombie = new CZombie();
 	zombie->SetPosition(100, 305);
 	zombie->SetState(ZOMBIE_STATE_WALKING);
-	objects.push_back(zombie);*/
+	objects.push_back(zombie);
 }
 
 
@@ -314,7 +316,7 @@ void LoadResources()
 */
 void Update(DWORD dt)
 {
-	/*scenes->Get(1)->Update(dt);*/
+	/*scenes->GetScene(SCENE_1)->Update(dt);*/
 
 	//// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	//// TO-DO: This is a "dirty" way, need a more organized way 
@@ -332,7 +334,7 @@ void Update(DWORD dt)
 	
 
 	// Update camera to follow mario
-	int mapWidth = CTileMaps::GetInstance()->GetMap(1000)->GetMapWidth(); // lay do dai map 
+	int mapWidth = CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth(); // lay do dai map 
 	float cx, cy;
 	CSimon::GetInstance()->GetPosition(cx, cy);
 
@@ -361,11 +363,10 @@ void Render()
 	{
 		// Clear back buffer with a color
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
-
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		CTileMaps::GetInstance()->GetMap(MAP_1)->RenderMap();
-		//scenes->Get(1)->Render();
+		/*scenes->GetScene(SCENE_1)->Render();*/
 
 		for (int i = 1; i < objects.size(); i++)
 		{
@@ -472,7 +473,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	//scenes->Add(1, scenePlayer);
+	//scenes->AddScene(SCENE_1);
 	game->Init(hWnd);
 
 	keyHandler = new CSampleKeyHander();

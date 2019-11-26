@@ -98,15 +98,11 @@
     <!-- HURT RIGHT -->
     <Animation aniId="414" frameTime="100" name="HURT_RIGHT">
       <sprite id="10029" left="909" top="72" right="943" bottom="130" frameTime="200"/>
-      <sprite id="10021" left="600" top="216" right="660" bottom="264" frameTime="200"/>
-
     </Animation>
 
     <!-- HURT LEFT -->
     <Animation aniId="415" frameTime="100" name="HURT_LEFT">
       <sprite id="10030" left="16" top="72" right="49" bottom="130" frameTime="200"/>
-      <sprite id="10022" left="300" top="216" right="360" bottom="264" frameTime="200"/>
-
     </Animation>
 
 

@@ -59,6 +59,8 @@ class CSimon : public CGameObject
 	int untouchable;
 	DWORD untouchable_start;
 
+	DWORD timeWait;
+
 public:
 	Weapon* subWeapon;
 	//WeaponType curSupWeapon = WeaponType::NONE;

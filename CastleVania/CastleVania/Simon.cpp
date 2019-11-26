@@ -199,6 +199,17 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isChangeColor = false;
 	}	
 
+	if (isHurting)
+	{
+		if (timeWait < SIMON_UNTOUCHABLE_TIME)
+			timeWait += dt;
+		else
+		{
+			timeWait = 0;
+			isHurting = false;
+			SetState(SIMON_STATE_IDLE);
+		}
+	}
 
 
 	// clean up collision events
@@ -208,6 +219,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CSimon::Render()
 {
+	int alpha = 255;
+
 	if (state == SIMON_STATE_DIE) {
 		if (nx > 0) ani = SIMON_ANI_DIE_RIGHT;
 		else ani = SIMON_ANI_DIE_LEFT;
@@ -246,28 +259,28 @@ void CSimon::Render()
 		if (nx > 0)	ani = SIMON_ANI_WALKING_RIGHT;
 		else ani = SIMON_ANI_WALKING_LEFT;
 	}
-	else if (isHurting) {
-		if (nx > 0) ani = SIMON_ANI_HURT_RIGHT;
-		else ani = SIMON_ANI_HURT_RIGHT;
-	}
+	
 
 	else {
 		if (nx > 0) ani = SIMON_ANI_IDLE_RIGHT;
 		else ani = SIMON_ANI_IDLE_LEFT;
 	}
 
-	int alpha = 255;
-	if (untouchable) alpha = 128; // blur -> lam mo 
-	animations[ani]->Render(x, y, alpha);
+	if (isHurting) {
+		alpha = 128; //blur
+		if (nx > 0) ani = SIMON_ANI_HURT_RIGHT;
+		else ani = SIMON_ANI_HURT_LEFT;
+	}
 
+	//if (untouchable) alpha = 128; // blur -> lam mo 
+	animations[ani]->Render(x, y, alpha);
 	RenderBoundingBox();
 
+	//RENDER WEAPON WITH SIMON
 	if (isUsingSupWeapon && curSupWeapon != WeaponType::NONE)
 		subWeapon->Render();
 	else if (isAttacking && !isUsingSupWeapon)
 		CWhip::GetInstance()->Render();
-
-
 }
 
 void CSimon::SetState(int state)
@@ -350,12 +363,10 @@ void CSimon::SetState(int state)
 
 	case SIMON_STATE_HURT:
 		isHurting = true;
-		vx = -vx;
+		vx = 0.2f * -nx;
 		vy = -SIMON_HURT_SPEED_Y;
-		//y = y + 10;
-		//isSitting = true;
-		//isJumping = true;
-
+		isAttacking = false;
+		isWalking = false;
 	}
 }
 void CSimon::AttackingState()

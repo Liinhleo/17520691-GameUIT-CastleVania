@@ -9,7 +9,6 @@
 
 
 #include "GameObject.h"
-
 #include "debug.h"
 
 
@@ -24,6 +23,10 @@
 #define MAP_2	2000
 #define MAP_3	3000
 
+/*SCENE_ID*/
+#define SCENE_1	1
+#define SCENE_2	2
+#define SCENE_3	3
 
 #define BRICK_BBOX_WIDTH  16
 #define BRICK_BBOX_HEIGHT 16
