@@ -1,14 +1,10 @@
 #pragma once
-#include "define.h"
 #include "Enemy.h"
 
-
-
-
-class CZombie : public CEnemy
+class CFishMan : public CEnemy
 {
 public:
-	CZombie();
+	CFishMan();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

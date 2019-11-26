@@ -5,27 +5,6 @@
     <ClCompile Include="Brick.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="debug.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Goomba.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Simon.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprites.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Whip.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -51,33 +30,42 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Scenes.cpp" />
+    <ClCompile Include="debug.cpp">
+      <Filter>Framwork</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Framwork</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Framwork</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Framwork</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Framwork</Filter>
+    </ClCompile>
     <ClCompile Include="Zombie.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="CFishMan.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Dog.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Simon.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brick.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="debug.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Goomba.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Simon.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprites.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Textures.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="tinystr.h">
@@ -99,10 +87,42 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Scenes.h" />
-    <ClInclude Include="Zombie.h">
-      <Filter>Header</Filter>
+    <ClInclude Include="GameObject.h">
+      <Filter>Framwork</Filter>
     </ClInclude>
-    <ClInclude Include="define.h" />
+    <ClInclude Include="debug.h">
+      <Filter>Framwork</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Framwork</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Framwork</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Framwork</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CFishMan.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Dog.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Simon.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -116,6 +136,15 @@
     </Filter>
     <Filter Include="LoadFile\XML">
       <UniqueIdentifier>{d09bfba4-b9d8-4ab3-8c86-077a3184b0c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framwork">
+      <UniqueIdentifier>{60e55cf1-9b6c-42c3-9b89-de774c9a2e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{7618f8aa-a33d-42cd-ba27-d10a3d767ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{ecd4fe30-1ae6-4189-96f5-6784d3066973}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -347,12 +347,12 @@
     </Animation>
   </Texture>
 
-    <Animation aniId="268" name="BOSS_HANGOUT">
+    <Animation aniId="269" name="BOSS_HANGOUT">
       <sprite id="10195" left="0" top="130" right="100" bottom="195"/>
       <sprite id="10196" left="300" top="130" right="400" bottom="195"/> 
     </Animation>
 
-    <Animation aniId="269" name="BOSS_ATTACK">
+    <Animation aniId="270" name="BOSS_ATTACK">
       <sprite id="10197" left="200" top="130" right="300" bottom="195"/>
       <sprite id="10198" left="100" top="130" right="200" bottom="195"/>
     </Animation>

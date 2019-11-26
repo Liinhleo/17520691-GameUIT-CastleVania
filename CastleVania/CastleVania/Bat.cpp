@@ -1,13 +1,13 @@
-#include "Zombie.h"
+#include "Bat.h"
 
-
-CZombie::CZombie()
+CBat::CBat()
 {
-	enemyID = EnemyType::ZOMBIE;
+	enemyID = EnemyType::BAT;
+	//ani = BAT_ANI_HANGOUT;
 }
 
 
-void CZombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void CBat::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
@@ -15,7 +15,7 @@ void CZombie::GetBoundingBox(float& left, float& top, float& right, float& botto
 	bottom = y + ZOMBIE_BBOX_HEIGHT;
 }
 
-void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
@@ -33,18 +33,19 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// chua xet va cham
 }
 
-void CZombie::Render()
+void CBat::Render()
 {
+
 	if (state == ENEMY_STATE_WALKING)
 	{
-		if (nx > 0) ani = ZOMBIE_ANI_WALKING_RIGHT;
-		else ani = ZOMBIE_ANI_WALKING_LEFT;
+		if (nx > 0) ani = BAT_ANI_RIGHT;
+		else ani = BAT_ANI_LEFT;
 	}
 	animations[ani]->Render(x, y);
 	RenderBoundingBox();
 }
 
-void CZombie::SetState(int state)
+void CBat::SetState(int state)
 {
 	//CEnemy::SetState(state);
 	switch (state)

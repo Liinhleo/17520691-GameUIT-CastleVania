@@ -122,14 +122,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bat.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Candle.h" />
+    <ClInclude Include="CFishMan.h" />
     <ClInclude Include="CTileMap.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
+    <ClInclude Include="Dog.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Goomba.h" />
     <ClInclude Include="Scenes.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Sprites.h" />
@@ -141,13 +144,16 @@
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bat.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Candle.cpp" />
+    <ClCompile Include="CFishMan.cpp" />
     <ClCompile Include="CTileMap.cpp" />
     <ClCompile Include="debug.cpp" />
+    <ClCompile Include="Dog.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scenes.cpp" />
     <ClCompile Include="Simon.cpp" />

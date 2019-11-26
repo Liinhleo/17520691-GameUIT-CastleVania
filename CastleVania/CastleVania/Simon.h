@@ -9,7 +9,7 @@
 #define SIMON_JUMP_SPEED_Y			0.5f
 #define SIMON_JUMP_DEFLECT_SPEED	0.2f
 #define SIMON_DIE_DEFLECT_SPEED		0.5f
-#define SIMON_HURT_SPEED_Y			0.3f
+#define SIMON_HURT_SPEED_Y			0.2f
 
 #define SIMON_GRAVITY				0.002f
 

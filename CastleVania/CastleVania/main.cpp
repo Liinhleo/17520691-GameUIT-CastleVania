@@ -36,6 +36,9 @@
 #include "CTileMap.h"
 #include "Scenes.h"
 #include "Zombie.h"
+#include "CFishMan.h"
+#include "Dog.h"
+#include "Bat.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
@@ -45,9 +48,11 @@ CGame *game	= CGame::GetInstance();
 CBrick* brick;
 CCandle* candle;
 //Scenes * scenes = Scenes::GetInstance();
-
 Weapon* weapon;
 CZombie* zombie;
+CFishMan* fishman;
+CDog* dog;
+CBat* bat;
 
 vector<LPGAMEOBJECT> objects;
 vector<LPDIRECT3DTEXTURE9> textures;
@@ -301,11 +306,32 @@ void LoadResources()
 		objects.push_back(brick);
 	}
 
+
+	// OBJECT FOR SCENE 2
 	/*===========ZOMBIE========= */
 	zombie = new CZombie();
 	zombie->SetPosition(100, 305);
-	zombie->SetState(ZOMBIE_STATE_WALKING);
+	zombie->SetState(ENEMY_STATE_WALKING);
 	objects.push_back(zombie);
+
+
+	//fishman = new CFishMan();
+	//fishman->SetPosition(300, 305);
+	//fishman->SetState(ENEMY_STATE_WALKING);
+	//objects.push_back(fishman);
+
+	//dog = new CDog();
+	//dog->SetPosition(200, 305);
+	//dog->SetState(ENEMY_STATE_WALKING);
+	//objects.push_back(dog);
+
+
+	//bat = new CBat();
+	//bat->SetPosition(200, 305);
+	//bat->SetState(ENEMY_STATE_WALKING);
+	//objects.push_back(bat);
+
+
 }
 
 

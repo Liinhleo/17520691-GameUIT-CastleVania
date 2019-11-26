@@ -50,7 +50,7 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (dynamic_cast<CZombie*>(coObjects->at(i)))// if e->obj is zombie 
 				{
-					coObjects->at(i)->SetState(ZOMBIE_STATE_DIE);
+					coObjects->at(i)->SetState(ENEMY_STATE_DEAD);
 				}
 			}
 		}

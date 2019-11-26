@@ -1,13 +1,12 @@
-#include "Zombie.h"
+#include "Dog.h"
 
-
-CZombie::CZombie()
+CDog::CDog()
 {
-	enemyID = EnemyType::ZOMBIE;
+	enemyID = EnemyType::DOG;
 }
 
 
-void CZombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void CDog::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
@@ -15,7 +14,7 @@ void CZombie::GetBoundingBox(float& left, float& top, float& right, float& botto
 	bottom = y + ZOMBIE_BBOX_HEIGHT;
 }
 
-void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CDog::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
@@ -33,18 +32,18 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// chua xet va cham
 }
 
-void CZombie::Render()
+void CDog::Render()
 {
 	if (state == ENEMY_STATE_WALKING)
 	{
-		if (nx > 0) ani = ZOMBIE_ANI_WALKING_RIGHT;
-		else ani = ZOMBIE_ANI_WALKING_LEFT;
+		if (nx > 0) ani = DOG_ANI_RIGHT;
+		else ani = DOG_ANI_LEFT;
 	}
 	animations[ani]->Render(x, y);
 	RenderBoundingBox();
 }
 
-void CZombie::SetState(int state)
+void CDog::SetState(int state)
 {
 	//CEnemy::SetState(state);
 	switch (state)

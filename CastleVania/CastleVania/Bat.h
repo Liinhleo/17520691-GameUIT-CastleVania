@@ -2,19 +2,16 @@
 #include "define.h"
 #include "Enemy.h"
 
-
-
-
-class CZombie : public CEnemy
+class CBat : public CEnemy
 {
 public:
-	CZombie();
+	CBat();
+	int ani;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	int ani;
 	virtual void SetState(int state);
 };
 

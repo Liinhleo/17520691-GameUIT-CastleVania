@@ -2,13 +2,10 @@
 #include "define.h"
 #include "Enemy.h"
 
-
-
-
-class CZombie : public CEnemy
+class CDog : public CEnemy
 {
 public:
-	CZombie();
+	CDog();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -17,4 +14,7 @@ public:
 	int ani;
 	virtual void SetState(int state);
 };
+
+
+
 
