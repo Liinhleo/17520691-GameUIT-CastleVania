@@ -21,9 +21,8 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
-	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
-	// 
+
 	x += dx;
 	y += dy;
 
@@ -32,16 +31,8 @@ void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		nx = -nx;
 		vx = vx * nx;
 	}
-	
 
-	//
-	//if (vx < 0 && x < 0) {
-	//	x = 0; vx = -vx;
-	//}
-
-	//if (vx > 0 && x > 290) {
-	//	x = 290; vx = -vx;
-	//}
+	// chua xet va cham
 }
 
 void CZombie::Render()
@@ -52,7 +43,7 @@ void CZombie::Render()
 		else ani = ZOMBIE_ANI_WALKING_LEFT;
 	}
 	animations[ani]->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CZombie::SetState(int state)

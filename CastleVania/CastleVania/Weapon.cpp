@@ -1,13 +1,13 @@
 #include "Weapon.h"
 #include "Candle.h"
 #include "debug.h"
-//#include "Simon.h"
 #include <iostream>
-//vector<CCandle*> Item_weapons;
 
 Weapon::Weapon()
 {
-	state = WeaponType::NONE;
+	state = WeaponType::DAGGER;
+	//state = WeaponType::NONE;
+
 	AddAnimation(156); // dagger right
 	AddAnimation(157); // dagger left
 	AddAnimation(158); // axe right
@@ -19,32 +19,42 @@ Weapon::Weapon()
 
 void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	//curtime += dt;
-
-	//CGameObject::Update(dt);
-	//vector<LPCOLLISIONEVENT> coEvents;
-	//vector<LPCOLLISIONEVENT> coEventsResult;
-
-	//coEvents.clear();
-	//for (UINT i = 1; i < coObjects->size(); i++)
-	//{
-	//	float left_a, top_a, right_a, bottom_a;// obj khac
-	//	float left, top, right, bottom; // simon
-	//	coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox obj khac
-	//	GetBoundingBox(left, top, right, bottom);					// bbox simon 
-
-	//	if (CheckAABB(left, top, right, bottom, left_a, top_a, right_a, bottom_a))
-	//	{
-	//		if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
-	//		{
-	//			coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
-	//		}
-	//		
-	//	}
-	//}
-
-
-
+	CGameObject::Update(dt);
+	
+		// Calculate dx, dy 
+		if (isFlying)
+		{
+			x += dx;
+	
+	
+			//Xet va cham voi candle bang bbox 
+			for (UINT i = 1; i < coObjects->size(); i++)
+			{
+				float left_a, top_a, right_a, bottom_a;// obj khac
+				float left, top, right, bottom; // dagger
+	
+				coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a);			// bbox obj 
+				GetBoundingBox(left, top, right, bottom);									// bbox dagger 
+	
+				if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
+				{
+					
+					if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
+					{
+						coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
+						SetState(WeaponType::NONE);
+	
+					}
+	
+				}
+			}
+		}
+	/*
+		if (x > CGame::GetInstance()->GetCam_x() + SCREEN_WIDTH  && x < 512)
+		{
+			isFlying = false;
+			return;
+		}*/
 }
 
 void Weapon::Render()

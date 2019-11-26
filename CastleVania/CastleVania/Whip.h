@@ -45,7 +45,15 @@ public:
 
 	CWhip() : CGameObject()
 	{
+		AddAnimation(150); // LEVEL 1 RIGHT
+		AddAnimation(151); // LEVEL 1 LEFT
+		AddAnimation(152); // LEVEL 2 RIGHT
+		AddAnimation(153); // LEVEL 2 LEFT
+		AddAnimation(154); // LEVEL 3 RIGHT
+		AddAnimation(155); // LEVEL 3 LEFT
+		
 		level = WHIP_LEVEL_1;
+
 	}
 
 	void SetLevel(int l) { level = l; }

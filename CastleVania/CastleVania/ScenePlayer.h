@@ -1,9 +1,6 @@
 //#pragma once
 //#include "Scenes.h"
-//
-//#define ID_MAP_1 1000
-//#define ID_MAP_2 2000
-//#define ID_MAP_3 3000
+//#include "define.h"
 //
 //class ScenePlayer : public Scene
 //{

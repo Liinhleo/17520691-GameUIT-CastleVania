@@ -20,7 +20,6 @@
 //
 //class Scene
 //{
-//	LPD3DXSPRITE spriteHandler;
 //
 //public:
 //	

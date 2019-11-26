@@ -144,7 +144,7 @@
 //
 //void ScenePlayer::Render()
 //{
-//	CTileMaps::GetInstance()->GetMap(1000)->DrawMap();
+//	CTileMaps::GetInstance()->GetMap(1000)->RenderMap();
 //	for (int i = 1; i < objects.size(); i++)
 //		{
 //			if (objects[i]->isAble) //ktra trang thai obj -> neu ton tai thi render

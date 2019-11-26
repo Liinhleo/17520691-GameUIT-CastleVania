@@ -1,4 +1,5 @@
 #include "Simon.h"
+#include "Zombie.h"
 
 CSimon* CSimon::__instance = NULL;
 CSimon* CSimon::GetInstance()
@@ -21,6 +22,37 @@ void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		bottom = y + SIMON_BBOX_HEIGHT + 5;
 	}
 }
+
+CSimon::CSimon()
+{
+	AddAnimation(400); // IDLE RIGHT
+	AddAnimation(401); // IDLE LEFT
+	AddAnimation(402); // WALK RIGHT
+	AddAnimation(403); // WALK LEFT
+	AddAnimation(404); // DIE RIGHT
+	AddAnimation(405); // DIE LEFT
+	AddAnimation(406); // JUMP RIGHT
+	AddAnimation(407); // JUMP LEFT 
+	AddAnimation(408); // ATTACK RIGHT
+	AddAnimation(409); // ATTACK LEFT 
+	AddAnimation(410); // SIT RIGHT
+	AddAnimation(411); // SIT LEFT
+	AddAnimation(412); // SIT_ATTACK RIGHT
+	AddAnimation(413); // SIT_ATTACK LEFT
+	AddAnimation(414); // HURT RIGHT
+	AddAnimation(415); // HURT LEFT
+	AddAnimation(416); // CHANGE COLOR RIGHT
+	AddAnimation(417); // CHANGE COLOR LEFT
+
+	SetPosition(0.0f, 0);
+
+	//Simon co vu khi -> weapon state none
+	subWeapon = new Weapon();
+	subWeapon->SetState(curSupWeapon);
+
+	CWhip::GetInstance()->SetState(WHIP_STATE_DISABLE);
+}
+
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -110,43 +142,27 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					coObjects->at(i)->SetState(CANDLE_STATE_DISABLE);
 
 				}
+
+
+
+				if (dynamic_cast<CZombie*>(coObjects->at(i)))// if e->obj is zombie 
+				{
+					SetState(SIMON_STATE_HURT);
+					//coObjects->at(i)->SetState(ZOMBIE_STATE_DIE);
+				}
+
+
 			}
+			
 		}
 
 	}
 
 
-	//	// Collision logic with Goombas
-	//	for (UINT i = 0; i < coEventsResult.size(); i++)
-	//	{
-	//		LPCOLLISIONEVENT e = coEventsResult[i];
 
-	//		if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
-	//		{
-	//			CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
 
-	//			// jump on top >> kill Goomba and deflect a bit 
-	//			if (e->ny < 0)
-	//			{
-	//				if (goomba->GetState()!= GOOMBA_STATE_DIE)
-	//				{
-	//					goomba->SetState(GOOMBA_STATE_DIE);
-	//					vy = -SIMON_JUMP_DEFLECT_SPEED;
-	//				}
-	//			}
-	//			else if (e->nx != 0)
-	//			{
-	//				if (untouchable==0)
-	//				{
-	//					if (goomba->GetState()!=GOOMBA_STATE_DIE)
-	//					{
-	//						SetState(SIMON_STATE_DIE);
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
+		
+	
 
 
 	// ngan Simon rot ra man hinh
@@ -156,14 +172,16 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	/* HAM KTRA DE TRANH LAP LAI ANI LIEN TUC */
 	// han che nhay lien tuc
 	if (vy == 0) //va cham dat
-		isJumping = false;
+		isJumping = false;	
+	
+	if (vy == 0) //va cham dat
+		isHurting = false;
 
 
 	CWhip::GetInstance()->SetPosition(x - 80, y);
 	CWhip::GetInstance()->nx = nx;
 
 	subWeapon->nx;
-	subWeapon->SetPosition(x, y);
 
 	// Han che Attacking/ doi mau lien tuc
 	if (animations[ani]->getCurrentFrame() >= MAX_FRAME_ATTACK)
@@ -171,6 +189,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isAttacking = false;
 		isChangeColor = false;
 	}
+
+	if (isUsingSupWeapon)
+	
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -217,6 +238,10 @@ void CSimon::Render()
 		if (nx > 0)	ani = SIMON_ANI_WALKING_RIGHT;
 		else ani = SIMON_ANI_WALKING_LEFT;
 	}
+	else if (isHurting) {
+		if (nx > 0) ani = SIMON_ANI_HURT_RIGHT;
+		else ani = SIMON_ANI_HURT_RIGHT;
+	}
 
 	else {
 		if (nx > 0) ani = SIMON_ANI_IDLE_RIGHT;
@@ -229,11 +254,11 @@ void CSimon::Render()
 
 	RenderBoundingBox();
 
-	
-	if (isUsingSupWeapon && curSupWeapon != WeaponType::NONE)
+	if (isAttacking && isUsingSupWeapon && curSupWeapon != WeaponType::NONE)
 		subWeapon->Render();
-	else
+	else if (isAttacking && !isUsingSupWeapon)
 		CWhip::GetInstance()->Render();
+
 
 }
 
@@ -314,6 +339,15 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_ATTACK:
 		AttackingState();
 		break;
+
+	case SIMON_STATE_HURT:
+		isHurting = true;
+		vx = -vx;
+		vy = -SIMON_HURT_SPEED_Y;
+		//y = y + 10;
+		//isSitting = true;
+		//isJumping = true;
+
 	}
 }
 void CSimon::AttackingState()
@@ -330,6 +364,8 @@ void CSimon::AttackingState()
 		subWeapon->nx = nx;
 		subWeapon->SetPosition(x, y);
 		subWeapon->SetState(curSupWeapon);
+		CWhip::GetInstance()->SetState(WHIP_STATE_DISABLE); // Khi using subWeapon -> off whip
+
 	}
 	else
 	{

@@ -110,6 +110,7 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="ScenePlayer.h" />
+    <ClInclude Include="define.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

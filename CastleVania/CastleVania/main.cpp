@@ -32,6 +32,7 @@
 #include "Whip.h"
 #include "Brick.h"
 #include "Simon.h"
+#include "define.h"
 
 #include "tinyxml.h"
 #include <iostream>
@@ -44,22 +45,6 @@
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
-
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0) // background black
-#define SCREEN_WIDTH 512
-#define SCREEN_HEIGHT 480
-
-#define MAX_FRAME_RATE 60
-
-#define ID_TEX_BRICK	1
-#define ID_TEX_SIMON	2
-#define ID_TEX_ENEMY	4
-#define ID_TEX_WHIP		5
-#define ID_TEX_ITEM		6
-
-
-//#define ID_MAP 1000
-//#define ID_TEX_MAP1 100000
 
 
 CGame *game	= CGame::GetInstance();
@@ -201,7 +186,7 @@ void LoadResources()
 	/*===========READ FILE MAP========= */
 
 	//string tileSet;
-	CTileMaps::GetInstance()->LoadResource(1000);
+	CTileMaps::GetInstance()->LoadResource(MAP_1);
 
 	/*===========ADD SPRITE + ADD ANIMATION ========= */
 
@@ -254,12 +239,9 @@ void LoadResources()
 			}
 			animation->QueryIntAttribute("aniId", &aniId);
 			animations->Add(aniId, ani);
-			if (gameObjectId == 0)
-				CSimon::GetInstance()->AddAnimation(aniId);
-			else if (gameObjectId == 1)
-				CWhip::GetInstance()->AddAnimation(aniId);
 		};
-	}	
+	}
+
 	CSimon::GetInstance()->SetPosition(0.0f, 0);
 	objects.push_back(CSimon::GetInstance());
 	objects.push_back(CWhip::GetInstance());
@@ -306,19 +288,27 @@ void LoadResources()
 		objects.push_back(brick);	
 	}
 	
-	for (int i = 0; i < 100; i++) //			map_width / brick_width = 96 -> lay 100 vien gach
+	for (int i = 0; i < 10; i++) // wall invisible cuoi map de simon k di ra khoi map
 	{
 		brick = new CBrick();
-		brick->SetPosition(0 + i * 16.0f, 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
+		brick->AddAnimation(601);
+		brick->SetPosition(CTileMaps::GetInstance()->GetMap(1000)->GetMapWidth() - 30.0f, 350.0f - i * BRICK_BBOX_WIDTH);
 		objects.push_back(brick);
 	}
 
+	for (int i = 0; i < 3; i++) //  visible door of castle
+	{
+		brick = new CBrick();
+		brick->AddAnimation(601);
+		brick->SetPosition(CTileMaps::GetInstance()->GetMap(1000)->GetMapWidth() - 150.0f, 350.0f - i * BRICK_BBOX_WIDTH);
+		objects.push_back(brick);
+	}
 
-	zombie = new CZombie();
+	/*===========ZOMBIE========= */
+	/*zombie = new CZombie();
 	zombie->SetPosition(100, 305);
 	zombie->SetState(ZOMBIE_STATE_WALKING);
-
-	objects.push_back(zombie);
+	objects.push_back(zombie);*/
 }
 
 
@@ -379,7 +369,7 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		CTileMaps::GetInstance()->GetMap(1000)->DrawMap();
+		CTileMaps::GetInstance()->GetMap(MAP_1)->RenderMap();
 		//scenes->Get(1)->Render();
 
 		for (int i = 1; i < objects.size(); i++)
@@ -496,9 +486,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	LoadResources();
 
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+	/*SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 	AllocConsole();
-	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);*/
+
 	Run();
 
 	return 0;

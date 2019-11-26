@@ -5,20 +5,18 @@
 #include <Windows.h>
 #include <iostream>
 #include <vector>
-
 #include "debug.h"
 #include "Textures.h"
 #include "Sprites.h"
+#include "define.h"
 
-#define SCREEN_WIDTH 512
-#define SCREEN_HEIGHT 480
 #define MAX_SCENE 3
 #define TILE_SIZE	64
 
 class CTileMap
 {
 	int mapWidth; //chieu dai map
-	int ID_MAP = 1000;		// id map (map1,2,3)
+	int ID_MAP = MAP_1;		// id map (map1,2,3)
 	int num_col;
 	int num_row;
 	int num_tiles; //so luong tile trong tileSet (sprite trong ~texture)
@@ -41,7 +39,7 @@ public:
 	//void LoadResource(LPCWSTR path); // load duong link map
 
 	void LoadMap();	//Load cac id vao ma tran map 
-	void DrawMap();
+	void RenderMap();
 
 };
 typedef CTileMap* LPTILEMAP;

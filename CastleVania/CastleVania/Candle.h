@@ -7,8 +7,8 @@
 #define SMALL_HEART_GRAVITY			0.02f
 
 // xet bien do roi cua small heart
-#define MAX_SPEED					0.2f
-#define MIN_SPEED					-0.2f
+#define MAX_SPEED					0.1f
+#define MIN_SPEED					-0.1f
 
 #define CANDLE_STATE_DISABLE			0
 #define CANDLE_STATE_ABLE				100

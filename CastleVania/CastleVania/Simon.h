@@ -11,6 +11,7 @@
 #define SIMON_JUMP_SPEED_Y			0.5f
 #define SIMON_JUMP_DEFLECT_SPEED	0.2f
 #define SIMON_DIE_DEFLECT_SPEED		0.5f
+#define SIMON_HURT_SPEED_Y			0.3f
 
 #define SIMON_GRAVITY				0.002f
 
@@ -62,29 +63,21 @@ class CSimon : public CGameObject
 
 public:
 	Weapon* subWeapon;
-	WeaponType curSupWeapon = WeaponType::NONE;
+	//WeaponType curSupWeapon = WeaponType::NONE;
+	WeaponType curSupWeapon = WeaponType::DAGGER;
 
-	CSimon()
-	{
-		SetPosition(0.0f, 0);
+	CSimon();
 
-		//Simon co vu khi -> weapon state none
-		subWeapon = new Weapon();
-		subWeapon->SetState(curSupWeapon);
-
-		CWhip::GetInstance()->SetState(WHIP_STATE_DISABLE);
-	}
-
+	int ani;
 
 	bool isUsingSupWeapon = false;
-	int ani;
-	//CSimon();
 
 	bool isWalking = false;
 	bool isAttacking = false;
 	bool isJumping = false;
 	bool isSitting = false;
 	bool isChangeColor = false;
+	bool isHurting = false;
 
 	/*void AttackingState();
 	void WalkingState();

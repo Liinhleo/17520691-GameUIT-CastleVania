@@ -1,4 +1,5 @@
 #include "CTileMap.h"
+#include "Game.h"
 
 
 CTileMap::CTileMap (int ID_MAP)
@@ -51,8 +52,7 @@ void CTileMap::GetTile() //lay ra tung tile -> gan id theo ID_MAP
 {
 	CTextures* textures = CTextures::GetInstance();
 	CSprites* sprites = CSprites::GetInstance();
-	//LPDIRECT3DTEXTURE9 tex = textures->Get(idTex);	// lay id Texture (TileSet)
-	LPDIRECT3DTEXTURE9 tex = textures->Get(9);	// lay id Texture (TileSet)
+	LPDIRECT3DTEXTURE9 tex = textures->Get(idTex);	// lay id Texture (TileSet)
 
 	int ID_Sprite, left_tile, top_tile, right_tile, bottom_tile;	
 
@@ -117,29 +117,24 @@ void CTileMap::LoadMap() // DOC FILE MA TRAN CUA MAP THEO ID MAP
 
 }
 
-void CTileMap::DrawMap()
+void CTileMap::RenderMap()
 {
-	//D3DXVECTOR3 camPosition;
 	CSprites* spritetile = CSprites::GetInstance();
 	CTextures* textures = CTextures::GetInstance();
 
+	col_begin = floor( CGame::GetInstance()->GetCam_x() / 64 ); // cot bd (lam tron xuong)
+	col_end = col_begin + SCREEN_WIDTH / 64 +1;					// cot ket thuc -> lay du 1 cot 
 
-	//col_begin = (int)camPosition.x / 32 - 1; // lay cot bat ve
-	//col_end = (int)col_begin + SCREEN_WIDTH / 32 + 1; //lay cot cuoi cua map
-	int x = 0, y = 80;
+
 	for (int i = 0; i < num_row; i++)
 	{
-		x = 0; // vi tri dau cua map
-		for (int j = 0; j < num_col; j++) // ve tu tile bd den cuoi tile set (update theo vi tri camera)
+		for (int j = col_begin; j < col_end; j++)
 		{
-			/*int x = 32 * (j - col_begin) + camPosition.x - (int)camPosition.x % 32;
-			int y = 32 * i + 80;*/
+			float x = TILE_SIZE * (j - col_begin) - (int)CGame::GetInstance()->GetCam_x() % 64 + CGame::GetInstance()->GetCam_x();
+			float y = TILE_SIZE * i + 80;
 
 			CSprites::GetInstance()->Get(ID_MAP + tileMap[i][j]+1)->Draw(x, y, 255); // lay id sprite de draw theo ma tran map			
-			x = x + TILE_SIZE;
-			// chua xu ly neu di den cuoi map
 		}
-		y = y + TILE_SIZE;
 
 	}
 }
