@@ -6,6 +6,8 @@
 
 CCandle::CCandle()
 {
+	type = ObjectType::CANDLE;
+
 	state = CANDLE_STATE_ABLE;
 
 	AddAnimation(250); // big candle
@@ -222,6 +224,7 @@ void CCandle::SetAniCandle(int idCandle) // set ani cho candle cu the (xu ly man
 void CCandle::SetItemState(int itemstate)
 {
 	CGameObject::SetItemState(itemstate);
+
 	itemstate = this->itemstate;
 	switch (itemstate)
 	{

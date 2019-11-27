@@ -28,9 +28,18 @@ struct CCollisionEvent
 	}
 };
 
+enum ObjectType {
+	CANDLE,
+	ITEM,
+	WEAPON,
+	ENEMY,
+	HIDE_OBJECT
+};
+
 class CGameObject
 {
 public:
+	ObjectType type;
 
 	float x; 
 	float y;
@@ -61,6 +70,8 @@ public:
 	int GetState() { return this->state; }
 	int GetItemState() { return this->itemstate; }
 
+	//ktra update cua game
+	float GetVx() { return this->vx; }
 
 	void RenderBoundingBox();
 

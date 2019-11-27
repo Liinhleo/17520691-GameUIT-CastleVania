@@ -356,4 +356,9 @@
       <sprite id="10197" left="200" top="130" right="300" bottom="195"/>
       <sprite id="10198" left="100" top="130" right="200" bottom="195"/>
     </Animation>
+
+    <Animation aniId="271" name="DOOR_END_MAP1">
+      <sprite id="10199" left="900" top="0" right="1000" bottom="260"/>
+    </Animation>
+  
 </Textures>

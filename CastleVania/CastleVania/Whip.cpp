@@ -1,6 +1,6 @@
 #include "Whip.h"
 #include "Simon.h"
-#include "Zombie.h"
+#include "Enemy.h"
 CWhip* CWhip::__instance = NULL;
 CWhip* CWhip::GetInstance()
 {
@@ -33,26 +33,12 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);					
 				}
-			}
-
-		}
-
-		// Collision logic with CZombie
-		for (UINT i = 1; i < coObjects->size(); i++)
-		{
-			float left_a, top_a, right_a, bottom_a;// obj khac
-			float left, top, right, bottom; // whip
-
-			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox obj khac
-			GetBoundingBox(left, top, right, bottom);					// bbox whip 
-
-			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
-			{
-				if (dynamic_cast<CZombie*>(coObjects->at(i)))// if e->obj is zombie 
+				else if (dynamic_cast<CEnemy*>(coObjects->at(i)))// if e->obj is zombie 
 				{
 					coObjects->at(i)->SetState(ENEMY_STATE_DEAD);
 				}
 			}
+
 		}
 	}
 }

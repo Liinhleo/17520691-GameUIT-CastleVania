@@ -26,9 +26,6 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="CTileMap.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Scenes.cpp" />
     <ClCompile Include="debug.cpp">
       <Filter>Framwork</Filter>
@@ -63,28 +60,16 @@
     <ClCompile Include="Simon.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="CTileMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Brick.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="tinystr.h">
       <Filter>LoadFile\XML</Filter>
     </ClInclude>
     <ClInclude Include="tinyxml.h">
       <Filter>LoadFile\XML</Filter>
-    </ClInclude>
-    <ClInclude Include="Whip.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Candle.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="CTileMap.h">
-      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Scenes.h" />
     <ClInclude Include="GameObject.h">
@@ -123,6 +108,21 @@
     <ClInclude Include="Simon.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="CTileMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Candle.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Whip.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -145,6 +145,9 @@
     </Filter>
     <Filter Include="Enemy">
       <UniqueIdentifier>{ecd4fe30-1ae6-4189-96f5-6784d3066973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{a324e09f-6937-443b-9f76-8e7e946b0db5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

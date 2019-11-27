@@ -6,8 +6,6 @@
 #include <unordered_map>
 #include <vector>
 
-
-
 #include "GameObject.h"
 #include "debug.h"
 
@@ -47,13 +45,11 @@
 #define BAT_BBOX_WIDTH		0
 #define BAT_BBOX_HEIGHT		0
 
-//#define DOG_STATE_WALKING		0
-//#define FISHMAN_STATE_WALKING	100
-//#define ZOMBIE_STATE_WALKING	200
-//#define BAT_STATE_WALKING		300
 
-#define ENEMY_STATE_WALKING		0
-#define ENEMY_STATE_DEAD		100
+#define ENEMY_STATE_WALKING				0
+#define ENEMY_STATE_FIRE				100
+#define ENEMY_STATE_FALLING_ITEM		200
+#define ENEMY_STATE_DEAD				300
 
 #define DOG_ANI_RIGHT				0
 #define DOG_ANI_LEFT				1

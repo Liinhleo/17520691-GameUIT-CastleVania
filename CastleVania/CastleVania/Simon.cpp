@@ -1,5 +1,5 @@
 #include "Simon.h"
-#include "Zombie.h"
+#include "Enemy.h"
 
 CSimon* CSimon::__instance = NULL;
 CSimon* CSimon::GetInstance()
@@ -74,12 +74,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 
-	// turn off collision when die 
-	if (state != SIMON_STATE_DIE)
-	{
-		CalcPotentialCollisions(coObjects, coEvents);
-	}
+	CalcPotentialCollisions(coObjects, coEvents);
 
+	// turn off collision when die 
+	if (state == SIMON_STATE_DIE)
+	{
+
+	}
+	
 	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
@@ -140,15 +142,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						break;
 					}
 					coObjects->at(i)->SetState(CANDLE_STATE_DISABLE);
-
 				}
 
-
-
-				if (dynamic_cast<CZombie*>(coObjects->at(i)))// if e->obj is zombie 
+				if (dynamic_cast<CEnemy*>(coObjects->at(i))) 
 				{
 					SetState(SIMON_STATE_HURT);
-					//coObjects->at(i)->SetState(ZOMBIE_STATE_DIE);
 				}
 
 
@@ -157,12 +155,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 	}
-
-
-
-
-		
-	
 
 
 	// ngan Simon rot ra man hinh
@@ -279,7 +271,7 @@ void CSimon::Render()
 	//RENDER WEAPON WITH SIMON
 	if (isUsingSupWeapon && curSupWeapon != WeaponType::NONE)
 		subWeapon->Render();
-	else if (isAttacking && !isUsingSupWeapon)
+	 if (isAttacking && !isUsingSupWeapon)
 		CWhip::GetInstance()->Render();
 }
 
@@ -290,7 +282,9 @@ void CSimon::SetState(int state)
 	switch (state)
 	{
 	case SIMON_STATE_DIE:
-		vy = -SIMON_DIE_DEFLECT_SPEED;
+		vx = 0.2f * -nx;
+		vy = -SIMON_HURT_SPEED_Y;
+		y = y + 40;
 		break;
 
 	case SIMON_STATE_IDLE:
@@ -379,7 +373,6 @@ void CSimon::AttackingState()
 	if (CGame::GetInstance()->IsKeyDown(DIK_UP) && curSupWeapon != WeaponType::NONE)
 	{
 		isUsingSupWeapon = true;
-		subWeapon->isFlying = true;
 		subWeapon->nx = nx;
 		subWeapon->SetPosition(x, y);
 		subWeapon->SetState(curSupWeapon);

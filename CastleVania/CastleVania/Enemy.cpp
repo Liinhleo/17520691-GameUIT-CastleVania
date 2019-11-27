@@ -2,6 +2,8 @@
 
 CEnemy::CEnemy()
 {
+	type = ObjectType::ENEMY;
+
 	AddAnimation(260);	//DOG_RIGHT
 	AddAnimation(261);  //DOG_LEFT
 	AddAnimation(262);	//FISHMAN_RIGHT
@@ -13,6 +15,7 @@ CEnemy::CEnemy()
 	AddAnimation(268);	//BAT_LEFT
 	AddAnimation(269);	//BOSS_HANGOUT
 	AddAnimation(270);	//BOSS_ATTACK
+	AddAnimation(271);	//DOOR_CASTLE
 
 }
 

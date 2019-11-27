@@ -4,7 +4,7 @@
 #include "Weapon.h"
 #include "Whip.h"
 
-#define SIMON_WALKING_SPEED			0.3f 
+#define SIMON_WALKING_SPEED			0.1f 
 
 #define SIMON_JUMP_SPEED_Y			0.5f
 #define SIMON_JUMP_DEFLECT_SPEED	0.2f
@@ -63,8 +63,8 @@ class CSimon : public CGameObject
 
 public:
 	Weapon* subWeapon;
-	//WeaponType curSupWeapon = WeaponType::NONE;
-	WeaponType curSupWeapon = WeaponType::DAGGER;
+	WeaponType curSupWeapon = WeaponType::NONE;
+	//WeaponType curSupWeapon = WeaponType::DAGGER;
 
 	CSimon();
 
@@ -92,6 +92,8 @@ public:
 
 	static CSimon* GetInstance();
 
+	//test
+	float GetVx() { return this->vx; };
 
 	//bool IscollisionItem(CCandle *item = NULL);
 	//void SetSubWeapon(CCandle* item); // set vu khi phu cho Simon

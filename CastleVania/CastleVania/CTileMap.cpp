@@ -29,6 +29,8 @@ wchar_t* CTileMap::ConvertToWideChar(char* p) // covert LWstring -> wchar_t*
 	return r;
 }
 
+
+
 void CTileMap::LoadTileSet()
 {
 	CTextures* textures = CTextures::GetInstance();
@@ -70,19 +72,25 @@ void CTileMap::GetTile() //lay ra tung tile -> gan id theo ID_MAP
 }
 
 //
-//void CTileMap::LoadResource(LPCWSTR path)
+//void CTileMap::LoadResource(int ID, LPCWSTR path)	// Lay ID_MAP & LINK -> MA TRAN MAP
 //{
+//	//CTextures* textures = CTextures::GetInstance();
+//	//LPDIRECT3DTEXTURE9 tex = textures->Get(idTex);	// lay id Texture (TileSet)
+//
 //	ifstream inp(L"map\\id_map.txt", ios::in);
 //	if (inp.fail())
 //	{
 //		DebugOut(L"[ERROR] Load resource for map is failed!");
 //		inp.close();
 //	}
+//	string link;
 //	while (!inp.eof())
 //	{
-//		inp >> ID_MAP >> path;
+//		inp >> ID_MAP >> link;
+//		LoadResource(ID_MAP, ConvertToWideChar((char*)link.c_str()));
 //	}
 //}
+
 
 void CTileMap::LoadMap() // DOC FILE MA TRAN CUA MAP THEO ID MAP
 {
@@ -119,15 +127,15 @@ void CTileMap::LoadMap() // DOC FILE MA TRAN CUA MAP THEO ID MAP
 
 void CTileMap::RenderMap()
 {
-	col_begin = floor( CGame::GetInstance()->GetCam_x() / 64 ); // cot bd (lam tron xuong)
-	col_end = col_begin + SCREEN_WIDTH / 64 +1;					// cot ket thuc -> lay du 1 cot 
+	col_begin = floor( CGame::GetInstance()->GetCam_x() / TILE_SIZE); // cot bd (lam tron xuong)
+	col_end = col_begin + SCREEN_WIDTH / TILE_SIZE + 1;					// cot ket thuc -> lay du 1 cot 
 
 	for (int i = 0; i < num_row; i++)
 	{
 		for (int j = col_begin; j < col_end; j++)
 		{
-			float x = TILE_SIZE * (j - col_begin) - (int)CGame::GetInstance()->GetCam_x() % 64 + CGame::GetInstance()->GetCam_x();
-			float y = TILE_SIZE * i + BEGIN_DRAW_Y;
+			float x = TILE_SIZE * (j - col_begin) - (int)CGame::GetInstance()->GetCam_x() % TILE_SIZE + CGame::GetInstance()->GetCam_x();
+			float y = TILE_SIZE * i + BEGIN_DRAW_Y ;
 
 			CSprites::GetInstance()->Get(ID_MAP + tileMap[i][j]+1)->Draw(x, y, 255); // lay id sprite de draw theo ma tran map			
 		}

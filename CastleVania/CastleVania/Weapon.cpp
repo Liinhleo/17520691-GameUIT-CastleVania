@@ -2,12 +2,15 @@
 #include "Candle.h"
 #include "Game.h"
 #include "Simon.h"
+#include "Enemy.h"
 
 
 Weapon::Weapon()
 {
-	state = WeaponType::DAGGER;
-	//state = WeaponType::NONE;
+	type = ObjectType::WEAPON;
+
+	//state = WeaponType::DAGGER;
+	state = WeaponType::NONE;
 
 	AddAnimation(156); // dagger right
 	AddAnimation(157); // dagger left
@@ -20,7 +23,7 @@ Weapon::Weapon()
 
 void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-		CGameObject::Update(dt);
+	CGameObject::Update(dt);
 
 	// Calculate dx, dy 
 	if (isFlying)
@@ -42,27 +45,27 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				
 				if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
-				{
 					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
-					SetState(WeaponType::NONE);
-					CSimon::GetInstance()->isUsingSupWeapon = false;
 
-				}
 
+				
+				
+				if(dynamic_cast<CEnemy*>(coObjects->at(i))) // if e->obj is CANDLE 				
+					coObjects->at(i)->SetState(ENEMY_STATE_DEAD);
+
+				if (dynamic_cast<CSimon*>(coObjects->at(i)))
+					return;
+
+				CSimon::GetInstance()->isUsingSupWeapon = false;
 			}
 		}
 
 		if (x > CGame::GetInstance()->GetCam_x() + SCREEN_WIDTH )
 		{
-			SetState(WeaponType::NONE);
+			isFlying = false;
 			CSimon::GetInstance()->isUsingSupWeapon = false;
-			return;
 		}
 	}
-
-
-
-
 }
 
 void Weapon::Render()
@@ -114,7 +117,7 @@ void Weapon::Render()
 
 void Weapon::SetState(int state)
 {
-	//this->nx = CSimon::GetInstance()->nx;
+	CGameObject::SetState(state);
 	switch (state)
 	{
 	case WeaponType::NONE:
@@ -151,12 +154,10 @@ void Weapon::GetBoundingBox(float& left, float& top, float& right, float& bottom
 {
 	left = x;
 	top = y;
-
-	CGameObject::SetState(state);
 	switch (state)
 	{
 	case WeaponType::DAGGER:
-		right = left + DAGGER_BBOX_WIDTH;
+		right = left +  DAGGER_BBOX_WIDTH;
 		bottom = top + DAGGER_BBOX_HEIGHT;
 		break;
 

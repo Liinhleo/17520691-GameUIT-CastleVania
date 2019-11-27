@@ -7,10 +7,11 @@
 #define MAX_SCENE 3
 #define TILE_SIZE	64
 #define BEGIN_DRAW_Y	80
+
 class CTileMap
 {
 	int mapWidth; //chieu dai map
-	int ID_MAP = MAP_1;		// id map (map1,2,3)
+	int ID_MAP;		// id map (map1,2,3)
 	int num_col;
 	int num_row;
 	int num_tiles; //so luong tile trong tileSet (sprite trong ~texture)
@@ -30,7 +31,7 @@ public:
 	wchar_t* ConvertToWideChar(char* p); // chuyen LWSTR -> char
 	void LoadTileSet(); // load texture TILEs (hinh)
 	void GetTile(); // get tung tile 
-	//void LoadResource(LPCWSTR path); // load duong link map
+	//void LoadResource(int ID, LPCWSTR path); // load duong link map
 
 	void LoadMap();	//Load cac id vao ma tran map 
 	void RenderMap();
@@ -47,9 +48,9 @@ class CTileMaps
 	static CTileMaps* __instance;	// co 1 map dc khoi tao
 	unordered_map<int, LPTILEMAP> tilemaps;
 public:
-	CTileMaps() {};
+	CTileMaps() {}
 	void LoadResource(int ID_MAP);
-	LPTILEMAP GetMap(int ID_MAP) { return tilemaps[1000]; }
+	LPTILEMAP GetMap(int ID_MAP) { return tilemaps[MAP_1]; }
 	static CTileMaps* GetInstance();
 
 };
