@@ -2,6 +2,7 @@
 #include "CTileMap.h"
 #include "Whip.h"
 #include "Brick.h"
+#include "Door.h"
 #include "Simon.h"
 #include "Candle.h"
 #include "Game.h"
@@ -20,26 +21,21 @@ void Scenes::AddScene(int SceneID)
 	scenes[SceneID] = curScene; // Gan curScene vao scenes[SceneID]
 }
 
-LPSCENE Scenes::GetScene(int SceneID)
+LPSCENE Scenes::GetCurScene(int SceneID)
 {
 	return scenes[SceneID];
 }
 
+
 Scene::Scene()
 {
 	this->SceneID = SCENE_1;
-
 	LoadResources();
-	Render();
 }
 
 void Scene::LoadResources()
 {
-	CSimon::GetInstance()->SetPosition(0.0f, 0);
-	objects_stage_1.push_back(CSimon::GetInstance());
-	objects_stage_1.push_back(CWhip::GetInstance());
-
-
+	// OBJECT SCENE 1
 	/*===========CANDLE========= */
 	for (int i = 0; i < 5; i++)
 	{
@@ -88,24 +84,42 @@ void Scene::LoadResources()
 		objects_stage_1.push_back(brick);
 	}
 
-	for (int i = 0; i < 3; i++) //  visible door of castle
+
+
+	for (int i = 0; i < 3; i++) //  door of castle
 	{
-		CBrick *brick = new CBrick();
-		brick->SetPosition(CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth() - 150.0f, 350.0f - i * BRICK_BBOX_WIDTH);
-		objects_stage_1.push_back(brick);
+		CDoor *door = new CDoor();
+		door->SetPosition(CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth() - 150.0f, 350.0f - i * BRICK_BBOX_WIDTH);
+		objects_stage_1.push_back(door);
 	}
 
-	// DOOR AN CUOI MAP 1
-	//brick = new CBrick();
-	//brick->SetPosition(CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth() - TILE_SIZE, 350.0f);
-	//brick->AddAnimation(271);
-	//objects_stage_1.push_back(brick);
-
-
+	
 
 	///*===========ZOMBIE========= */
-	
+	//CZombie* zombie = new CZombie();
+	//zombie->SetPosition(100, 305);
+	//zombie->SetState(ENEMY_STATE_WALKING);
+	//objects.push_back(zombie);
+
+	//CFishman *fishman = new CFishMan();
+	//fishman->SetPosition(300, 305);
+	//fishman->SetState(ENEMY_STATE_WALKING);
+	//objects.push_back(fishman);
+
+	//CDog *dog = new CDog();
+	//dog->SetPosition(200, 305);
+	//dog->SetState(ENEMY_STATE_WALKING);
+	//objects.push_back(dog);
+
+	// BAT HAVE SOME BUGS
+	//CBat *bat = new CBat();
+	//bat->SetPosition(200, 305);
+	//bat->SetState(ENEMY_STATE_WALKING);
+	//objects.push_back(bat);
+
 }
+
+
 void Scene::Update(float dt)
 {
 

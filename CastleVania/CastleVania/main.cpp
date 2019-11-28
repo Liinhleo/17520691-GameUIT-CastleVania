@@ -145,13 +145,12 @@ wchar_t* ConvertToWideChar(char* p) // covert string -> wchar_t*
 	return r;
 }
 
-void LoadResources()
+void ReadFile() 
 {
-
 	/*===========DECLARE========= */
 	CSprites* sprites = CSprites::GetInstance();
 	CAnimations* animations = CAnimations::GetInstance();
-	CTextures* textures = CTextures::GetInstance();	
+	CTextures* textures = CTextures::GetInstance();
 
 	LPANIMATION ani;
 
@@ -163,18 +162,16 @@ void LoadResources()
 		inp.close();
 	}
 
-	while (!inp.eof()) 
+	while (!inp.eof())
 	{
 		string link;
 		int id, r, g, b;
-		inp >> id >> r >> g >> b >>link;
-		textures->Add(id,D3DCOLOR_XRGB(r, g, b), ConvertToWideChar((char*)link.c_str()));
+		inp >> id >> r >> g >> b >> link;
+		textures->Add(id, D3DCOLOR_XRGB(r, g, b), ConvertToWideChar((char*)link.c_str()));
 	}
 
 	LPDIRECT3DTEXTURE9 tex;
-	/*===========READ FILE MAP========= */
 
-	CTileMaps::GetInstance()->LoadResource(MAP_1);
 
 	/*===========ADD SPRITE + ADD ANIMATION ========= */
 
@@ -190,7 +187,7 @@ void LoadResources()
 	{
 		DebugOut(L"[INFO]Read XML success\n");
 	}
-	
+
 	// get info root
 	TiXmlElement* root = doc.RootElement();
 	TiXmlElement* sprite = nullptr;
@@ -205,7 +202,7 @@ void LoadResources()
 		texture->QueryIntAttribute("textureId", &textureId);
 		texture->QueryIntAttribute("gameObjectId", &gameObjectId);
 
-		tex = textures->Get(textureId); 
+		tex = textures->Get(textureId);
 
 		for (animation = texture->FirstChildElement(); animation != NULL; animation = animation->NextSiblingElement())
 		{
@@ -229,108 +226,22 @@ void LoadResources()
 			animations->Add(aniId, ani);
 		};
 	}
-	
-	
-	
-	scenes->AddScene(SCENE_1);
-	scenes->GetScene(SCENE_1)->LoadResources();
-
-
-	//CSimon::GetInstance()->SetPosition(0.0f, 300);
-	//objects.push_back(CSimon::GetInstance());
-	//objects.push_back(CWhip::GetInstance());
-
-
-	///*===========CANDLE========= */
-	//for (int i = 0; i < 5; i++)
-	//{ 
-	//	CCandle *candle = new CCandle();
-	//	candle->SetState(CANDLE_STATE_ABLE);
-	//	candle->SetPosition(150 + i*250 , 305);
-
-	//	switch (i)
-	//	{
-	//	case 0:
-	//		candle->SetItemState(0);
-	//		break;
-	//	case 1:
-	//		candle->SetItemState(1);
-	//		break;
-
-	//	case 2:
-	//		candle->SetItemState(2);
-	//		break;
-
-	//	case 3:
-	//		candle->SetItemState(2);
-	//		break;
-	//	case 4:
-	//		candle->SetItemState(3);
-	//		break;
-
-	//	}
-	//		
-	//	objects.push_back(candle);
-	//}
-
-
-	///*===========BRICK========= */
-	//for (int i = 0; i < 100; i++) //			map_width / brick_width = 96 -> lay 100 vien gach
-	//{
-	//	CBrick *brick = new CBrick();
-	//	brick->SetPosition( 0 + i * 16.0f, 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
-	//	objects.push_back(brick);	
-	//}
-	//
-	//for (int i = 0; i < 10; i++) // wall invisible cuoi map de simon k di ra khoi map
-	//{
-	//	CBrick* brick = new CBrick();
-	//	brick->SetPosition(CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth() - 30.0f, 350.0f - i * BRICK_BBOX_WIDTH);
-	//	objects.push_back(brick);
-	//}
-
-	//for (int i = 0; i < 3; i++) //  visible door of castle
-	//{
-	//	CBrick* brick = new CBrick();
-	//	brick->SetPosition(CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth() - 150.0f, 350.0f - i * BRICK_BBOX_WIDTH);
-	//	objects.push_back(brick);
-	//}
-
-	// DOOR AN CUOI MAP 1
-	//CBrick* brick = new CBrick();
-	//brick->SetPosition(CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth() - TILE_SIZE , 350.0f );
-	//brick->AddAnimation(271);
-	//objects.push_back(brick);
-
-
-
-	///*===========ZOMBIE========= */
-	//CZombie* zombie = new CZombie();
-	//zombie->SetPosition(100, 305);
-	//zombie->SetState(ENEMY_STATE_WALKING);
-	//objects.push_back(zombie);
-
-
-	//CFishman *fishman = new CFishMan();
-	//fishman->SetPosition(300, 305);
-	//fishman->SetState(ENEMY_STATE_WALKING);
-	//objects.push_back(fishman);
-
-	//CDog *dog = new CDog();
-	//dog->SetPosition(200, 305);
-	//dog->SetState(ENEMY_STATE_WALKING);
-	//objects.push_back(dog);
-
-	// BAT HAVE SOME BUGS
-	//CBat *bat = new CBat();
-	//bat->SetPosition(200, 305);
-	//bat->SetState(ENEMY_STATE_WALKING);
-	//objects.push_back(bat);
-
-
 }
 
+void LoadResources()
+{	
+	//LOAD MAP
+	CTileMaps::GetInstance()->LoadResource(MAP_1);
 
+	scenes->AddScene(SCENE_1);
+	scenes->GetCurScene(SCENE_1)->LoadResources();
+
+	objects.push_back(CSimon::GetInstance()); //SIMON LA VI TRI 0
+
+	for (int i = 0; i < scenes->GetCurScene(SCENE_1)->objects_stage_1.size(); i++)
+		objects.push_back(scenes->GetCurScene(SCENE_1)->objects_stage_1[i]);
+
+}
 
 /*
 	Update world status for this frame
@@ -342,11 +253,8 @@ void Update(DWORD dt)
 
 	//// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	//// TO-DO: This is a "dirty" way, need a more organized way 
-
-	objects = scenes->GetScene(SCENE_1)->objects_stage_1 ;
-
+	
 	vector<LPGAMEOBJECT> coObjects; // mang chua cac obj co kha nang va cham
-
 
 	for (int i = 1; i < objects.size(); i++)
 	{
@@ -359,11 +267,11 @@ void Update(DWORD dt)
 	}
 	
 	
-	float vx = CSimon::GetInstance()->GetVx();
-	std::cout <<"vx = " << vx << endl;
+	//float vx = CSimon::GetInstance()->GetVx();
+	//std::cout <<"vx = " << vx << endl;
 
 	// Update camera to follow mario
-	int mapWidth = CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth(); // lay do dai map 
+	int mapWidth = CTileMaps::GetInstance()->GetMap(MAP_3)->GetMapWidth(); // lay do dai map 
 	float cx, cy;
 	CSimon::GetInstance()->GetPosition(cx, cy);
 
@@ -396,14 +304,13 @@ void Render()
 
 		CTileMaps::GetInstance()->GetMap(MAP_1)->RenderMap();
 
-		objects = scenes->GetScene(SCENE_1)->objects_stage_1; // gan mang Object = mang obj scene 1
-
+		
+		objects[0]->Render(); // SIMON
 		for (int i = 1; i < objects.size(); i++)
 		{
 			if (objects[i]->isAble) //ktra trang thai obj -> neu ton tai thi render
 				objects[i]->Render();
 		}
-		objects[0]->Render();
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -509,12 +416,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	keyHandler = new CSampleKeyHander();
 	game->InitKeyboard(keyHandler);
 
-
+	ReadFile();
 	LoadResources();
 
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
-	AllocConsole();
-	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	//SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+	//AllocConsole();
+	//freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
 
 	Run();
 

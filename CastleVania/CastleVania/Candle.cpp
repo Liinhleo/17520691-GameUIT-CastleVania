@@ -193,6 +193,7 @@ void CCandle::SetState(int state)
 		break;
 
 	case CANDLE_STATE_FALLING_ITEM:
+		type = ObjectType::ITEM;
 		isFallingItem = true;
 		SetItemState(itemstate);
 		break;

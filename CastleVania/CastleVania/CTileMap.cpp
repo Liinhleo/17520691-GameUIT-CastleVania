@@ -6,14 +6,14 @@ CTileMap::CTileMap (int ID_MAP)
 { 
 	this->ID_MAP = ID_MAP; 
 
-	LoadMap();
 	LoadTileSet();
-	GetTile();
+	LoadTile();
+	LoadMap();
+
 }
 
 int CTileMap::GetMapWidth()
 {
-	mapWidth = num_col * TILE_SIZE;
 	return mapWidth;
 }
 
@@ -30,8 +30,7 @@ wchar_t* CTileMap::ConvertToWideChar(char* p) // covert LWstring -> wchar_t*
 }
 
 
-
-void CTileMap::LoadTileSet()
+void CTileMap::LoadTileSet() // ~load texture
 {
 	CTextures* textures = CTextures::GetInstance();
 	ifstream inp(L"map\\TilesetResource.txt", ios::in);
@@ -50,28 +49,39 @@ void CTileMap::LoadTileSet()
 	}
 }
 
-void CTileMap::GetTile() //lay ra tung tile -> gan id theo ID_MAP
+void CTileMap::LoadTile() // ~load sprite
 {
 	CTextures* textures = CTextures::GetInstance();
 	CSprites* sprites = CSprites::GetInstance();
 	LPDIRECT3DTEXTURE9 tex = textures->Get(idTex);	// lay id Texture (TileSet)
 
-	int ID_Sprite, left_tile, top_tile, right_tile, bottom_tile;	
+	int ID_Tile, left_tile, top_tile, right_tile, bottom_tile;
 
-	//LAY RA GIA TRI SPRITE CHO TUNG TILE TRONG TEXTURE
-	for (int i = 0; i <= num_tiles; i++) // lay tung sprite cua texture
+	ifstream inp(L"map\\sprites1.txt", ios::in);
+	if (inp.fail())
 	{
-		ID_Sprite = ID_MAP + i + 1;		// gan ID sprite theo ID_MAP
-		left_tile = i * TILE_SIZE;
-		top_tile = 0;
-		right_tile = left_tile + TILE_SIZE;
-		bottom_tile = TILE_SIZE;
-
-		sprites->Add(ID_Sprite, left_tile, top_tile, right_tile, bottom_tile, tex);
+		DebugOut(L"[ERROR] Load file failed!");
+		inp.close();
 	}
+
+	while (!inp.eof())
+	{
+		inp >> ID_Tile >> left_tile >> top_tile >> right_tile >> bottom_tile;
+		sprites->Add(ID_Tile, left_tile, top_tile, right_tile, bottom_tile, tex);
+	}
+
+	////LAY RA GIA TRI SPRITE CHO TUNG TILE TRONG TEXTURE
+	//for (int i = 0; i <= num_tiles; i++) // lay tung sprite cua texture
+	//{
+	//	ID_Sprite = ID_MAP + i + 1;		// gan ID sprite theo ID_MAP
+	//	left_tile = i * TILE_SIZE;
+	//	top_tile = 0;
+	//	right_tile = left_tile + TILE_SIZE;
+	//	bottom_tile = TILE_SIZE;
+	//	sprites->Add(ID_Sprite, left_tile, top_tile, right_tile, bottom_tile, tex);
+	//}
 }
 
-//
 //void CTileMap::LoadResource(int ID, LPCWSTR path)	// Lay ID_MAP & LINK -> MA TRAN MAP
 //{
 //	//CTextures* textures = CTextures::GetInstance();
@@ -94,21 +104,19 @@ void CTileMap::GetTile() //lay ra tung tile -> gan id theo ID_MAP
 
 void CTileMap::LoadMap() // DOC FILE MA TRAN CUA MAP THEO ID MAP
 {
-	CSprites* sprites = CSprites::GetInstance();
-	//string path;
-
+	//CSprites* sprites = CSprites::GetInstance();
 	ifstream inp(L"map\\map1.txt", ios::in);
-
-	// doc ma tran cua map
 	if (inp.fail())
 	{
 		DebugOut(L"[ERROR] Load map failed!");
 		inp.close();
 		return;
 	}
+	inp >> mapWidth >> mapHeight; // doc gia tri hang 1 (chieu dai, chieu rong)
 
-	inp >> num_tiles >> num_col >> num_row; // doc gia tri hang 1 (sl tile trong texture, col, row)
-	int n;
+	num_col = mapWidth / 32;
+	num_row = mapHeight / 32;
+	int n;	//gia tri trong ma tran
 
 	for (int i = 0; i < num_row; ++i)
 	{
@@ -127,17 +135,17 @@ void CTileMap::LoadMap() // DOC FILE MA TRAN CUA MAP THEO ID MAP
 
 void CTileMap::RenderMap()
 {
-	col_begin = floor( CGame::GetInstance()->GetCam_x() / TILE_SIZE); // cot bd (lam tron xuong)
+	col_begin = floor( CGame::GetInstance()->GetCam_x() / TILE_SIZE);	// cot bd (lam tron xuong)
 	col_end = col_begin + SCREEN_WIDTH / TILE_SIZE + 1;					// cot ket thuc -> lay du 1 cot 
 
 	for (int i = 0; i < num_row; i++)
 	{
 		for (int j = col_begin; j < col_end; j++)
 		{
-			float x = TILE_SIZE * (j - col_begin) - (int)CGame::GetInstance()->GetCam_x() % TILE_SIZE + CGame::GetInstance()->GetCam_x();
-			float y = TILE_SIZE * i + BEGIN_DRAW_Y ;
+			int x = TILE_SIZE * (j - col_begin) - (int)CGame::GetInstance()->GetCam_x() % TILE_SIZE + CGame::GetInstance()->GetCam_x();
+			int y = TILE_SIZE * i + BEGIN_DRAW_Y ;
 
-			CSprites::GetInstance()->Get(ID_MAP + tileMap[i][j]+1)->Draw(x, y, 255); // lay id sprite de draw theo ma tran map			
+			CSprites::GetInstance()->Get(ID_MAP+tileMap[i][j])->Draw(x, y, 255); // ID SPRITE = ID_MAP + tileMap[i][j]
 		}
 
 	}

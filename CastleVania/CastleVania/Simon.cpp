@@ -110,44 +110,54 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		// Xu ly va cham voi item -> Set CurSupWeapon
 		for (UINT i = 1; i < coObjects->size(); i++)
-		{
+		{		
 			float left_a, top_a, right_a, bottom_a;// obj khac
 			float left, top, right, bottom; // whip
 
 			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox obj khac
 			GetBoundingBox(left, top, right, bottom);					// bbox whip 
 
-			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
-			{
-				if (dynamic_cast<CCandle*>(coObjects->at(i)) && coObjects->at(i)->GetState() == CANDLE_STATE_FALLING_ITEM) // if e->obj is CANDLE 				
-				{
-					switch (coObjects->at(i)->GetItemState()) // gan itemstate = subweapon
-					{
-						// default weaponType::NONE
-					case 2:
-						SetState(SIMON_STATE_CHANGE_COLOR);
-						CWhip::GetInstance()->UpgradeWhip();
-						break;
-					case 3:
-						curSupWeapon = WeaponType::DAGGER;
-						break;
-					case 4:
-						curSupWeapon = WeaponType::AXE;
-						break;
-					case 5:
-						curSupWeapon = WeaponType::STOP_WATCH;
-						break;
-					case 6:
-						curSupWeapon = WeaponType::HOLLY_WATER;
-						break;
-					}
-					coObjects->at(i)->SetState(CANDLE_STATE_DISABLE);
-				}
+			
 
-				if (dynamic_cast<CEnemy*>(coObjects->at(i))) 
+			if (dynamic_cast<CCandle*>(coObjects->at(i)) && coObjects->at(i)->GetState() == CANDLE_STATE_FALLING_ITEM)
+			{	
+				if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
 				{
-					SetState(SIMON_STATE_HURT);
-				}
+					// if e->obj is CANDLE 				
+					{
+						switch (coObjects->at(i)->GetItemState()) // gan itemstate = subweapon
+						{
+							// default weaponType::NONE
+						case 2:
+							SetState(SIMON_STATE_CHANGE_COLOR);
+							CWhip::GetInstance()->UpgradeWhip();
+							break;
+						case 3:
+							curSupWeapon = WeaponType::DAGGER;
+							break;
+						case 4:
+							curSupWeapon = WeaponType::AXE;
+							break;
+						case 5:
+							curSupWeapon = WeaponType::STOP_WATCH;
+							break;
+						case 6:
+							curSupWeapon = WeaponType::HOLLY_WATER;
+							break;
+						}
+						coObjects->at(i)->SetState(CANDLE_STATE_DISABLE);
+					}
+
+					//if (dynamic_cast<CEnemy*>(coObjects->at(i)))
+					//{
+					//	LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i)); // kt sweptAABB
+					//	SetState(SIMON_STATE_HURT);
+					//}
+
+			}
+			
+
+			
 
 
 			}

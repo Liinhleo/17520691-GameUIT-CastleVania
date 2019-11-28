@@ -45,10 +45,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				
 				if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
-					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
-
-
-				
+					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);			
 				
 				if(dynamic_cast<CEnemy*>(coObjects->at(i))) // if e->obj is CANDLE 				
 					coObjects->at(i)->SetState(ENEMY_STATE_DEAD);

@@ -14,7 +14,6 @@ public:
 	int MapID;
 	int SceneID = SCENE_1;
 
-
 	vector<LPGAMEOBJECT> objects_stage_1;
 	vector<LPGAMEOBJECT> objects_stage_2;
 	vector<LPGAMEOBJECT> objects_stage_3;
@@ -44,7 +43,8 @@ private:
 
 public:
 	void AddScene(int SceneID);
-	LPSCENE GetScene(int SceneID);
+	LPSCENE GetCurScene(int SceneID);
+	void ChangeScene(LPSCENE scene);
 	static Scenes* GetInstance();
 };
 

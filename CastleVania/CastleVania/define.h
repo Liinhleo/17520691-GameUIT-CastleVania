@@ -13,8 +13,8 @@
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0) // background black
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 480
-
 #define MAX_FRAME_RATE 60
+
 
 /*MAP_ID*/
 #define MAP_1	1000
