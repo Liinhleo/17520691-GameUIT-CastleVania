@@ -33,7 +33,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 
 		//Xet va cham voi candle bang bbox 
-		for (UINT i = 1; i < coObjects->size(); i++)
+		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			float left_a, top_a, right_a, bottom_a;// obj khac
 			float left, top, right, bottom; // dagger

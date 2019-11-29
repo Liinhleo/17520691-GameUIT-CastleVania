@@ -7,22 +7,6 @@ CSimon* CSimon::GetInstance()
 	if (__instance == NULL) __instance = new CSimon();
 	return __instance;
 }
-void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
-{
-	left = x + 15;
-	top = y;
-	if (isSitting)
-	{
-		right = left + SIMON_BBOX_WIDTH;
-		bottom = y + SIMON_BBOX_HEIGHT - 10;
-	}
-	else
-	{
-		right = left + SIMON_BBOX_WIDTH;
-		bottom = y + SIMON_BBOX_HEIGHT + 5;
-	}
-}
-
 CSimon::CSimon()
 {
 	AddAnimation(400); // IDLE RIGHT
@@ -53,6 +37,21 @@ CSimon::CSimon()
 	CWhip::GetInstance()->SetState(WHIP_STATE_DISABLE);
 }
 
+void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	left = x + 15;
+	top = y;
+	if (isSitting)
+	{
+		right = left + SIMON_BBOX_WIDTH;
+		bottom = y + SIMON_BBOX_HEIGHT - 10;
+	}
+	else
+	{
+		right = left + SIMON_BBOX_WIDTH;
+		bottom = y + SIMON_BBOX_HEIGHT + 5;
+	}
+}
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -109,7 +108,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (ny != 0) vy = 0;	//va cham theo truc y
 
 		// Xu ly va cham voi item -> Set CurSupWeapon
-		for (UINT i = 1; i < coObjects->size(); i++)
+		for (UINT i = 0; i < coObjects->size(); i++)
 		{		
 			float left_a, top_a, right_a, bottom_a;// obj khac
 			float left, top, right, bottom; // whip

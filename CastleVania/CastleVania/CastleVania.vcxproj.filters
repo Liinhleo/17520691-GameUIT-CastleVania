@@ -63,7 +63,9 @@
     <ClCompile Include="CTileMap.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="Door.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tinystr.h">
@@ -124,7 +126,9 @@
     <ClInclude Include="Whip.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Door.h" />
+    <ClInclude Include="Door.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

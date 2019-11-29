@@ -30,11 +30,17 @@ LPSCENE Scenes::GetCurScene(int SceneID)
 Scene::Scene()
 {
 	this->SceneID = SCENE_1;
-	LoadResources();
 }
 
 void Scene::LoadResources()
 {
+	//LOAD MAP
+	CTileMaps::GetInstance()->LoadResource(MAP_1);	
+	CSimon::GetInstance()->SetPosition(0, 300);
+
+	//NEED TO RETHINKING
+	objects_stage_1.push_back(CSimon::GetInstance()); //SIMON LA VI TRI 0
+
 	// OBJECT SCENE 1
 	/*===========CANDLE========= */
 	for (int i = 0; i < 5; i++)
@@ -84,14 +90,15 @@ void Scene::LoadResources()
 		objects_stage_1.push_back(brick);
 	}
 
-
-
 	for (int i = 0; i < 3; i++) //  door of castle
 	{
 		CDoor *door = new CDoor();
 		door->SetPosition(CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth() - 150.0f, 350.0f - i * BRICK_BBOX_WIDTH);
 		objects_stage_1.push_back(door);
 	}
+
+
+	
 
 	
 
@@ -122,9 +129,24 @@ void Scene::LoadResources()
 
 void Scene::Update(float dt)
 {
+	vector<LPGAMEOBJECT> coObjects; // mang chua cac obj co kha nang va cham
+	for (int i = 1; i < objects_stage_1.size(); i++)
+	{
+		if (objects_stage_1[i]->isAble) //cac obj ton tai thi cho vao list obj co kha nang va cham
+			coObjects.push_back(objects_stage_1[i]);
+	}
+	for (int i = 0; i < objects_stage_1.size(); i++)
+	{
+		objects_stage_1[i]->Update(dt, &coObjects);
+	}
 
 }
 void Scene::Render()
 {
-	
+	for (int i = 1; i < objects_stage_1.size(); i++)
+	{
+		//if (objects[i]->isAble) //ktra trang thai obj -> neu ton tai thi render
+		objects_stage_1[i]->Render();
+	}
+	objects_stage_1[0]->Render(); // SIMON
 }

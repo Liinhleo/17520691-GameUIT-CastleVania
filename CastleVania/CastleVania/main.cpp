@@ -228,20 +228,16 @@ void ReadFile()
 	}
 }
 
-void LoadResources()
-{	
-	//LOAD MAP
-	CTileMaps::GetInstance()->LoadResource(MAP_1);
-
-	scenes->AddScene(SCENE_1);
-	scenes->GetCurScene(SCENE_1)->LoadResources();
-
-	objects.push_back(CSimon::GetInstance()); //SIMON LA VI TRI 0
-
-	for (int i = 0; i < scenes->GetCurScene(SCENE_1)->objects_stage_1.size(); i++)
-		objects.push_back(scenes->GetCurScene(SCENE_1)->objects_stage_1[i]);
-
-}
+//void LoadResources()
+//{	
+//	
+//
+//	//objects.push_back(CSimon::GetInstance()); //SIMON LA VI TRI 0
+//
+//	//for (int i = 0; i < scenes->GetCurScene(SCENE_1)->objects_stage_1.size(); i++)
+//	//	objects.push_back(scenes->GetCurScene(SCENE_1)->objects_stage_1[i]);
+//
+//}
 
 /*
 	Update world status for this frame
@@ -249,29 +245,27 @@ void LoadResources()
 */
 void Update(DWORD dt)
 {
-	//scenes->GetScene(SCENE_1)->Update(dt);
+	scenes->GetCurScene(SCENE_1)->Update(dt);
 
 	//// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	//// TO-DO: This is a "dirty" way, need a more organized way 
 	
-	vector<LPGAMEOBJECT> coObjects; // mang chua cac obj co kha nang va cham
+	//vector<LPGAMEOBJECT> coObjects; // mang chua cac obj co kha nang va cham
 
-	for (int i = 1; i < objects.size(); i++)
-	{
-		if (objects[i]->isAble) //cac obj ton tai thi cho vao list obj co kha nang va cham
-			coObjects.push_back(objects[i]);
-	}
-	for (int i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Update(dt,&coObjects);
-	}
+	//for (int i = 1; i < objects.size(); i++)
+	//{
+	//	if (objects[i]->isAble) //cac obj ton tai thi cho vao list obj co kha nang va cham
+	//		coObjects.push_back(objects[i]);
+	//}
+	//for (int i = 0; i < objects.size(); i++)
+	//{
+	//	objects[i]->Update(dt,&coObjects);
+	//}
+	//
 	
 	
-	//float vx = CSimon::GetInstance()->GetVx();
-	//std::cout <<"vx = " << vx << endl;
-
 	// Update camera to follow mario
-	int mapWidth = CTileMaps::GetInstance()->GetMap(MAP_3)->GetMapWidth(); // lay do dai map 
+	int mapWidth = CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth(); // lay do dai map 
 	float cx, cy;
 	CSimon::GetInstance()->GetPosition(cx, cy);
 
@@ -304,13 +298,15 @@ void Render()
 
 		CTileMaps::GetInstance()->GetMap(MAP_1)->RenderMap();
 
+		scenes->GetCurScene(SCENE_1)->Render();
+		//for (int i = 1; i < objects.size(); i++)
+		//{
+		//	if (objects[i]->isAble) //ktra trang thai obj -> neu ton tai thi render
+		//	objects[i]->Render();
+		//}
+		//objects[0]->Render(); // SIMON
 		
-		objects[0]->Render(); // SIMON
-		for (int i = 1; i < objects.size(); i++)
-		{
-			if (objects[i]->isAble) //ktra trang thai obj -> neu ton tai thi render
-				objects[i]->Render();
-		}
+		
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -417,11 +413,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game->InitKeyboard(keyHandler);
 
 	ReadFile();
-	LoadResources();
-
-	//SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
-	//AllocConsole();
-	//freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	scenes->AddScene(SCENE_1);
+	scenes->GetCurScene(SCENE_1)->LoadResources();
 
 	Run();
 
