@@ -124,23 +124,26 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					// if e->obj is CANDLE 				
 					{
-						switch (coObjects->at(i)->GetItemState()) // gan itemstate = subweapon
+						switch (coObjects->at(i)->GetItem()) // gan itemstate = subweapon
 						{
 							// default weaponType::NONE
-						case 2:
+
+						case ItemType::ITEM_BIG_HEART:
+							break;
+						case ItemType::ITEM_UPGRADE_WHIP:
 							SetState(SIMON_STATE_CHANGE_COLOR);
 							CWhip::GetInstance()->UpgradeWhip();
 							break;
-						case 3:
+						case ItemType::ITEM_DAGGER:
 							curSupWeapon = WeaponType::DAGGER;
 							break;
-						case 4:
+						case ItemType::ITEM_AXE:
 							curSupWeapon = WeaponType::AXE;
 							break;
-						case 5:
+						case ItemType::ITEM_STOP_WATCH:
 							curSupWeapon = WeaponType::STOP_WATCH;
 							break;
-						case 6:
+						case ItemType::ITEM_HOLLY_WATER:
 							curSupWeapon = WeaponType::HOLLY_WATER;
 							break;
 						}
@@ -154,18 +157,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					//}
 
 			}
-			
-
-			
-
 
 			}
 			
 		}
 
 	}
-
-
 	// ngan Simon rot ra man hinh
 	if (x <= 0)
 		x = 0;

@@ -35,11 +35,13 @@ Scene::Scene()
 void Scene::LoadResources()
 {
 	//LOAD MAP
-	CTileMaps::GetInstance()->LoadResource(MAP_1);	
+	CTileMaps::GetInstance()->AddMap(1000, 9, L"map\\sprites1.txt", L"map\\map1.txt");
+	CTileMaps::GetInstance()->AddMap(2000, 10, L"map\\sprites2.txt", L"map\\map2.txt");
+	CTileMaps::GetInstance()->AddMap(3000, 11, L"map\\sprites3.txt", L"map\\map3.txt");
+
 	CSimon::GetInstance()->SetPosition(0, 300);
 
-	//NEED TO RETHINKING
-	objects_stage_1.push_back(CSimon::GetInstance()); //SIMON LA VI TRI 0
+	objects.push_back(CSimon::GetInstance()); //SIMON LA VI TRI 0
 
 	// OBJECT SCENE 1
 	/*===========CANDLE========= */
@@ -52,26 +54,24 @@ void Scene::LoadResources()
 		switch (i)
 		{
 		case 0:
-			candle->SetItemState(0);
+			candle->SetItemState(ItemType::ITEM_BIG_HEART);
 			break;
 		case 1:
-			candle->SetItemState(1);
+			candle->SetItemState(ItemType::ITEM_SMALL_HEART);
 			break;
 
 		case 2:
-			candle->SetItemState(2);
+			candle->SetItemState(ItemType::ITEM_UPGRADE_WHIP);
 			break;
 
 		case 3:
-			candle->SetItemState(2);
+			candle->SetItemState(ItemType::ITEM_UPGRADE_WHIP);
 			break;
 		case 4:
-			candle->SetItemState(3);
+			candle->SetItemState(ItemType::ITEM_DAGGER);
 			break;
-
 		}
-
-		objects_stage_1.push_back(candle);
+		objects.push_back(candle);
 	}
 
 
@@ -80,27 +80,25 @@ void Scene::LoadResources()
 	{
 		CBrick *brick = new CBrick();
 		brick->SetPosition(0 + i * 16.0f, 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
-		objects_stage_1.push_back(brick);
+		objects.push_back(brick);
 	}
 
 	for (int i = 0; i < 10; i++) // wall invisible cuoi map de simon k di ra khoi map
 	{
 		CBrick *brick = new CBrick();
 		brick->SetPosition(CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth() - 30.0f, 350.0f - i * BRICK_BBOX_WIDTH);
-		objects_stage_1.push_back(brick);
+		objects.push_back(brick);
 	}
 
 	for (int i = 0; i < 3; i++) //  door of castle
 	{
 		CDoor *door = new CDoor();
 		door->SetPosition(CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth() - 150.0f, 350.0f - i * BRICK_BBOX_WIDTH);
-		objects_stage_1.push_back(door);
+		objects.push_back(door);
 	}
 
 
-	
 
-	
 
 	///*===========ZOMBIE========= */
 	//CZombie* zombie = new CZombie();
@@ -130,23 +128,25 @@ void Scene::LoadResources()
 void Scene::Update(float dt)
 {
 	vector<LPGAMEOBJECT> coObjects; // mang chua cac obj co kha nang va cham
-	for (int i = 1; i < objects_stage_1.size(); i++)
+	for (int i = 1; i < objects.size(); i++)
 	{
-		if (objects_stage_1[i]->isAble) //cac obj ton tai thi cho vao list obj co kha nang va cham
-			coObjects.push_back(objects_stage_1[i]);
+		if (objects[i]->isAble) //cac obj ton tai thi cho vao list obj co kha nang va cham
+			coObjects.push_back(objects[i]);
 	}
-	for (int i = 0; i < objects_stage_1.size(); i++)
+	for (int i = 0; i < objects.size(); i++)
 	{
-		objects_stage_1[i]->Update(dt, &coObjects);
+		objects[i]->Update(dt, &coObjects);
 	}
 
 }
 void Scene::Render()
 {
-	for (int i = 1; i < objects_stage_1.size(); i++)
+	CTileMaps::GetInstance()->GetMap(1000)->RenderMap();
+
+	for (int i = 1; i < objects.size(); i++)
 	{
 		//if (objects[i]->isAble) //ktra trang thai obj -> neu ton tai thi render
-		objects_stage_1[i]->Render();
+		objects[i]->Render();
 	}
-	objects_stage_1[0]->Render(); // SIMON
+	objects[0]->Render(); // SIMON -> ve cuoi cung
 }

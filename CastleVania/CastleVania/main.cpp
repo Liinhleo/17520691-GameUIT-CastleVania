@@ -296,7 +296,6 @@ void Render()
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		CTileMaps::GetInstance()->GetMap(MAP_1)->RenderMap();
 
 		scenes->GetCurScene(SCENE_1)->Render();
 		//for (int i = 1; i < objects.size(); i++)

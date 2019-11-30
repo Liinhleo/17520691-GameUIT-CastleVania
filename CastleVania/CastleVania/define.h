@@ -64,6 +64,26 @@
 #define BOSS_ANI_ATTACK				10
 
 
+/*========ITEM==============*/
+#define ITEM_GRAVITY				0.2f
+#define SMALL_HEART_GRAVITY			0.02f
+
+// xet bien do roi cua small heart
+#define MAX_SPEED					0.1f
+#define MIN_SPEED					-0.1f
+
+
+#define ITEM_ANI_BIG_HEART				3
+#define ITEM_ANI_SMALL_HEART			4
+#define ITEM_ANI_UPGRADE_WHIP			5
+#define ITEM_ANI_DAGGER					6
+#define ITEM_ANI_AXE					7
+#define ITEM_ANI_STOP_WATCH				8
+#define ITEM_ANI_HOLLY_WATER			9
+
+#define BIG_HEART_BBOX					23
+#define SMALL_HEART_BBOX				15
+#define ITEM_WEAPON_BBOX				32
 
 // TEXTURE ID
 /*

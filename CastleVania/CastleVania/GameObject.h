@@ -36,11 +36,21 @@ enum ObjectType {
 	HIDE_OBJECT
 };
 
+enum ItemType {
+	ITEM_BIG_HEART,
+	ITEM_SMALL_HEART,
+	ITEM_UPGRADE_WHIP,
+	ITEM_DAGGER,
+	ITEM_AXE,
+	ITEM_STOP_WATCH,
+	ITEM_HOLLY_WATER
+};
+
 class CGameObject
 {
 public:
 	ObjectType type;
-
+	ItemType itemtype;
 	float x; 
 	float y;
 
@@ -53,7 +63,7 @@ public:
 	int nx;	 
 
 	int state;
-	int itemstate;
+	//int itemstate;
 
 	DWORD dt; 
 
@@ -61,14 +71,13 @@ public:
 
 public: 
 	bool isAble = true;
-
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
-	int GetState() { return this->state; }
-	int GetItemState() { return this->itemstate; }
+
+
 
 	//ktra update cua game
 	float GetVx() { return this->vx; }
@@ -93,8 +102,25 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	
+
+	void SetType(ObjectType _type)
+	{ 
+		this->type = _type;			
+	}
+	ObjectType GetType() { return type; }
+
+
+
 	virtual void SetState(int state) { this->state = state; }
-	virtual void SetItemState(int itemstate) { this->itemstate = itemstate; }
+	int GetState() { return this->state; }
+
+
+	// DIRTY CODE -> NEED TO IMPROVE
+	virtual void SetItemState(ItemType _itemtype) { this->itemtype = _itemtype; }
+
+	ItemType GetItem() { return itemtype; }
+
+
 
 	// ktra bbox co trung nhau khong
 	bool CheckAABB(float left_a, float top_a, float right_a, float bottom_a, float left_b, float top_b, float right_b, float bottom_b)

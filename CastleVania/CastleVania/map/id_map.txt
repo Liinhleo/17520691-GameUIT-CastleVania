@@ -1,3 +1,0 @@
-1000 map\\tiles_map1.png
-2000 map\\tiles_map2.png
-3000 map\\tiles_map3.png

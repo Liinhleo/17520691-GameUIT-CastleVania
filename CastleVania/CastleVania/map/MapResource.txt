@@ -1,3 +1,3 @@
-1000	textures\\map\\tiles1.png	textures\\map\\sprites1.txt	textures\\map\\map1.txt
-2000	textures\\map\\tiles2.png	textures\\map\\sprites2.txt	textures\\map\\map2.txt
-3000	textures\\map\\tiles3.png	textures\\map\\sprites3.txt	textures\\map\\map3.txt
+1000 9 map\\sprites1.txt map\\map1.txt
+2000 10 map\\sprites2.txt map\\map2.txt
+3000 11 map\\sprites3.txt map\\map3.txt

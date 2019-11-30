@@ -6,3 +6,6 @@
 6 255 0 255 textures\\weapons-full.png
 7 255 0 255 textures\\item-full.png
 8 255 0 255 textures\\candle-full.png
+9 255 255 255 map\\tiles1.png
+10 255 255 255 map\\tiles2.png
+11 255 255 255 map\\tiles3.png

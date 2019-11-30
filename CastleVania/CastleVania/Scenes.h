@@ -14,7 +14,7 @@ public:
 	int MapID;
 	int SceneID = SCENE_1;
 
-	vector<LPGAMEOBJECT> objects_stage_1;
+	vector<LPGAMEOBJECT> objects;
 
 
 

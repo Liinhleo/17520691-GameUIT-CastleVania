@@ -193,7 +193,6 @@ void CCandle::SetState(int state)
 		break;
 
 	case CANDLE_STATE_FALLING_ITEM:
-		type = ObjectType::ITEM;
 		isFallingItem = true;
 		SetItemState(itemstate);
 		break;
@@ -205,8 +204,7 @@ void CCandle::SetState(int state)
 }
 
 void CCandle::SetAniCandle(int idCandle) // set ani cho candle cu the (xu ly man sau)
-{
-	
+{	
 	if (isShow)
 	{
 		switch (idCandle)
@@ -222,50 +220,47 @@ void CCandle::SetAniCandle(int idCandle) // set ani cho candle cu the (xu ly man
 	}
 }
 
-void CCandle::SetItemState(int itemstate)
-{
+void CCandle::SetItemState(ItemType itemstate)
+{	
 	CGameObject::SetItemState(itemstate);
-
-	itemstate = this->itemstate;
 	switch (itemstate)
 	{
-	case 0:
+	case ItemType::ITEM_BIG_HEART:
 		ani = ITEM_ANI_BIG_HEART;
 		vy = ITEM_GRAVITY;
 		break;
 
-	case 1:
+	case ItemType::ITEM_SMALL_HEART:
 		ani = ITEM_ANI_SMALL_HEART;
 		vy = SMALL_HEART_GRAVITY;
 		break;
 
-	case 2:
+	case ItemType::ITEM_UPGRADE_WHIP:
 		ani = ITEM_ANI_UPGRADE_WHIP;
 		vy = ITEM_GRAVITY;
 		break;
 
-	case 3:
+	case ItemType::ITEM_DAGGER:
 		ani = ITEM_ANI_DAGGER;
 		vy = ITEM_GRAVITY;
 		break;
 
-	case 4:
+	case ItemType::ITEM_AXE:
 		ani = ITEM_ANI_AXE;
 		vy = ITEM_GRAVITY;
 		break;
 
-	case 5:
+	case ItemType::ITEM_STOP_WATCH:
 		ani = ITEM_ANI_STOP_WATCH;
 		vy = ITEM_GRAVITY;
 		break;
 
-	case 6:
+	case ItemType::ITEM_HOLLY_WATER:
 		ani = ITEM_ANI_HOLLY_WATER;
 		vy = ITEM_GRAVITY;
-		break;
-
-	
+		break;	
 	}
 }
+
 
 
