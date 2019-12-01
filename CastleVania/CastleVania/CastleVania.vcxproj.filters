@@ -26,7 +26,6 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Scenes.cpp" />
     <ClCompile Include="debug.cpp">
       <Filter>Framwork</Filter>
     </ClCompile>
@@ -66,6 +65,13 @@
     <ClCompile Include="Door.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="ScenePlayer.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="HiddenObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tinystr.h">
@@ -74,7 +80,6 @@
     <ClInclude Include="tinyxml.h">
       <Filter>LoadFile\XML</Filter>
     </ClInclude>
-    <ClInclude Include="Scenes.h" />
     <ClInclude Include="GameObject.h">
       <Filter>Framwork</Filter>
     </ClInclude>
@@ -129,6 +134,13 @@
     <ClInclude Include="Door.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="ScenePlayer.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="HiddenObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -154,6 +166,9 @@
     </Filter>
     <Filter Include="Map">
       <UniqueIdentifier>{a324e09f-6937-443b-9f76-8e7e946b0db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{aac40bf1-49ee-4c85-a42b-8eff155fd5d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

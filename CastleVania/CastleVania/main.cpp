@@ -21,33 +21,32 @@
 #include <windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-
 #include "Game.h"
 #include "Textures.h"
 
-#include "Whip.h"
-#include "Brick.h"
+//#include "Whip.h"
+//#include "Brick.h"
 #include "Simon.h"
 #include "define.h"
 
 #include "tinyxml.h"
-#include "Candle.h"
-#include "Weapon.h"
+//#include "Candle.h"
+//#include "Weapon.h"
 #include "CTileMap.h"
-#include "Scenes.h"
-#include "Zombie.h"
-#include "CFishMan.h"
-#include "Dog.h"
-#include "Bat.h"
+//#include "Scenes.h"
+//#include "Zombie.h"
+//#include "CFishMan.h"
+//#include "Dog.h"
+//#include "Bat.h"
 
+#include "ScenePlayer.h"
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
 
 vector<LPGAMEOBJECT> objects;
-CGame *game	= CGame::GetInstance();
-Scenes * scenes = Scenes::GetInstance();
-
-
+CGame* game;
+Scenes* scenes = Scenes::GetInstance();
+ScenePlayer* scenePlayer = new ScenePlayer();
 class CSampleKeyHander: public CKeyEventHandler
 {
 	virtual void KeyState(BYTE *states);
@@ -228,16 +227,11 @@ void ReadFile()
 	}
 }
 
-//void LoadResources()
-//{	
-//	
-//
-//	//objects.push_back(CSimon::GetInstance()); //SIMON LA VI TRI 0
-//
-//	//for (int i = 0; i < scenes->GetCurScene(SCENE_1)->objects_stage_1.size(); i++)
-//	//	objects.push_back(scenes->GetCurScene(SCENE_1)->objects_stage_1[i]);
-//
-//}
+void LoadResources()
+{	
+	ReadFile();
+	Scenes::GetInstance()->GetScene(1)->LoadResources();
+}
 
 /*
 	Update world status for this frame
@@ -245,45 +239,10 @@ void ReadFile()
 */
 void Update(DWORD dt)
 {
-	scenes->GetCurScene(SCENE_1)->Update(dt);
-
-	//// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	//// TO-DO: This is a "dirty" way, need a more organized way 
-	
-	//vector<LPGAMEOBJECT> coObjects; // mang chua cac obj co kha nang va cham
-
-	//for (int i = 1; i < objects.size(); i++)
-	//{
-	//	if (objects[i]->isAble) //cac obj ton tai thi cho vao list obj co kha nang va cham
-	//		coObjects.push_back(objects[i]);
-	//}
-	//for (int i = 0; i < objects.size(); i++)
-	//{
-	//	objects[i]->Update(dt,&coObjects);
-	//}
-	//
-	
-	
-	// Update camera to follow mario
-	int mapWidth = CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth(); // lay do dai map 
-	float cx, cy;
-	CSimon::GetInstance()->GetPosition(cx, cy);
-
-	cx = cx - SCREEN_WIDTH / 2 + 30 ; // vi tri cam luon de Simon o giua man hinh
-	//cy -= SCREEN_HEIGHT / 2;
-
-	if (cx < 0) //TH: Simon o dau map
-		cx = 0;
-
-	else if (cx + SCREEN_WIDTH > mapWidth) // TH: Simon di qua 1/2 cuoi map
-		return;
-
-	CGame::GetInstance()->SetCamPos(cx, 0.0f);
+	scenes->GetScene(1)->Update(dt);
 }
 
-/*
-	Render a frame 
-*/
+
 void Render()
 {
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
@@ -295,17 +254,7 @@ void Render()
 		// Clear back buffer with a color
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-
-
-		scenes->GetCurScene(SCENE_1)->Render();
-		//for (int i = 1; i < objects.size(); i++)
-		//{
-		//	if (objects[i]->isAble) //ktra trang thai obj -> neu ton tai thi render
-		//	objects[i]->Render();
-		//}
-		//objects[0]->Render(); // SIMON
-		
-		
+		scenes->GetScene(1)->Render();
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -404,16 +353,16 @@ int Run()
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
+	scenes->AddScene(1, scenePlayer);
 
-	
+	game = CGame::GetInstance();
+
 	game->Init(hWnd);
 
 	keyHandler = new CSampleKeyHander();
 	game->InitKeyboard(keyHandler);
+	LoadResources();
 
-	ReadFile();
-	scenes->AddScene(SCENE_1);
-	scenes->GetCurScene(SCENE_1)->LoadResources();
 
 	Run();
 

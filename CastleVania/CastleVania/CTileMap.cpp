@@ -97,8 +97,9 @@ void CTileMap::LoadMap() // DOC FILE MA TRAN CUA MAP THEO ID MAP
 
 void CTileMap::RenderMap()
 {
-	col_begin = floor(CGame::GetInstance()->GetCam_x() / TILE_SIZE);	// cot bd (lam tron xuong)
-	col_end = col_begin + SCREEN_WIDTH / TILE_SIZE + 1;					// cot ket thuc -> lay du 1 cot 
+		col_begin = CGame::GetInstance()->GetCam_x() / TILE_SIZE;
+		col_end = col_begin + SCREEN_WIDTH / TILE_SIZE + 1;					// cot ket thuc -> lay du 1 cot 
+		// cot bd (lam tron xuong)
 
 	for (int i = 0; i < num_row; i++)
 	{

@@ -1,5 +1,6 @@
 #include "Simon.h"
 #include "Enemy.h"
+#include "HiddenObject.h"
 
 CSimon* CSimon::__instance = NULL;
 CSimon* CSimon::GetInstance()
@@ -28,6 +29,14 @@ CSimon::CSimon()
 	AddAnimation(416); // CHANGE COLOR RIGHT
 	AddAnimation(417); // CHANGE COLOR LEFT
 
+	AddAnimation(418); // UPSTAIR RIGHT
+	AddAnimation(419); // UPSTAIR LEFT
+	AddAnimation(420); // DOWNSTAIR RIGHT
+	AddAnimation(421); // DOWNSTAIR LEFT
+	AddAnimation(422); // UPSTAIR ATTACK RIGHT
+	AddAnimation(423); // UPSTAIR ATTACK LEFT
+	AddAnimation(424); // DOWNSTAIR ATTACK RIGHT
+	AddAnimation(425); // DOWNSTAIR ATTACK LEFT
 	SetPosition(0.0f, 0);
 
 	//Simon co vu khi -> weapon state none
@@ -76,11 +85,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CalcPotentialCollisions(coObjects, coEvents);
 
 	// turn off collision when die 
-	if (state == SIMON_STATE_DIE)
-	{
-
-	}
-	
 	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
 	{
 		untouchable_start = 0;
@@ -124,7 +128,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					// if e->obj is CANDLE 				
 					{
-						switch (coObjects->at(i)->GetItem()) // gan itemstate = subweapon
+						switch (coObjects->at(i)->itemtype) // gan itemstate = subweapon
 						{
 							// default weaponType::NONE
 
@@ -150,16 +154,21 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						coObjects->at(i)->SetState(CANDLE_STATE_DISABLE);
 					}
 
-					//if (dynamic_cast<CEnemy*>(coObjects->at(i)))
-					//{
-					//	LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i)); // kt sweptAABB
-					//	SetState(SIMON_STATE_HURT);
-					//}
 
 			}
 
 			}
-			
+
+			if (dynamic_cast<CEnemy*>(coObjects->at(i)))
+			{
+				LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i)); // kt sweptAABB
+				SetState(SIMON_STATE_HURT);
+			}
+
+		/*	if (dynamic_cast<HiddenObject*>(coObjects->at(i)))
+			{
+				SetState(SIMON_STATE_UPSTAIR);
+			}*/
 		}
 
 	}
@@ -229,10 +238,36 @@ void CSimon::Render()
 			if (nx > 0) ani = SIMON_ANI_SIT_ATTACK_RIGHT;
 			else ani = SIMON_ANI_SIT_ATTACK_LEFT;
 		}
+		else if (isUpStair)
+		{
+			if (nx > 0) ani = SIMON_ANI_UPSTAIR_ATTACK_RIGHT;
+			else ani = SIMON_ANI_UPSTAIR_ATTACK_LEFT;
+		}
+		else if (isDownStair)
+		{
+			if (nx > 0) ani = SIMON_ANI_DOWNSTAIR_ATTACK_RIGHT;
+			else ani = SIMON_ANI_DOWNSTAIR_ATTACK_LEFT;
+		}
 		else {
 			if (nx > 0) ani = SIMON_ANI_ATTACK_RIGHT;
 			else ani = SIMON_ANI_ATTACK_LEFT;
 		}
+	}
+	else if (isUpStair){
+		if (isAttacking) {
+			if (nx > 0) ani = SIMON_ANI_UPSTAIR_ATTACK_RIGHT;
+			else ani = SIMON_ANI_UPSTAIR_ATTACK_LEFT;
+		}
+		if (nx > 0) ani = SIMON_ANI_UPSTAIR_RIGHT;
+		else ani = SIMON_ANI_UPSTAIR_LEFT;
+	}
+	else if (isDownStair){
+		if (isAttacking) {
+			if (nx > 0) ani = SIMON_ANI_DOWNSTAIR_ATTACK_RIGHT;
+			else ani = SIMON_ANI_DOWNSTAIR_ATTACK_LEFT;
+		}
+		if (nx > 0) ani = SIMON_ANI_DOWNSTAIR_RIGHT;
+		else ani = SIMON_ANI_DOWNSTAIR_LEFT;
 	}
 	else if (isSitting) {
 		if (nx > 0) ani = SIMON_ANI_SIT_RIGHT;
@@ -258,7 +293,6 @@ void CSimon::Render()
 		else ani = SIMON_ANI_WALKING_LEFT;
 	}
 	
-
 	else {
 		if (nx > 0) ani = SIMON_ANI_IDLE_RIGHT;
 		else ani = SIMON_ANI_IDLE_LEFT;
@@ -367,14 +401,26 @@ void CSimon::SetState(int state)
 		vy = -SIMON_HURT_SPEED_Y;
 		isAttacking = false;
 		isWalking = false;
+
+	case SIMON_STATE_UPSTAIR:
+		if (isAttacking)
+			return;
+		isUpStair = true;
+
+		break;
+
+	case SIMON_STATE_DOWNSTAIR:
+		if (isAttacking)
+			return;
+		isDownStair = true;
+
+		break;
 	}
 }
 void CSimon::AttackingState()
 {
 	isWalking = false;
 	isAttacking = true;
-
-	std::cout << "curSubWeapon: " << curSupWeapon << endl;
 
 	if (CGame::GetInstance()->IsKeyDown(DIK_UP) && curSupWeapon != WeaponType::NONE)
 	{

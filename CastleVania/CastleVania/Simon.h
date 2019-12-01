@@ -13,37 +13,6 @@
 
 #define SIMON_GRAVITY				0.002f
 
-#define SIMON_STATE_IDLE			0
-#define SIMON_STATE_WALKING_RIGHT	100
-#define SIMON_STATE_WALKING_LEFT	200
-#define SIMON_STATE_JUMP			300
-#define SIMON_STATE_DIE				400
-#define SIMON_STATE_ATTACK			500
-#define SIMON_STATE_SIT				600
-#define SIMON_STATE_SIT_ATTACK		700
-#define SIMON_STATE_HURT			800
-#define SIMON_STATE_STAND_UP		900
-#define SIMON_STATE_CHANGE_COLOR	1000
-
-#define SIMON_ANI_IDLE_RIGHT			0
-#define SIMON_ANI_IDLE_LEFT				1
-#define SIMON_ANI_WALKING_RIGHT			2
-#define SIMON_ANI_WALKING_LEFT			3
-#define SIMON_ANI_DIE_RIGHT				4
-#define SIMON_ANI_DIE_LEFT				5
-#define SIMON_ANI_JUMP_RIGHT			6
-#define SIMON_ANI_JUMP_LEFT				7
-#define SIMON_ANI_ATTACK_RIGHT			8
-#define SIMON_ANI_ATTACK_LEFT			9
-#define SIMON_ANI_SIT_RIGHT				10
-#define SIMON_ANI_SIT_LEFT				11
-#define SIMON_ANI_SIT_ATTACK_RIGHT		12
-#define SIMON_ANI_SIT_ATTACK_LEFT		13
-#define SIMON_ANI_HURT_RIGHT			14
-#define SIMON_ANI_HURT_LEFT				15
-#define SIMON_ANI_CHANGE_COLOR_RIGHT	16
-#define SIMON_ANI_CHANGE_COLOR_LEFT		17
-
 #define SIMON_BBOX_WIDTH  30
 #define SIMON_BBOX_HEIGHT 58
 
@@ -78,6 +47,10 @@ public:
 	bool isSitting = false;
 	bool isChangeColor = false;
 	bool isHurting = false;
+
+	bool isUpStair = false;
+	bool isDownStair = false; 
+
 
 	/*void AttackingState();
 	void WalkingState();
