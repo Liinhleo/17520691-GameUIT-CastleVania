@@ -17,6 +17,14 @@ CEnemy::CEnemy()
 	AddAnimation(270);	//BOSS_ATTACK
 	AddAnimation(271);	//DOOR_CASTLE
 
+	AddAnimation(300);	// BIG_HEART
+	AddAnimation(301);	// SMALL_HEART
+	AddAnimation(302);	// UPGRADE_WHIP
+	AddAnimation(303);	// DAGGER
+	AddAnimation(304);	// AXE
+	AddAnimation(305);	// STOP_WATCH
+	AddAnimation(306);	// HOLLY_WATER
+
 }
 
 void CEnemy::SetState(int state)

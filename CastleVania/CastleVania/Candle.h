@@ -18,11 +18,15 @@
 #define MAX_TIME_STATE_FIRE				500
 #define MAX_TIME_STATE_ITEM				2000
 
+enum CandleType {
+	BIG_CANDLE,
+	SMALL_CANDLE
+};
 
 class CCandle : public CGameObject
 {
 	ItemType itemstate;
-
+	CandleType type_candle;
 	int timeStart = 0;
 	int width;
 	int height;
@@ -44,11 +48,12 @@ public:
 	void Render();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	
-	void SetAniCandle(int idCandle);
+	void SetAniCandle(CandleType idCandle);
+	CandleType GetCandle() { return this->type_candle; }
 
-
+	
 	void SetState(int state);
-
 	void SetItemState(ItemType itemstate);
+	ItemType GetItem() { return this->itemstate; }
 
 };

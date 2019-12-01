@@ -109,24 +109,20 @@ public:
 	}
 	ObjectType GetType() { return type; }
 
-
-
 	virtual void SetState(int state) { this->state = state; }
 	int GetState() { return this->state; }
-
-
-	// DIRTY CODE -> NEED TO IMPROVE
-	virtual void SetItemState(ItemType _itemtype) { this->itemtype = _itemtype; }
-
-	ItemType GetItem() { return itemtype; }
-
-
 
 	// ktra bbox co trung nhau khong
 	bool CheckAABB(float left_a, float top_a, float right_a, float bottom_a, float left_b, float top_b, float right_b, float bottom_b)
 	{
 		return left_a < right_b && right_a > left_b && top_a < bottom_b && bottom_a > top_b;
 	}
+
+
+	// DIRTY CODE -> NEED TO IMPROVE
+	virtual void SetItemState(ItemType _itemtype) { this->itemtype = _itemtype; }
+	ItemType GetItem() { return itemtype; }
+
 
 	~CGameObject();
 };

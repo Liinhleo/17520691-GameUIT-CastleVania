@@ -121,9 +121,69 @@
       <sprite id="10036" left="60" top="200" right="120" bottom="266" frameTime="100"/>
       <sprite id="10037" left="120" top="200" right="180" bottom="266" frameTime="100"/>
       <sprite id="10038" left="180" top="200" right="240" bottom="266" frameTime="100"/>
+    </Animation>  
+    
+    <!-- UPSTAIR RIGHT -->
+    <Animation aniId="418" frameTime="100" name="UPSTAIR_RIGHT">
+      <sprite id="10039" left="720" top="66" right="780" bottom="132" frameTime="100"/>
+      <sprite id="10040" left="660" top="66" right="720" bottom="132" frameTime="100"/>
+    </Animation>
+
+
+    <!-- UPSTAIR LEFT  -->
+    <Animation aniId="419" frameTime="100" name="UPSTAIR_LEFT">
+      <sprite id="10041" left="300" top="66" right="360" bottom="132" frameTime="100"/>
+      <sprite id="10042" left="240" top="66" right="300" bottom="132" frameTime="100"/>   
+    </Animation>
+    
+    <!-- DOWNSTAIR RIGHT -->
+    <Animation aniId="420" frameTime="100" name=" DOWNSTAIR_RIGHT">
+      <sprite id="10043" left="840" top="66" right="900" bottom="132" frameTime="100"/>
+      <sprite id="10044" left="660" top="66" right="720" bottom="132" frameTime="100"/>
+    </Animation>
+
+
+    <!-- DOWNSTAIR LEFT  -->
+    <Animation aniId="421" frameTime="100" name=" DOWNSTAIR_LEFT">
+      <sprite id="10045" left="180" top="66" right="240" bottom="132" frameTime="100"/>
+      <sprite id="10046" left="240" top="66" right="300" bottom="132" frameTime="100"/>
+    </Animation>
+    
+     <!--ATTACK UPSTAIR RIGHT -->
+    <Animation aniId="422" frameTime="100" name="ATTACK_UPSTAIR_RIGHT">
+      <sprite id="10047" left="660" top="132" right="720" bottom="198" frameTime="100"/>
+      <sprite id="10048" left="540" top="132" right="600" bottom="198" frameTime="100"/>
+      <sprite id="10049" left="600" top="132" right="660" bottom="198" frameTime="100"/>
+      <sprite id="10039" left="720" top="66" right="780" bottom="132" frameTime="100"/>
+
+    </Animation>
+
+
+    <!--ATTACK UPSTAIR LEFT  -->
+    <Animation aniId="423" frameTime="100" name="ATTACK_UPSTAIR_LEFT">
+      <sprite id="10050" left="360" top="132" right="420" bottom="198" frameTime="100"/>
+      <sprite id="10051" left="480" top="132" right="540" bottom="198" frameTime="100"/>  
+      <sprite id="10052" left="420" top="132" right="480" bottom="198" frameTime="100"/>
+      <sprite id="10041" left="300" top="66" right="360" bottom="132" frameTime="100"/>
 
     </Animation>
     
+    <!--ATTACK DOWNSTAIR RIGHT -->
+    <Animation aniId="424" frameTime="100" name=" ATTACK_DOWNSTAIR_RIGHT">
+      <sprite id="10053" left="840" top="132" right="900" bottom="198" frameTime="100"/>
+      <sprite id="10054" left="720" top="132" right="780" bottom="198" frameTime="100"/>
+      <sprite id="10055" left="780" top="132" right="840" bottom="198" frameTime="100"/>
+      <sprite id="10043" left="840" top="66" right="900" bottom="132" frameTime="100"/>
+    </Animation>
+
+
+    <!--ATTACK DOWNSTAIR LEFT -->
+    <Animation aniId="425" frameTime="100" name=" ATTACK_DOWNSTAIR_LEFT">
+      <sprite id="10056" left="180" top="132" right="240" bottom="198" frameTime="100"/>
+      <sprite id="10057" left="300" top="132" right="360" bottom="198" frameTime="100"/>
+      <sprite id="10058" left="240" top="132" right="300" bottom="198" frameTime="100"/>
+      <sprite id="10045" left="180" top="66" right="240" bottom="132" frameTime="100"/>
+    </Animation>
   </Texture>
   
   
