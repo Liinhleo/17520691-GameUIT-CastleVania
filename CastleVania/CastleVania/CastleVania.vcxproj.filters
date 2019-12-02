@@ -72,6 +72,7 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="HiddenObject.cpp" />
+    <ClCompile Include="Item.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tinystr.h">
@@ -141,6 +142,7 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="HiddenObject.h" />
+    <ClInclude Include="Item.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

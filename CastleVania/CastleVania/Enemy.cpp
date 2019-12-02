@@ -17,14 +17,6 @@ CEnemy::CEnemy()
 	AddAnimation(270);	//BOSS_ATTACK
 	AddAnimation(252); // FIRE
 
-	AddAnimation(300);	// BIG_HEART
-	AddAnimation(301);	// SMALL_HEART
-	AddAnimation(302);	// UPGRADE_WHIP
-	AddAnimation(303);	// DAGGER
-	AddAnimation(304);	// AXE
-	AddAnimation(305);	// STOP_WATCH
-	AddAnimation(306);	// HOLLY_WATER
-
 }
 
 
@@ -42,7 +34,6 @@ void CEnemy::SetState(int state)
 
 	case ENEMY_STATE_FALLING_ITEM:
 		isFallingItem = true;
-		SetItemState(itemstate);
 		break;
 
 	case ENEMY_STATE_DEAD:
@@ -52,44 +43,44 @@ void CEnemy::SetState(int state)
 	}
 }
 
-void CEnemy::SetItemState(ItemType itemstate)
-{
-	this->itemstate = itemstate;
-	switch (itemstate)
-	{
-	case ItemType::ITEM_BIG_HEART:
-		ani = ITEM_ANI_BIG_HEART;
-		vy = ITEM_GRAVITY;
-		break;
-
-	case ItemType::ITEM_SMALL_HEART:
-		ani = ITEM_ANI_SMALL_HEART;
-		vy = SMALL_HEART_GRAVITY;
-		break;
-
-	case ItemType::ITEM_UPGRADE_WHIP:
-		ani = ITEM_ANI_UPGRADE_WHIP;
-		vy = ITEM_GRAVITY;
-		break;
-
-	case ItemType::ITEM_DAGGER:
-		ani = ITEM_ANI_DAGGER;
-		vy = ITEM_GRAVITY;
-		break;
-
-	case ItemType::ITEM_AXE:
-		ani = ITEM_ANI_AXE;
-		vy = ITEM_GRAVITY;
-		break;
-
-	case ItemType::ITEM_STOP_WATCH:
-		ani = ITEM_ANI_STOP_WATCH;
-		vy = ITEM_GRAVITY;
-		break;
-
-	case ItemType::ITEM_HOLLY_WATER:
-		ani = ITEM_ANI_HOLLY_WATER;
-		vy = ITEM_GRAVITY;
-		break;
-	}
-}
+//void CEnemy::SetItemState(ItemType itemstate)
+//{
+//	this->itemstate = itemstate;
+//	switch (itemstate)
+//	{
+//	case ItemType::ITEM_BIG_HEART:
+//		ani = ITEM_ANI_BIG_HEART;
+//		vy = ITEM_GRAVITY;
+//		break;
+//
+//	case ItemType::ITEM_SMALL_HEART:
+//		ani = ITEM_ANI_SMALL_HEART;
+//		vy = SMALL_HEART_GRAVITY;
+//		break;
+//
+//	case ItemType::ITEM_UPGRADE_WHIP:
+//		ani = ITEM_ANI_UPGRADE_WHIP;
+//		vy = ITEM_GRAVITY;
+//		break;
+//
+//	case ItemType::ITEM_DAGGER:
+//		ani = ITEM_ANI_DAGGER;
+//		vy = ITEM_GRAVITY;
+//		break;
+//
+//	case ItemType::ITEM_AXE:
+//		ani = ITEM_ANI_AXE;
+//		vy = ITEM_GRAVITY;
+//		break;
+//
+//	case ItemType::ITEM_STOP_WATCH:
+//		ani = ITEM_ANI_STOP_WATCH;
+//		vy = ITEM_GRAVITY;
+//		break;
+//
+//	case ItemType::ITEM_HOLLY_WATER:
+//		ani = ITEM_ANI_HOLLY_WATER;
+//		vy = ITEM_GRAVITY;
+//		break;
+//	}
+//}

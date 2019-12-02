@@ -135,6 +135,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HiddenObject.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="ScenePlayer.h" />
     <ClInclude Include="Scenes.h" />
     <ClInclude Include="Simon.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HiddenObject.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ScenePlayer.cpp" />
     <ClCompile Include="Scenes.cpp" />

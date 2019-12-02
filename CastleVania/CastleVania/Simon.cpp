@@ -1,6 +1,8 @@
 #include "Simon.h"
 #include "Enemy.h"
 #include "HiddenObject.h"
+#include "Candle.h"
+#include "Game.h"
 
 CSimon* CSimon::__instance = NULL;
 CSimon* CSimon::GetInstance()
@@ -74,15 +76,18 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
+									/*======	XET VA CHAM	 CHO SIMON	======*/
+
+	
 	// Simple fall down
 	vy += SIMON_GRAVITY * dt;
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
+	vector<LPCOLLISIONEVENT> coEvents;	// su kien va cham
+	vector<LPCOLLISIONEVENT> coEventsResult;	// danh sach ket qua tra ve 
 
 	coEvents.clear();
 
-	CalcPotentialCollisions(coObjects, coEvents);
+	CalcPotentialCollisions(coObjects, coEvents);	// tinh toan va cham (objects co kha nang va cham, su kien va cham )
 
 	// turn off collision when die 
 	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
@@ -91,7 +96,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
-	// No collision occured, proceed normally
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
@@ -108,69 +112,78 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) vx = 0;	//va cham theo phuong x
-		if (ny != 0) vy = 0;	//va cham theo truc y
+		if (nx != 0) vx = 0;				//va cham theo phuong x
+		if (ny != 0) vy = 0;				//va cham theo truc y
 
-		// Xu ly va cham voi item -> Set CurSupWeapon
+
+
+
+
+
+
+
+
 		for (UINT i = 0; i < coObjects->size(); i++)
-		{		
+		{
 			float left_a, top_a, right_a, bottom_a;// obj khac
 			float left, top, right, bottom; // whip
+			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a);		 // bbox obj khac
+			GetBoundingBox(left, top, right, bottom);									// bbox whip 
 
-			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox obj khac
-			GetBoundingBox(left, top, right, bottom);					// bbox whip 
 
-			
-
-			if (dynamic_cast<CCandle*>(coObjects->at(i)) && coObjects->at(i)->GetState() == CANDLE_STATE_FALLING_ITEM)
-			{	
-				if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
+			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
+			{
+				// Xu ly va cham voi item -> Set CurSupWeapon
+				if (dynamic_cast<Item*>(coObjects->at(i)))			// if e->obj is ITEM 				
 				{
-					// if e->obj is CANDLE 				
+					DebugOut(L"La item");
+					switch (dynamic_cast<Item*>(coObjects->at(i))->GetItemState()) // gan itemstate = subweapon
 					{
-						switch (coObjects->at(i)->itemtype) // gan itemstate = subweapon
-						{
-							// default weaponType::NONE
+					// XU LY SAU
+					case ItemType::ITEM_BIG_HEART:
+						DebugOut(L"Dung vao tim bu");
+						break;
+					case ItemType::ITEM_SMALL_HEART:
+						break;
 
-						case ItemType::ITEM_BIG_HEART:
-							break;
-						case ItemType::ITEM_UPGRADE_WHIP:
-							SetState(SIMON_STATE_CHANGE_COLOR);
-							CWhip::GetInstance()->UpgradeWhip();
-							break;
-						case ItemType::ITEM_DAGGER:
-							curSupWeapon = WeaponType::DAGGER;
-							break;
-						case ItemType::ITEM_AXE:
-							curSupWeapon = WeaponType::AXE;
-							break;
-						case ItemType::ITEM_STOP_WATCH:
-							curSupWeapon = WeaponType::STOP_WATCH;
-							break;
-						case ItemType::ITEM_HOLLY_WATER:
-							curSupWeapon = WeaponType::HOLLY_WATER;
-							break;
-						}
-						coObjects->at(i)->SetState(CANDLE_STATE_DISABLE);
+					// default weaponType::NONE
+					case ItemType::ITEM_UPGRADE_WHIP:
+						SetState(SIMON_STATE_CHANGE_COLOR);
+						CWhip::GetInstance()->UpgradeWhip();
+						break;
+					case ItemType::ITEM_DAGGER:
+						curSupWeapon = WeaponType::DAGGER;
+						break;
+					case ItemType::ITEM_AXE:
+						curSupWeapon = WeaponType::AXE;
+						break;
+					case ItemType::ITEM_STOP_WATCH:
+						curSupWeapon = WeaponType::STOP_WATCH;
+						break;
+					case ItemType::ITEM_HOLLY_WATER:
+						curSupWeapon = WeaponType::HOLLY_WATER;
+						break;
 					}
+					coObjects->at(i)->SetState(ITEM_STATE_DISABLE);
+				}
 
+				if (dynamic_cast<CDoor*>(coObjects->at(i)))
+				{
+					DebugOut(L"Da cham cua");
+					isCollisionDoor = true;
+					/*door->SetState(DOOR_STATE_OPEN);
+					SetState(SIMON_STATE_AUTOGO);*/
+				}
+
+				if (dynamic_cast<CEnemy*>(coObjects->at(i)))
+				{
+					LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i)); // kt sweptAABB
+					SetState(SIMON_STATE_HURT);
+				}
 
 			}
-
-			}
-
-			if (dynamic_cast<CEnemy*>(coObjects->at(i)))
-			{
-				LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i)); // kt sweptAABB
-				SetState(SIMON_STATE_HURT);
-			}
-
-		/*	if (dynamic_cast<HiddenObject*>(coObjects->at(i)))
-			{
-				SetState(SIMON_STATE_UPSTAIR);
-			}*/
+			
 		}
-
 	}
 	// ngan Simon rot ra man hinh
 	if (x <= 0)
@@ -181,8 +194,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (vy == 0) //va cham dat
 		isJumping = false;	
 	
-	if (vy == 0) //va cham dat
-		isHurting = false;
+	//if (vy == 0) //va cham dat
+	//	isHurting = false;
 
 
 	if (isAttacking)
@@ -198,13 +211,18 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		subWeapon->Update(dt, coObjects);
 	}
 
-
 	// Han che Attacking/ doi mau lien tuc
 	if (animations[ani]->getCurrentFrame() >= MAX_FRAME_ATTACK)
 	{
 		isAttacking = false;
 		isChangeColor = false;
-	}	
+	}
+	
+	if (animations[ani]->getCurrentFrame() >= MAX_FRAME_ONSTAIR)
+	{
+		isUpStair = false;
+		isDownStair = false;
+	}
 
 	if (isHurting)
 	{
@@ -218,9 +236,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-
-	// clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	//// clean up collision events
+	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 }
 
@@ -342,7 +359,6 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_WALKING_RIGHT:
 		if (isJumping || isAttacking)
 			return;
-
 		else if (isSitting) {
 			nx = 1;
 			return;
@@ -355,7 +371,6 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_WALKING_LEFT:
 		if (isJumping || isAttacking)
 			return;
-
 		else if (isSitting) {
 			nx = -1;
 			return;
@@ -363,7 +378,6 @@ void CSimon::SetState(int state)
 		isWalking = true;
 		vx = -SIMON_WALKING_SPEED;
 		nx = -1;
-
 		break;
 
 	case SIMON_STATE_JUMP:
@@ -415,12 +429,20 @@ void CSimon::SetState(int state)
 		isDownStair = true;
 
 		break;
+
+	case SIMON_STATE_AUTOGO:
+		isWalking = true;
+		vx = SIMON_WALKING_SPEED;
+		x += dt;
+		nx = 1;
+		break;
 	}
 }
 void CSimon::AttackingState()
 {
 	isWalking = false;
 	isAttacking = true;
+
 
 	if (CGame::GetInstance()->IsKeyDown(DIK_UP) && curSupWeapon != WeaponType::NONE)
 	{
@@ -439,55 +461,51 @@ void CSimon::AttackingState()
 }
 
 
+//bool CSimon::isCanChangeScene(vector<LPGAMEOBJECT> coObjects)
+//{
+//	for (UINT i = 0; i < coObjects.size(); i++)
+//	{
+//		if (IscollisionDoor(dynamic_cast<CDoor*>(coObjects.at[i])))
+//			return true;
+//	}
+//	return false;
+//}
 
-
-
-//bool CSimon::IscollisionItem(CCandle* item)
+//bool CSimon::CheckCollisionDoor(CDoor* door)
 //{
 //	float left_a, top_a, right_a, bottom_a;		// item
 //	float left, top, right, bottom;				// simon
 //
-//	item->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox item 
+//	door->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox item 
+//	GetBoundingBox(left, top, right, bottom);				// bbox simon 
+//
+//	if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
+//	{
+//		DebugOut(L"Da cham cua");
+//		isCollisionDoor = true;
+//		/*door->SetState(DOOR_STATE_OPEN);
+//		SetState(SIMON_STATE_AUTOGO);*/
+//	}
+//	return isCollisionDoor;
+//}
+
+
+//bool CSimon::IscollisionDoor(CDoor* door)
+//{
+//	float left_a, top_a, right_a, bottom_a;		// item
+//	float left, top, right, bottom;				// simon
+//
+//	door->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox item 
 //	GetBoundingBox(left, top, right, bottom);				// bbox simon 
 //
 //	if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
 //		return true;
-//	LPCOLLISIONEVENT e = SweptAABBEx(item); // kt sweptAABB
+//	LPCOLLISIONEVENT e = SweptAABBEx(door); // kt sweptAABB
 //	bool res = e->t > 0 && e->t <= 1.0f; // e->t > 0 co the xay ra va cham (tuong lai) && tgian va cham <= 1 
 //	delete(e);
 //	return res;
 //}
 
-//void CSimon::CheckSubWeapon(CCandle* item)
-//{
-//
-//	if (IscollisionItem)
-//	{
-//		switch (GetItemState())
-//		{
-//		case 2:
-//			SetState(SIMON_STATE_CHANGE_COLOR);
-//			CWhip::GetInstance()->UpgradeWhip();
-//			break;
-//		case 3:
-//			subWeapon->SetState(WeaponType::DAGGER);
-//			break;
-//		case 4:
-//			subWeapon->SetState(WeaponType::AXE);
-//			break;
-//		case 5:
-//			subWeapon->SetState(WeaponType::STOP_WATCH);
-//			break;
-//		case 6:
-//			subWeapon->SetState(WeaponType::HOLLY_WATER);
-//			break;
-//
-//		}
-//
-//
-//		coObjects->at(i)->SetState(CANDLE_STATE_DISABLE);
-//	}
-//}
 
 //void CSimon::WalkingState()
 //{

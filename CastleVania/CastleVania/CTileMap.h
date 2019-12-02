@@ -1,5 +1,3 @@
-//#include <Windows.h>
-
 #include "define.h"
 #include "Textures.h"
 #include "Sprites.h"

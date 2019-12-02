@@ -30,8 +30,6 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		x += dx;
 
-	
-
 		//Xet va cham voi candle bang bbox 
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
@@ -49,9 +47,6 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				
 				if(dynamic_cast<CEnemy*>(coObjects->at(i))) // if e->obj is CANDLE 				
 					coObjects->at(i)->SetState(ENEMY_STATE_DEAD);
-
-				if (dynamic_cast<CSimon*>(coObjects->at(i)))
-					return;
 
 				CSimon::GetInstance()->isUsingSupWeapon = false;
 			}

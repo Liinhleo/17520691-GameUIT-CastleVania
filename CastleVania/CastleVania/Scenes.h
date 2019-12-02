@@ -1,17 +1,18 @@
 #pragma once
-//#include <windows.h>
-//#include <d3d9.h>
-//#include <d3dx9.h>
 #include "define.h"
-//#include "tinyxml.h"
-//#include "CTileMap.h"
-
+#include "GameObject.h"
 
 class Scene
 {	
 public:
-	Scene() {}
+	int stage;		// man choi
 
+	Scene() { stage = 1; }	//default
+	void SetStage(int _stage)
+	{
+		this->stage = _stage;
+	}
+	int GetStage() { return stage; }
 	virtual void LoadResources() = 0 ;
 	virtual void Update(float dt) = 0;
 	virtual void Render() = 0;

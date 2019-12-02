@@ -1,13 +1,14 @@
 #include <d3dx9.h>
 #include <algorithm>
 
-
 #include "debug.h"
 #include "Textures.h"
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
 #include "Candle.h"
+#include "Door.h"
+#include "HiddenObject.h"
 
 CGameObject::CGameObject()
 {
@@ -70,11 +71,6 @@ void CGameObject::CalcPotentialCollisions(
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
-
-		if (dynamic_cast<CCandle*>(e->obj)) // neu obj la candle thi k push vao coEvents
-		{
-			continue;
-		}
 
 		if (e->t > 0 && e->t <= 1.0f)
 			coEvents.push_back(e);

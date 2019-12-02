@@ -1,15 +1,39 @@
 #include "Door.h"
 
-void CDoor::Render()
+
+CDoor::CDoor()
 {
-	//animations[0]->Render(x, y);
-	RenderBoundingBox();
+	type == ObjectType::DOOR;
+	state = DOOR_STATE_ABLE;
+
+	AddAnimation(602); // brick ~ ANI SHOW
+	AddAnimation(602); // brick ~ ANI OPEN
+
+	// se load them door -> 2 frame
+
 }
 
-void CDoor::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CDoor::Render()
 {
-	l = x;
-	t = y;
-	r = x + BRICK_BBOX_WIDTH;
-	b = y + BRICK_BBOX_HEIGHT;
+	ani = DOOR_ANI_SHOW;
+	if (isOpen)
+		ani = DOOR_ANI_OPEN;
+
+	int alpha = 255;
+	animations[ani]->Render(x, y, alpha);
+	RenderBoundingBox();
+	
+}
+
+void CDoor::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	left = x;
+	top = y;
+	bottom = y + DOOR_BBOX_HEIGHT;
+
+	if (isOpen)
+		right = x + DOOR_BBOX_WIDTH + 30;
+	else
+		right = x + DOOR_BBOX_WIDTH;
+	
 }

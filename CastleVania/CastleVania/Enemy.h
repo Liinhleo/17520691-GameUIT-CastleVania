@@ -1,5 +1,6 @@
 #pragma once
 #include "define.h"
+#include "GameObject.h"
 
 enum EnemyType {
 	ZOMBIE,
@@ -14,7 +15,6 @@ class CEnemy : public CGameObject
 public:
 	int ani;
 	EnemyType enemyID;
-	ItemType itemstate;
 
 	bool isHit = false;
 	bool isFallingItem = false;
@@ -27,6 +27,6 @@ public:
 	virtual void Render() = 0;
 	void SetState(int state);
 
-	void SetItemState(ItemType itemstate);
+	//void SetItemState(ItemType itemstate);
 };
 

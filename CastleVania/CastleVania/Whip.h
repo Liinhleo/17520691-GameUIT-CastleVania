@@ -1,11 +1,7 @@
 #pragma once
 #include <algorithm>
-
 #include "define.h"
-#include "Game.h"
-#include "Sprites.h"
-#include "Weapon.h"
-#include "Candle.h"
+#include "GameObject.h"
 
 #define WHIP_SPEED			0.1f 
 

@@ -1,6 +1,8 @@
 #include "Whip.h"
 #include "Simon.h"
 #include "Enemy.h"
+#include "Candle.h"
+
 CWhip* CWhip::__instance = NULL;
 CWhip* CWhip::GetInstance()
 {
@@ -17,8 +19,42 @@ void CWhip::UpgradeWhip()
 
 void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (CSimon::GetInstance()->isAttacking && animations[ani]->getCurrentFrame() == 2 ) // 2: frame roi duoc danh ra 
+	// Calculate dx, dy 
+	CGameObject::Update(dt);
+
+	/*======	XET VA CHAM	 CHO SIMON	======*/
+
+
+	vector<LPCOLLISIONEVENT> coEvents;	// su kien va cham
+	vector<LPCOLLISIONEVENT> coEventsResult;	// danh sach ket qua tra ve 
+
+	coEvents.clear();
+
+	CalcPotentialCollisions(coObjects, coEvents);	// tinh toan va cham (objects co kha nang va cham, su kien va cham )
+
+	// turn off collision when die 
+
+
+	// No collision occured, proceed normally
+	if (CSimon::GetInstance()->isAttacking && animations[ani]->getCurrentFrame() == 2) // 2: frame roi duoc danh ra 
 	{
+
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		// block 
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
+
+		if (nx != 0) vx = 0;				//va cham theo phuong x
+		if (ny != 0) vy = 0;				//va cham theo truc y
+
+
+
+
+
+
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			float left_a, top_a, right_a, bottom_a;// obj khac
@@ -26,22 +62,33 @@ void CWhip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox obj khac
 			GetBoundingBox(left, top, right, bottom);					// bbox whip 
+			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
+
+
 
 			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
 			{
 				if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
 				{
-					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);					
+					DebugOut(L"Vo update whip");
+
+					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);
 				}
-				else if (dynamic_cast<CEnemy*>(coObjects->at(i)))// if e->obj is zombie 
+
+
+				if (dynamic_cast<CEnemy*>(coObjects->at(i)))// if e->obj is zombie 
 				{
 					coObjects->at(i)->SetState(ENEMY_STATE_DEAD);
 				}
 			}
 
 		}
+		
 	}
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
+
 
 void CWhip::Render()
 {

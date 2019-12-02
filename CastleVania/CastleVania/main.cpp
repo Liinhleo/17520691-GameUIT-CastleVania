@@ -23,25 +23,12 @@
 #include <d3dx9.h>
 #include "Game.h"
 #include "Textures.h"
+#include "tinyxml.h"
 
-//#include "Whip.h"
-//#include "Brick.h"
 #include "Simon.h"
 #include "define.h"
-
-#include "tinyxml.h"
-//#include "Candle.h"
-//#include "Weapon.h"
 #include "CTileMap.h"
-//#include "Scenes.h"
-//#include "Zombie.h"
-//#include "CFishMan.h"
-//#include "Dog.h"
-//#include "Bat.h"
-
 #include "ScenePlayer.h"
-#define WINDOW_CLASS_NAME L"SampleWindow"
-#define MAIN_WINDOW_TITLE L"04 - Collision"
 
 vector<LPGAMEOBJECT> objects;
 CGame* game;

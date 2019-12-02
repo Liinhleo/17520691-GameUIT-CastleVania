@@ -30,27 +30,19 @@ struct CCollisionEvent
 
 enum ObjectType {
 	CANDLE,
+	HIDE_OBJECT,
+	BRICK,
+	DOOR,
 	ITEM,
 	WEAPON,
-	ENEMY,
-	HIDE_OBJECT
+	ENEMY
 };
 
-enum ItemType {
-	ITEM_BIG_HEART,
-	ITEM_SMALL_HEART,
-	ITEM_UPGRADE_WHIP,
-	ITEM_DAGGER,
-	ITEM_AXE,
-	ITEM_STOP_WATCH,
-	ITEM_HOLLY_WATER
-};
 
 class CGameObject
 {
 public:
 	ObjectType type;
-	ItemType itemtype;
 	float x; 
 	float y;
 
@@ -74,9 +66,10 @@ public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
+
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 
-
+	bool GetAble() { return isAble; }
 
 
 	//ktra update cua game
@@ -120,8 +113,8 @@ public:
 
 
 	// DIRTY CODE -> NEED TO IMPROVE
-	virtual void SetItemState(ItemType _itemtype) { this->itemtype = _itemtype; }
-	ItemType GetItem() { return itemtype; }
+	/*virtual void SetItemState(ItemType _itemtype) { this->itemtype = _itemtype; }
+	ItemType GetItem() { return itemtype; }*/
 
 
 	~CGameObject();

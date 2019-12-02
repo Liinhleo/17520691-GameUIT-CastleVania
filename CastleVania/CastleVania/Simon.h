@@ -3,6 +3,8 @@
 #include "define.h"
 #include "Weapon.h"
 #include "Whip.h"
+#include "GameObject.h"
+#include "Door.h"
 
 #define SIMON_WALKING_SPEED			0.5f 
 
@@ -18,7 +20,8 @@
 
 #define SIMON_UNTOUCHABLE_TIME 5000
 
-#define MAX_FRAME_ATTACK 3
+#define MAX_FRAME_ATTACK	3 // 4 frame
+#define MAX_FRAME_ONSTAIR	1 // 2 frame
 
 
 
@@ -48,9 +51,10 @@ public:
 	bool isChangeColor = false;
 	bool isHurting = false;
 
+	bool isAutoGo = false;
 	bool isUpStair = false;
 	bool isDownStair = false; 
-
+	bool isCollisionDoor = false;
 
 	/*void AttackingState();
 	void WalkingState();
@@ -68,10 +72,13 @@ public:
 	//test
 	float GetVx() { return this->vx; };
 
+
 	//bool IscollisionItem(CCandle *item = NULL);
 	//void SetSubWeapon(CCandle* item); // set vu khi phu cho Simon
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void AttackingState();
-
+	//bool CheckCollisionDoor(CDoor* door);
+	//bool isCanChangeScene(vector<LPGAMEOBJECT> coObjects);
+	
 };

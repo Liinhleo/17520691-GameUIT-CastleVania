@@ -1,10 +1,11 @@
 #pragma once
 #include "define.h"
-
+#include "GameObject.h"
+#include"Item.h"
 #define CANDLE_STATE_DISABLE			0
 #define CANDLE_STATE_ABLE				100
 #define CANDLE_STATE_FIRE				200
-#define CANDLE_STATE_FALLING_ITEM		300
+//#define CANDLE_STATE_FALLING_ITEM		300
 
 #define ANI_BIG_CANDLE					0
 #define ANI_SMALL_CANDLE				1
@@ -15,8 +16,7 @@
 #define CANDLE_SMALL_BBOX_WIDTH			16
 #define CANDLE_SMALL_BBOX_HEIGHT		26
 
-#define MAX_TIME_STATE_FIRE				500
-#define MAX_TIME_STATE_ITEM				2000
+
 
 enum CandleType {
 	BIG_CANDLE,
@@ -25,24 +25,17 @@ enum CandleType {
 
 class CCandle : public CGameObject
 {
-	ItemType itemstate;
+
 	CandleType type_candle;
 	int timeStart = 0;
-	int width;
-	int height;
+	int id;
 public:
+
 	int ani;
-	bool isShow = true;
 	bool isFire = false;
-	bool isFallingItem = false;
 
 	CCandle(); //constructor
 
-	void SetWidthHeigth(int width, int heigth)
-	{
-		this->width = width;
-		this->height = heigth;
-	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 	void Render();
@@ -50,10 +43,9 @@ public:
 	
 	void SetAniCandle(CandleType idCandle);
 	CandleType GetCandle() { return this->type_candle; }
-
+	int GetId() { return id; }
+	void SetId(int _id) { this->id = _id; }
 	
 	void SetState(int state);
-	void SetItemState(ItemType itemstate);
-	ItemType GetItem() { return this->itemstate; }
 
 };

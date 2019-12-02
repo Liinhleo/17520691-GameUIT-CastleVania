@@ -347,6 +347,10 @@
     <Animation aniId="601" name="BRICK">
       <sprite id="20001" left="408" top="225" right="424" bottom="241"/>
     </Animation>
+
+    <Animation aniId="602" name="DOOR_TEMP">
+      <sprite id="20001" left="408" top="225" right="424" bottom="241"/>
+    </Animation>
   </Texture>
 
   <!-- ENEMY -->

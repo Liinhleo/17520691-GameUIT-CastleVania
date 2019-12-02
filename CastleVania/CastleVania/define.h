@@ -6,13 +6,13 @@
 #include <unordered_map>
 #include <vector>
 
-#include "GameObject.h"
 #include "debug.h"
 
 
 #pragma once
 
-
+#define WINDOW_CLASS_NAME L"SampleWindow"
+#define MAIN_WINDOW_TITLE L"04 - Collision"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0) // background black
 #define SCREEN_WIDTH 512
@@ -50,7 +50,7 @@
 #define SIMON_STATE_DOWNSTAIR			1200
 #define SIMON_STATE_UPSTAIR_ATTACK		1300
 #define SIMON_STATE_DOWNSTAIR_ATTACK	1400
-
+#define SIMON_STATE_AUTOGO				1500
 
 #define SIMON_ANI_IDLE_RIGHT				0
 #define SIMON_ANI_IDLE_LEFT					1
@@ -121,6 +121,9 @@
 
 
 /*========ITEM==============*/
+#define MAX_TIME_STATE_FIRE				500
+#define MAX_TIME_STATE_ITEM				2000
+
 #define ITEM_GRAVITY				0.2f
 #define SMALL_HEART_GRAVITY			0.02f
 
@@ -129,13 +132,13 @@
 #define MIN_SPEED					-0.1f
 
 
-#define ITEM_ANI_BIG_HEART				3
-#define ITEM_ANI_SMALL_HEART			4
-#define ITEM_ANI_UPGRADE_WHIP			5
-#define ITEM_ANI_DAGGER					6
-#define ITEM_ANI_AXE					7
-#define ITEM_ANI_STOP_WATCH				8
-#define ITEM_ANI_HOLLY_WATER			9
+#define ITEM_ANI_BIG_HEART				0
+#define ITEM_ANI_SMALL_HEART			1
+#define ITEM_ANI_UPGRADE_WHIP			2
+#define ITEM_ANI_DAGGER					3
+#define ITEM_ANI_AXE					4
+#define ITEM_ANI_STOP_WATCH				5
+#define ITEM_ANI_HOLLY_WATER			6
 
 #define BIG_HEART_BBOX					23
 #define SMALL_HEART_BBOX				15
