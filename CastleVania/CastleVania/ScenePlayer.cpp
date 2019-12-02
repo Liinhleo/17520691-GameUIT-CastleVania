@@ -15,6 +15,19 @@ vector <LPGAMEOBJECT> listDoor;
 vector <LPGAMEOBJECT>coObject1;	// ~ coObject 1
 vector <LPGAMEOBJECT>coObject2;
 
+wchar_t* ConvertToWideChar(char* p) // covert string -> wchar_t*
+{
+	wchar_t* r;
+	r = new wchar_t[strlen(p) + 1];
+
+	char* tempsour = p;
+	wchar_t* tempdest = r;
+	while (*tempdest++ = *tempsour++);
+
+	return r;
+}
+
+
 ScenePlayer::ScenePlayer()
 {
 	this->stage = 2; //default
@@ -22,6 +35,7 @@ ScenePlayer::ScenePlayer()
 
 void ScenePlayer::LoadResources()
 {
+	ReadFile();
 	CTileMaps::GetInstance()->AddMap(1000, 9, L"map\\sprites1.txt", L"map\\map1.txt");
 	CTileMaps::GetInstance()->AddMap(2000, 10, L"map\\sprites2.txt", L"map\\map2.txt");
 	CTileMaps::GetInstance()->AddMap(3000, 11, L"map\\sprites3.txt", L"map\\map3.txt");
@@ -41,93 +55,87 @@ void ScenePlayer::LoadResources()
 			listCandle.push_back(candle);
 		}
 		/*===========BRICK========= */
-		for (int i = 0; i < 100; i++) //			map_width / brick_width = 96 -> lay 100 vien gach
-		{
-			CBrick* brick = new CBrick();
-			brick->SetPosition(0 + i * 16.0f, 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
-			listBrick.push_back(brick);
-		}
-		for (int i = 0; i < 10; i++) // wall invisible cuoi map de simon k di ra khoi map
-		{
-			CBrick* brick = new CBrick();
-			brick->SetPosition(CTileMaps::GetInstance()->GetMap(1000)->GetMapWidth() - 30.0f, 350.0f - i * BRICK_BBOX_WIDTH);
-			listBrick.push_back(brick);
-		}
+		CBrick* brick = new CBrick();
+		brick->SetPosition(0 , 370); // set vi tri du 1 vien gach an o dau map de simon k bi rot
+		brick->SetWidthHeigth(CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth(), BRICK_BBOX_WIDTH);
+		listBrick.push_back(brick);
+
 		//DOOR AN DE QUA MAN2	
 		CDoor* door = new CDoor();
-		door->SetPosition(1400.0f, 330.0f);
+		door->SetPosition(1350.0f, 305);
 		listDoor.push_back(door);
 	}
 
 	else if (stage == 2)
 	{	
 		/*===========BRICK========= */
-		for (int i = 0; i < 352; i++) //			map_width / brick_width = 96 -> lay 100 vien gach
+		// TAO GROUND
+		CBrick* brick = new CBrick();
+		brick->SetPosition(0, 400); 
+		brick->SetWidthHeigth(CTileMaps::GetInstance()->GetMap(MAP_2)->GetMapWidth(), BRICK_BBOX_WIDTH);
+		listBrick.push_back(brick);
+
+		for (int i = 0; i < 1; i++)	// tuong o cuoi map 2
 		{
 			CBrick* brick = new CBrick();
-			brick->SetPosition(0 + i * 16.0f, 400); // set vi tri du 1 vien gach an o dau map de simon k bi rot
+			brick->SetPosition(3050 + i *500, 300);
+			brick->SetWidthHeigth(BRICK_BBOX_WIDTH,100);
 			listBrick.push_back(brick);
 		}
-		for (int i = 0; i < 10; i++)	// tuong o cuoi map 2
+		for (int i = 0; i < 1; i++) // them 1
 		{
 			CBrick* brick = new CBrick();
-			brick->SetPosition(3050.0f, 400.0f - i * BRICK_BBOX_WIDTH);
+			brick->SetPosition(1370.0f + i *1, FLOOR_2);
+			brick->SetWidthHeigth(100, BRICK_BBOX_WIDTH);
 			listBrick.push_back(brick);
 		}
-		for (int i = 0; i < 6; i++) // them cau thang 1
+		for (int i = 0; i < 1; i++) // them 2
 		{
 			CBrick* brick = new CBrick();
-			brick->SetPosition(1370.0f + i * 16.0f, 280.0f);
+			brick->SetPosition(1500.0f , 210.0f);
+			brick->SetWidthHeigth(345, BRICK_BBOX_WIDTH);
 			listBrick.push_back(brick);
 		}
-		for (int i = 0; i < 20; i++) // them cau thang 1
+		for (int i = 0; i < 1; i++) // them 3
 		{
 			CBrick* brick = new CBrick();
-			brick->SetPosition(1500.0f + i * 16.0f, 210.0f);
+			brick->SetPosition(1850.0f, FLOOR_2);
+			brick->SetWidthHeigth(200, BRICK_BBOX_WIDTH);
 			listBrick.push_back(brick);
 		}
-		for (int i = 0; i < 10; i++) // them cau thang 1
-		{
-			CBrick* brick = new CBrick();
-			brick->SetPosition(1850.0f + i * 16.0f, 280.0f);
-			listBrick.push_back(brick);
-		}
-		for (int i = 0; i < 34; i++) // them cau thang 1
-		{
-			CBrick* brick = new CBrick();
-			brick->SetPosition(2780.0f + i * 16.0f, 210.0f);
-			listBrick.push_back(brick);
-		}
-		for (int i = 0; i < 6; i++)
-		{
-			CBrick* brick = new CBrick();
-			brick->SetPosition(3330.0f + i * 16.0f, 280.0f);
-			listBrick.push_back(brick);
-		}
-		for (int i = 0; i < 10; i++)	// tuong o cuoi map -> de xuong tang ham
-		{
-			CBrick* brick = new CBrick();
-			brick->SetPosition(3610.0f, 400.0f - i * BRICK_BBOX_WIDTH);
-			listBrick.push_back(brick);
-		}
-		for (int i = 0; i < 3; i++)
-		{
-			CBrick* brick = new CBrick();
-			brick->SetPosition(3720.0f + i * 16.0f, 240.0f);
-			listBrick.push_back(brick);
-		}
-		for (int i = 0; i < 6; i++)
-		{
-			CBrick* brick = new CBrick();
-			brick->SetPosition(3780.0f + i * 16.0f, 280.0f);
-			listBrick.push_back(brick);
-		}
-		for (int i = 0; i < 26; i++) // them cau thang 1
-		{
-			CBrick* brick = new CBrick();
-			brick->SetPosition(3900.0f + i * 16.0f, 210.0f);
-			listBrick.push_back(brick);
-		}
+		//for (int i = 0; i < 1; i++) // them cau thang 1
+		//{
+		//	CBrick* brick = new CBrick();
+		//	brick->SetPosition(2780.0f, 210.0f);
+		//	brick->SetWidthHeigth(600, BRICK_BBOX_WIDTH);
+		//	listBrick.push_back(brick);
+		//}
+		//for (int i = 0; i < 1; i++)	// tuong o cuoi map -> de xuong tang ham
+		//{
+		//	CBrick* brick = new CBrick();
+		//	brick->SetPosition(3610.0f, 400.0f);
+		//	brick->SetWidthHeigth( BRICK_BBOX_WIDTH, 100 );
+		//	listBrick.push_back(brick);
+		//}
+		//for (int i = 0; i < 3; i++)
+		//{
+		//	CBrick* brick = new CBrick();
+		//	brick->SetPosition(3720.0f + i * 16.0f, 240.0f);
+		//	listBrick.push_back(brick);
+		//}
+		//for (int i = 0; i < 26; i++) // them cau thang 1
+		//{
+		//	CBrick* brick = new CBrick();
+		//	brick->SetPosition(3900.0f + i * 16.0f, 210.0f);
+		//	listBrick.push_back(brick);
+		//}
+		//for (int i = 0; i < 1; i++)
+		//{
+		//	CBrick* brick = new CBrick();
+		//	brick->SetPosition(3330.0f + i * 450.0f, 280.0f);
+		//	brick->SetWidthHeigth(72, BRICK_BBOX_WIDTH);
+		//	listBrick.push_back(brick);
+		//}
 
 		/*===========CANDLE========= */
 		
@@ -136,7 +144,7 @@ void ScenePlayer::LoadResources()
 			candle = new CCandle();
 			candle->SetState(CANDLE_STATE_ABLE);
 			candle->SetAniCandle(CandleType::SMALL_CANDLE);
-			candle->SetPosition(190 + i * 250, 280);
+			candle->SetPosition(190 + i * 250, FLOOR_2);
 			candle->SetId(i);
 			listCandle.push_back(candle);
 		}
@@ -145,7 +153,7 @@ void ScenePlayer::LoadResources()
 			candle = new CCandle();
 			candle->SetState(CANDLE_STATE_ABLE);
 			candle->SetAniCandle(CandleType::SMALL_CANDLE);
-			candle->SetPosition(60 + i * 250, 340);
+			candle->SetPosition(60 + i * 250, FLOOR_1);
 			candle->SetId(i);
 			listCandle.push_back(candle);
 		}
@@ -154,7 +162,7 @@ void ScenePlayer::LoadResources()
 			candle = new CCandle();
 			candle->SetState(CANDLE_STATE_ABLE);
 			candle->SetAniCandle(CandleType::SMALL_CANDLE);
-			candle->SetPosition(1480.0f + i * 350, 340);
+			candle->SetPosition(1480.0f + i * 350, FLOOR_1);
 			candle->SetId(i);
 			listCandle.push_back(candle);
 		}
@@ -172,10 +180,19 @@ void ScenePlayer::LoadResources()
 			candle = new CCandle();
 			candle->SetState(CANDLE_STATE_ABLE);
 			candle->SetAniCandle(CandleType::SMALL_CANDLE);
-			candle->SetPosition(2100.0f + i * 130, 340);
+			candle->SetPosition(2100.0f + i * 130, FLOOR_1);
 			candle->SetId(i);
 			listCandle.push_back(candle);
 		}
+		
+		/*===========HIDDEN_OJECT========= */
+		for (int i = 0; i < 3; i++)
+		{
+			hiddenOject = new HiddenObject(i, 30, 30);
+			hiddenOject->SetPosition(190 + i * 520, 370);
+			listHiddenObj.push_back(hiddenOject);
+		}
+
 
 		///*===========ZOMBIE========= */
 		/*for (int i = 0; i < 3; i++)
@@ -188,16 +205,24 @@ void ScenePlayer::LoadResources()
 		
 
 		// Dog thu nhat tren cau thang
-		/*CDog *dog = new CDog();
-		dog->SetPosition(200, 305);
+		for (int i = 0; i < 2; i++)
+		{
+			CDog* dog = new CDog();
+			dog->SetPosition(1400.0f + i * 500, 250);
+			dog->SetState(ENEMY_STATE_WALKING);
+			listEnemy.push_back(dog);
+		}
+		// Dog thu 2 tren cau thang
+		CDog* dog = new CDog();
+		dog->SetPosition(1750.0f,180);
 		dog->SetState(ENEMY_STATE_WALKING);
-		listEnemy.push_back(dog);*/
+		listEnemy.push_back(dog);
 
+		
 
 		//HiddenObject* hidden_obj = new HiddenObject(16,30);
 		//hidden_obj->SetPosition(1250.0f, 330.0f );
 		//objects.push_back(hidden_obj);
-		
 
 		// BAT HAVE SOME BUGS
 		//CBat *bat = new CBat();
@@ -225,7 +250,7 @@ void ScenePlayer::Update(float dt)
 	for (int i = 0; i < listBrick.size(); i++)
 	{
 		coObject1.push_back(listBrick[i]);
-		listBrick[i]->Update(dt);
+		listBrick[i]->Update(dt,&coObject1);
 	}
 	for (int i = 0; i < listItem.size(); i++)
 	{
@@ -305,22 +330,40 @@ void ScenePlayer::Update(float dt)
 	//}
 
 
-	
-
 	//HAM UPDATE CAMERA THEO SIMON THEO MAP 1
-	int mapWidth = CTileMaps::GetInstance()->GetMap(MAP_2)->GetMapWidth();
-	float cx, cy;
-	CSimon::GetInstance()->GetPosition(cx, cy);
-	cx = cx - SCREEN_WIDTH / 2 + 30; // vi tri cam luon de Simon o giua man hinh
-	//cy -= SCREEN_HEIGHT / 2;
+	if (stage == 1)
+	{
+		int mapWidth = CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth();
+		float cx, cy;
+		CSimon::GetInstance()->GetPosition(cx, cy);
+		cx = cx - SCREEN_WIDTH / 2 + 30; // vi tri cam luon de Simon o giua man hinh
+		//cy -= SCREEN_HEIGHT / 2;
 
-	if (cx < 0) //TH: Simon o dau map
-		cx = 0;
+		if (cx < 0) //TH: Simon o dau map
+			cx = 0;
 
-	else if (cx + SCREEN_WIDTH > mapWidth) // TH: Simon di qua 1/2 cuoi map
-		return;
+		else if (cx + SCREEN_WIDTH > mapWidth) // TH: Simon di qua 1/2 cuoi map
+			return;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f);
+		CGame::GetInstance()->SetCamPos(cx, 0.0f);
+	}
+
+	if (stage == 2)
+	{
+		int mapWidth = CTileMaps::GetInstance()->GetMap(MAP_2)->GetMapWidth();
+		float cx, cy;
+		CSimon::GetInstance()->GetPosition(cx, cy);
+		cx = cx - SCREEN_WIDTH / 2 + 30; // vi tri cam luon de Simon o giua man hinh
+		//cy -= SCREEN_HEIGHT / 2;
+
+		if (cx < 0) //TH: Simon o dau map
+			cx = 0;
+
+		else if (cx + SCREEN_WIDTH > mapWidth) // TH: Simon di qua 1/2 cuoi map
+			return;
+
+		CGame::GetInstance()->SetCamPos(cx, 0.0f);
+	}
 }
 
 
@@ -359,9 +402,17 @@ void ScenePlayer::Render()
 		{
 			listCandle[i]->Render();
 		}
+		for (int i = 0; i < listHiddenObj.size(); i++)
+		{
+			listHiddenObj[i]->Render();
+		}
 		CSimon::GetInstance()->Render(); // Simon ve cuoi
 	}
 
+	else if (stage == 3)
+	{
+		// xet sau
+	}
 }
 
 
@@ -385,5 +436,88 @@ void ScenePlayer::UpdateStage()
 			break;*/
 	default:
 		break;
+	}
+}
+
+void  ScenePlayer::ReadFile()
+{
+	/*===========DECLARE========= */
+	CSprites* sprites = CSprites::GetInstance();
+	CAnimations* animations = CAnimations::GetInstance();
+	CTextures* textures = CTextures::GetInstance();
+
+	LPANIMATION ani;
+
+	/*===========READ TEXTURE FROM FILE TXT========= */
+	ifstream inp(L"textures\\Resources.txt", ios::in);
+	if (inp.fail())
+	{
+		DebugOut(L"[ERROR] Load file failed!");
+		inp.close();
+	}
+
+	while (!inp.eof())
+	{
+		string link;
+		int id, r, g, b;
+		inp >> id >> r >> g >> b >> link;
+		textures->Add(id, D3DCOLOR_XRGB(r, g, b), ConvertToWideChar((char*)link.c_str()));
+	}
+
+	LPDIRECT3DTEXTURE9 tex;
+
+
+	/*===========ADD SPRITE + ADD ANIMATION ========= */
+
+	TiXmlDocument doc("textures\\Textures.xml");
+
+	if (!doc.LoadFile())
+	{
+		DebugOut(L"Can't read XML file");
+		MessageBox(NULL, L"Can't Read XML File", L"Error", MB_OK);
+		return;
+	}
+	else
+	{
+		DebugOut(L"[INFO]Read XML success\n");
+	}
+
+	// get info root
+	TiXmlElement* root = doc.RootElement();
+	TiXmlElement* sprite = nullptr;
+	TiXmlElement* animation = nullptr;
+	TiXmlElement* texture = nullptr;
+	// gameObjectId = 0 -- Simon
+
+	for (texture = root->FirstChildElement(); texture != NULL; texture = texture->NextSiblingElement())
+	{
+		int textureId;
+		int gameObjectId;
+		texture->QueryIntAttribute("textureId", &textureId);
+		texture->QueryIntAttribute("gameObjectId", &gameObjectId);
+
+		tex = textures->Get(textureId);
+
+		for (animation = texture->FirstChildElement(); animation != NULL; animation = animation->NextSiblingElement())
+		{
+			int aniId, frameTime;
+			animation->QueryIntAttribute("frameTime", &frameTime);
+			LPANIMATION ani;
+
+			ani = new CAnimation(frameTime);
+			for (sprite = animation->FirstChildElement(); sprite != NULL; sprite = sprite->NextSiblingElement())
+			{
+				int left, top, right, bottom, id;
+				sprite->QueryIntAttribute("id", &id);
+				sprite->QueryIntAttribute("top", &top);
+				sprite->QueryIntAttribute("left", &left);
+				sprite->QueryIntAttribute("right", &right);
+				sprite->QueryIntAttribute("bottom", &bottom);
+				sprites->Add(id, left, top, right, bottom, tex);
+				ani->Add(id);
+			}
+			animation->QueryIntAttribute("aniId", &aniId);
+			animations->Add(aniId, ani);
+		};
 	}
 }

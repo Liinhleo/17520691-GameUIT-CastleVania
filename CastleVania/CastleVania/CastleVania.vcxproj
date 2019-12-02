@@ -176,9 +176,6 @@
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Textures.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="textures\Resources.txt" />
     <Text Include="textures\scene1-map.txt" />
   </ItemGroup>
@@ -195,6 +192,9 @@
     <Image Include="textures\scene1.png" />
     <Image Include="textures\tileset_map1.png" />
     <Image Include="textures\whip-full.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="textures\Textures.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

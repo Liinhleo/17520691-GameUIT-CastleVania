@@ -4,13 +4,14 @@
 
 class HiddenObject : public CGameObject
 {
+	int id;
 	int width;	// rong
 	int height;	// cao
 
 public:
-	HiddenObject(int _width,int _height) 
+	HiddenObject(int _id, int _width,int _height) 
 	{
-
+		this->id = _id;
 		this->width = _width;
 		this->height = _height;
 
@@ -18,8 +19,6 @@ public:
 
 		AddAnimation(601);
 	}
-	virtual void Update();
-
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

@@ -1,6 +1,6 @@
 #ifndef SCENEPLAYER_H
 #define SCENEPLAYER_H
-
+#include "tinyxml.h"
 #include "Candle.h"
 #include "Whip.h"
 #include "Brick.h"
@@ -27,7 +27,8 @@ class ScenePlayer :public Scene
 
 public:
 	ScenePlayer();
-	
+	void ReadFile();
+
 	void UpdateStage();
 	void LoadResources();
 	void Update(float dt);

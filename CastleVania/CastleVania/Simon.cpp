@@ -77,8 +77,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 
 									/*======	XET VA CHAM	 CHO SIMON	======*/
-
-	
 	// Simple fall down
 	vy += SIMON_GRAVITY * dt;
 
@@ -114,13 +112,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (nx != 0) vx = 0;				//va cham theo phuong x
 		if (ny != 0) vy = 0;				//va cham theo truc y
-
-
-
-
-
-
-
 
 
 		for (UINT i = 0; i < coObjects->size(); i++)
@@ -173,12 +164,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					isCollisionDoor = true;
 					/*door->SetState(DOOR_STATE_OPEN);
 					SetState(SIMON_STATE_AUTOGO);*/
-				}
-
-				if (dynamic_cast<CEnemy*>(coObjects->at(i)))
-				{
-					LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i)); // kt sweptAABB
-					SetState(SIMON_STATE_HURT);
 				}
 
 			}

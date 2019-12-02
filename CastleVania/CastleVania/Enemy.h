@@ -27,6 +27,5 @@ public:
 	virtual void Render() = 0;
 	void SetState(int state);
 
-	//void SetItemState(ItemType itemstate);
 };
 

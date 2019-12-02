@@ -19,6 +19,9 @@
 #define SCREEN_HEIGHT 480
 #define MAX_FRAME_RATE 60
 
+/* SET POSITION */
+#define FLOOR_1		340
+#define FLOOR_2		280
 
 /*MAP_ID*/
 #define MAP_1	1000
@@ -88,12 +91,12 @@
 #define FISHMAN_WALKING_SPEED		0.05f;
 #define FISHMAN_WALKING_SPEED_Y		0.05f;
 
-#define ZOMBIE_BBOX_WIDTH 30
-#define ZOMBIE_BBOX_HEIGHT 65
-#define FISHMAN_BBOX_WIDTH 30
+#define ZOMBIE_BBOX_WIDTH	30
+#define ZOMBIE_BBOX_HEIGHT	65
+#define FISHMAN_BBOX_WIDTH	30
 #define FISHMAN_BBOX_HEIGHT 65
-#define DOG_BBOX_WIDTH		0
-#define DOG_BBOX_HEIGHT		0
+#define DOG_BBOX_WIDTH		60
+#define DOG_BBOX_HEIGHT		30
 #define BAT_BBOX_WIDTH		0
 #define BAT_BBOX_HEIGHT		0
 
@@ -114,8 +117,8 @@
 #define BAT_ANI_LEFT				8
 #define BOSS_ANI_HANGOUT			9
 #define BOSS_ANI_ATTACK				10
-#define ENEMY_ANI_FIRE				11
-
+#define DOG_ANI_SIT					11
+#define ENEMY_ANI_FIRE				12
 
 
 

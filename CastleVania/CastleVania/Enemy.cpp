@@ -15,6 +15,7 @@ CEnemy::CEnemy()
 	AddAnimation(268);	//BAT_LEFT
 	AddAnimation(269);	//BOSS_HANGOUT
 	AddAnimation(270);	//BOSS_ATTACK
+	AddAnimation(271);	//DOG_SIT
 	AddAnimation(252); // FIRE
 
 }
@@ -42,45 +43,3 @@ void CEnemy::SetState(int state)
 
 	}
 }
-
-//void CEnemy::SetItemState(ItemType itemstate)
-//{
-//	this->itemstate = itemstate;
-//	switch (itemstate)
-//	{
-//	case ItemType::ITEM_BIG_HEART:
-//		ani = ITEM_ANI_BIG_HEART;
-//		vy = ITEM_GRAVITY;
-//		break;
-//
-//	case ItemType::ITEM_SMALL_HEART:
-//		ani = ITEM_ANI_SMALL_HEART;
-//		vy = SMALL_HEART_GRAVITY;
-//		break;
-//
-//	case ItemType::ITEM_UPGRADE_WHIP:
-//		ani = ITEM_ANI_UPGRADE_WHIP;
-//		vy = ITEM_GRAVITY;
-//		break;
-//
-//	case ItemType::ITEM_DAGGER:
-//		ani = ITEM_ANI_DAGGER;
-//		vy = ITEM_GRAVITY;
-//		break;
-//
-//	case ItemType::ITEM_AXE:
-//		ani = ITEM_ANI_AXE;
-//		vy = ITEM_GRAVITY;
-//		break;
-//
-//	case ItemType::ITEM_STOP_WATCH:
-//		ani = ITEM_ANI_STOP_WATCH;
-//		vy = ITEM_GRAVITY;
-//		break;
-//
-//	case ItemType::ITEM_HOLLY_WATER:
-//		ani = ITEM_ANI_HOLLY_WATER;
-//		vy = ITEM_GRAVITY;
-//		break;
-//	}
-//}

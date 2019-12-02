@@ -409,7 +409,7 @@
       <sprite id="10194" left="400" top="130" right="500" bottom="195"/>
       <sprite id="10193" left="500" top="130" right="600" bottom="195"/>
     </Animation>
-  </Texture>
+
 
     <Animation aniId="269" name="BOSS_HANGOUT">
       <sprite id="10195" left="0" top="130" right="100" bottom="195"/>
@@ -421,8 +421,10 @@
       <sprite id="10198" left="100" top="130" right="200" bottom="195"/>
     </Animation>
 
-    <Animation aniId="271" name="DOOR_END_MAP1">
-      <sprite id="10199" left="900" top="0" right="1000" bottom="260"/>
+    <Animation aniId="271" name="DOG_SIT">
+      <sprite id="10174" left="0" top="0" right="100" bottom="65"/>
     </Animation>
-  
+    
+    
+  </Texture>
 </Textures>

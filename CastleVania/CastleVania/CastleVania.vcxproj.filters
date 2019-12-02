@@ -182,11 +182,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="Textures.xml">
-      <Filter>LoadFile</Filter>
-    </Xml>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="textures\003-entrance.png">
       <Filter>LoadFile</Filter>
     </Image>
@@ -223,5 +218,10 @@
     <Image Include="textures\whip-full.png">
       <Filter>LoadFile</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="textures\Textures.xml">
+      <Filter>LoadFile</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
