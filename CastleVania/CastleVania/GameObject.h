@@ -33,6 +33,8 @@ enum ObjectType {
 	HIDE_OBJECT,
 	BRICK,
 	DOOR,
+	TOP_STAIR,
+	BOTTOM_STAIR,
 	ITEM,
 	WEAPON,
 	ENEMY
@@ -43,6 +45,9 @@ class CGameObject
 {
 public:
 	ObjectType type;
+
+	int ID;
+
 	float x; 
 	float y;
 
@@ -63,20 +68,33 @@ public:
 
 public: 
 	bool isAble = true;
+	void SetId(int _id) { this->ID = _id; }
+	virtual void SetState(int state) { this->state = state; }
+	void SetDirection(int direction) { this->nx = direction; }
+	void SetType(ObjectType _type) { this->type = _type; }
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
-	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 
-	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
-
+	int GetID() { return this->ID; }
+	int GetState() { return this->state; }
 	bool GetAble() { return isAble; }
-
-
-	//ktra update cua game
 	float GetVx() { return this->vx; }
+	float GetVy() { return this->vy; }
+	int GetDirection() { return this->nx; }
+	ObjectType GetType() { return type; }
+	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
+	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
 
+
+	CGameObject();
+	void AddAnimation(int aniId);
+
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
 	void RenderBoundingBox();
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
+	virtual void Render() = 0;
 
+	//CAC HAM XU LY VA CHAM
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	virtual void FilterCollision(
@@ -87,35 +105,10 @@ public:
 		float &nx, 
 		float &ny);
 
-	void AddAnimation(int aniId);
-
-	CGameObject();
-
-	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
-	virtual void Render() = 0;
-	
-
-	void SetType(ObjectType _type)
-	{ 
-		this->type = _type;			
-	}
-	ObjectType GetType() { return type; }
-
-	virtual void SetState(int state) { this->state = state; }
-	int GetState() { return this->state; }
-
 	// ktra bbox co trung nhau khong
-	bool CheckAABB(float left_a, float top_a, float right_a, float bottom_a, float left_b, float top_b, float right_b, float bottom_b)
-	{
-		return left_a < right_b && right_a > left_b && top_a < bottom_b && bottom_a > top_b;
-	}
-
-
-	// DIRTY CODE -> NEED TO IMPROVE
-	/*virtual void SetItemState(ItemType _itemtype) { this->itemtype = _itemtype; }
-	ItemType GetItem() { return itemtype; }*/
-
+	bool CheckAABB(float left_a, float top_a, float right_a, float bottom_a, float left_b, float top_b, float right_b, float bottom_b);
+	bool CheckAABBwithObject(LPGAMEOBJECT object);   // static object
+	bool checkAABBExwithObject(LPGAMEOBJECT object); // moving object, smallcandle 
 
 	~CGameObject();
 };

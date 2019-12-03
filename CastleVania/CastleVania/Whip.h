@@ -54,6 +54,7 @@ public:
 	void SetLevel(int l) { level = l; }
 	void UpgradeWhip();
 
+	void WhipCollisionObject(vector<LPGAMEOBJECT> coObjects);
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	void Render();

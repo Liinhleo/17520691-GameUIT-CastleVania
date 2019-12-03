@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Brick.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Whip.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -19,9 +15,6 @@
     </ClCompile>
     <ClCompile Include="tinyxmlparser.cpp">
       <Filter>LoadFile\XML</Filter>
-    </ClCompile>
-    <ClCompile Include="Candle.cpp">
-      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Source</Filter>
@@ -62,17 +55,36 @@
     <ClCompile Include="CTileMap.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="ScenePlayer.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scenes.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="HiddenObject.cpp" />
-    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Candle.cpp">
+      <Filter>StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>StaticObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TopStair.cpp">
+      <Filter>HiddenObj</Filter>
+    </ClCompile>
+    <ClCompile Include="HiddenObject.cpp">
+      <Filter>HiddenObj</Filter>
+    </ClCompile>
+    <ClCompile Include="BottomStair.cpp">
+      <Filter>HiddenObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>HiddenObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tinystr.h">
@@ -123,16 +135,7 @@
     <ClInclude Include="Weapon.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Candle.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Whip.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Door.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="ScenePlayer.h">
@@ -141,8 +144,27 @@
     <ClInclude Include="Scenes.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="HiddenObject.h" />
-    <ClInclude Include="Item.h" />
+    <ClInclude Include="Candle.h">
+      <Filter>StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>StaticObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TopStair.h">
+      <Filter>HiddenObj</Filter>
+    </ClInclude>
+    <ClInclude Include="HiddenObject.h">
+      <Filter>HiddenObj</Filter>
+    </ClInclude>
+    <ClInclude Include="BottomStair.h">
+      <Filter>HiddenObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>HiddenObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -171,6 +193,12 @@
     </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{aac40bf1-49ee-4c85-a42b-8eff155fd5d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StaticObject">
+      <UniqueIdentifier>{8c65a968-e20a-449d-b5ff-0e98fbc2ab5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HiddenObj">
+      <UniqueIdentifier>{d6d70822-3719-4e4d-a448-2d67c7c23705}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

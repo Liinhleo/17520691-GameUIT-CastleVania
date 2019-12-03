@@ -19,11 +19,10 @@ class ScenePlayer :public Scene
 	vector <LPGAMEOBJECT> objects;
 	CCandle* candle;
 	CDoor* door;
-	CWhip* whip;
 	CBrick* brick;
 	HiddenObject* hiddenOject;
 	CZombie* zombie;
-
+	Weapon* subWeapon;
 
 public:
 	ScenePlayer();
@@ -33,5 +32,13 @@ public:
 	void LoadResources();
 	void Update(float dt);
 	void Render();
+
+	void CheckCollision_SimonAndEnemy();
+	void CheckCollision_SimonAndItem();
+	
+	void CheckCollision_WeaponAndEnemy();
+	void CheckCollision_WhipAndEnemy();
+
+
 };
 #endif

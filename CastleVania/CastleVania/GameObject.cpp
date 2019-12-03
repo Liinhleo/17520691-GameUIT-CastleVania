@@ -118,7 +118,6 @@ void CGameObject::FilterCollision(
 	if (min_iy>=0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
-
 void CGameObject::RenderBoundingBox()
 {
 	D3DXVECTOR3 p(x, y, 0);
@@ -136,13 +135,37 @@ void CGameObject::RenderBoundingBox()
 
 	CGame::GetInstance()->Draw(l, t, bbox, rect.left, rect.top, rect.right, rect.bottom, 100);
 }
-
 void CGameObject::AddAnimation(int aniId)
 {
 	LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);
 	animations.push_back(ani);
 }
 
+bool  CGameObject::CheckAABB(float left_a, float top_a, float right_a, float bottom_a, float left_b, float top_b, float right_b, float bottom_b)
+{
+	return left_a < right_b && right_a > left_b && top_a < bottom_b && bottom_a > top_b;
+}
+bool CGameObject::CheckAABBwithObject(LPGAMEOBJECT object) 	//check bbox collision 2 static objects
+{
+	float left, top, right, bottom;
+	float left_a, top_a, right_a, bottom_a;
+	this->GetBoundingBox(left, top, right, bottom);
+	object->GetBoundingBox(left_a, top_a, right_a, bottom_a);
+
+	if (this->CheckAABB(left, top, right, bottom, left_a, top_a, right_a, bottom_a)) // ktra va cham bang bbox
+		return true;
+	return false;
+
+}
+bool CGameObject::checkAABBExwithObject(LPGAMEOBJECT object) 	//Kiem tra va cham cho 2 moving objects 
+{
+	if (this->CheckAABBwithObject(object)) // ktra va cham bang bbox
+		return true;
+
+	LPCOLLISIONEVENT e = SweptAABBEx(object);			// ktra va cham bang cach nhin truoc frame
+	bool res = e->t > 0 && e->t <= 1.0f;			// dkien va cham
+	return res;
+}
 
 CGameObject::~CGameObject()
 {

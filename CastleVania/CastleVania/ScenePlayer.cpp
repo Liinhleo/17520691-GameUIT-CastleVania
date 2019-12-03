@@ -3,6 +3,8 @@
 #include "Game.h"
 #include "Scenes.h"
 #include "Dog.h"
+#include "BottomStair.h"
+#include "TopStair.h"
 
 vector <LPGAMEOBJECT> listCandle;
 vector <LPGAMEOBJECT> listItem;
@@ -10,10 +12,17 @@ vector <LPGAMEOBJECT> listBrick;
 vector <LPGAMEOBJECT> listHiddenObj;
 vector <LPGAMEOBJECT> listEnemy;
 vector <LPGAMEOBJECT> listDoor;
+vector <LPGAMEOBJECT> listStair;
 
 
-vector <LPGAMEOBJECT>coObject1;	// ~ coObject 1
-vector <LPGAMEOBJECT>coObject2;
+vector <LPGAMEOBJECT>coObject1;		// bao gom: Simon, brick
+vector <LPGAMEOBJECT>coObject2;		// bao gom: Candle, HiddenObj, Door, Stair
+
+vector <LPGAMEOBJECT>SimonItem;		// bao gom: Simon, Item
+vector <LPGAMEOBJECT>SimonEnemy;	// bao gom: Simon, enemy
+vector <LPGAMEOBJECT>WeaponObject;	// bao gom: weapon, whip, enemy, candle
+
+
 
 wchar_t* ConvertToWideChar(char* p) // covert string -> wchar_t*
 {
@@ -27,7 +36,6 @@ wchar_t* ConvertToWideChar(char* p) // covert string -> wchar_t*
 	return r;
 }
 
-
 ScenePlayer::ScenePlayer()
 {
 	this->stage = 2; //default
@@ -35,13 +43,25 @@ ScenePlayer::ScenePlayer()
 
 void ScenePlayer::LoadResources()
 {
+#pragma region	LOADFILE
 	ReadFile();
 	CTileMaps::GetInstance()->AddMap(1000, 9, L"map\\sprites1.txt", L"map\\map1.txt");
 	CTileMaps::GetInstance()->AddMap(2000, 10, L"map\\sprites2.txt", L"map\\map2.txt");
 	CTileMaps::GetInstance()->AddMap(3000, 11, L"map\\sprites3.txt", L"map\\map3.txt");
-	
 	CSimon::GetInstance()->SetPosition(0, 300);
+#pragma endregion	LOADFILE
 
+	// DO SIMON KHONG THAY DOI
+	SimonItem.push_back(CSimon::GetInstance());
+	SimonEnemy.push_back(CSimon::GetInstance());
+
+	subWeapon = new Weapon();
+	WeaponObject.push_back(subWeapon);
+
+
+
+
+#pragma region LOAD_OBJECT_STAGE_1
 	if (stage == 1)
 	{
 		/*===========CANDLE========= */
@@ -65,7 +85,9 @@ void ScenePlayer::LoadResources()
 		door->SetPosition(1350.0f, 305);
 		listDoor.push_back(door);
 	}
+#pragma endregion LOAD_OBJECT_STAGE_1
 
+#pragma region	LOAD_OBJECT_STAGE_2
 	else if (stage == 2)
 	{	
 		/*===========BRICK========= */
@@ -185,16 +207,43 @@ void ScenePlayer::LoadResources()
 			listCandle.push_back(candle);
 		}
 		
-		/*===========HIDDEN_OJECT========= */
-		for (int i = 0; i < 3; i++)
+		/*===========HIDDEN_OJECT========= */ 
+		// Dung de khoi dong enemy 
+		for (int i = 0; i < 2; i++)
 		{
 			hiddenOject = new HiddenObject(i, 30, 30);
 			hiddenOject->SetPosition(190 + i * 520, 370);
 			listHiddenObj.push_back(hiddenOject);
 		}
 
+		/*===========TOP STAIR ========= */
+		for (int i = 0; i < 1; i++)
+		{
+			BottomStair* bottomstair = new BottomStair(1, 30, 30);
+			bottomstair->SetPosition(1230 , 370);
+			listStair.push_back(bottomstair);
+		}
+		for (int i = 0; i < 1; i++)
+		{
+			TopStair* topStair = new TopStair(2, 30, 30);
+			topStair->SetPosition(1350 , 200);
+			listStair.push_back(topStair);
+		}
 
-		///*===========ZOMBIE========= */
+		for (int i = 0; i < 1; i++)
+		{
+			BottomStair* bottomstair = new BottomStair(3, 30, 30);
+			bottomstair->SetPosition(1750.0f, 180);
+			listStair.push_back(bottomstair);
+		}
+		for (int i = 0; i < 1; i++)
+		{
+			TopStair* topStair = new TopStair(4, 30, 30);
+			topStair->SetPosition(1500, 150);
+			listStair.push_back(topStair);
+		}
+
+		///*===========ENEMY========= */
 		/*for (int i = 0; i < 3; i++)
 		{
 			CZombie* zombie = new CZombie();
@@ -202,7 +251,6 @@ void ScenePlayer::LoadResources()
 			zombie->SetState(ENEMY_STATE_WALKING);
 			listEnemy.push_back(zombie);
 		}*/
-		
 
 		// Dog thu nhat tren cau thang
 		for (int i = 0; i < 2; i++)
@@ -218,8 +266,6 @@ void ScenePlayer::LoadResources()
 		dog->SetState(ENEMY_STATE_WALKING);
 		listEnemy.push_back(dog);
 
-		
-
 		//HiddenObject* hidden_obj = new HiddenObject(16,30);
 		//hidden_obj->SetPosition(1250.0f, 330.0f );
 		//objects.push_back(hidden_obj);
@@ -229,8 +275,14 @@ void ScenePlayer::LoadResources()
 		//bat->SetPosition(200, 305);
 		//bat->SetState(ENEMY_STATE_WALKING);
 		//objects.push_back(bat);
-	}
 
+		/*PUSH VO DANH SACH X*/
+
+
+	}
+#pragma endregion	LOAD_OBJECT_STAGE_2
+
+#pragma region LOAD_OBJECT_STAGE_3
 	else if (stage == 3)
 	{
 		//CFishman *fishman = new CFishMan();
@@ -239,26 +291,31 @@ void ScenePlayer::LoadResources()
 		//objects.push_back(fishman);
 		// xet sau
 	}
+#pragma endregion LOAD_OBJECT_STAGE_3
+
 }
 
 void ScenePlayer::Update(float dt)
 {
 	UpdateStage();
 	CSimon::GetInstance()->Update(dt,&coObject1);
-	
-	/*=== DANH SACH LIST OBJECT O COOBJECT 1 ===*/
-	for (int i = 0; i < listBrick.size(); i++)
-	{
-		coObject1.push_back(listBrick[i]);
-		listBrick[i]->Update(dt,&coObject1);
-	}
+
+#pragma region	COOBJECT 1
+	coObject1.push_back(CSimon::GetInstance());
 	for (int i = 0; i < listItem.size(); i++)
 	{
 		coObject1.push_back(listItem[i]);
 		listItem[i]->Update(dt);
 	}
+	for (int i = 0; i < listBrick.size(); i++)
+	{
+		coObject1.push_back(listBrick[i]);
+		listBrick[i]->Update(dt,&coObject1);
+	}
+#pragma endregion COOBJECT 1: SIMON, BRICK, ITEM
 
-	/*==== DANH SACH LIST OBJECT O COOBJECT 2 ====*/
+
+#pragma region	COOBJECT 2
 	for (int i = 0; i < listCandle.size(); i++)
 	{
 		if(listCandle[i]->isAble)
@@ -270,6 +327,36 @@ void ScenePlayer::Update(float dt)
 		coObject2.push_back(listDoor[i]);
 		listDoor[i]->Update(dt);
 	}
+	for (int i = 0; i < listStair.size(); i++)
+	{
+		coObject2.push_back(listStair[i]);
+		listStair[i]->Update(dt);
+	}
+	for (int i = 0; i < listEnemy.size(); i++)
+	{
+		coObject1.push_back(listEnemy[i]);
+		listEnemy[i]->Update(dt, &coObject1);
+	}
+#pragma endregion COOBJECT 2: CANDLE, DOOR, HIDDENOBJ, STAIR, ENEMY
+
+
+#pragma region	WEAPONOBJECT
+	WeaponObject.push_back(CWhip::GetInstance());
+	for (int i = 0; i < listCandle.size(); i++)
+	{
+		if (listCandle[i]->isAble)
+			WeaponObject.push_back(listCandle[i]);
+	}
+	for (int i = 0; i < listEnemy.size(); i++)
+	{
+		if (listEnemy[i]->isAble)
+			WeaponObject.push_back(listEnemy[i]);
+	}
+	CWhip::GetInstance()->WhipCollisionObject(WeaponObject);
+	subWeapon->WeaponCollisionObject(WeaponObject);
+#pragma endregion	WEAPONOBJECT: WEAPON, WHIP, ENEMY, CANDLE
+
+	
 
 
 	// UPDATE NEW ITEM WHEN COLLISION VS WEAPON
@@ -317,10 +404,8 @@ void ScenePlayer::Update(float dt)
 	//		coObject2.push_back(objects[i]);
 	//	}
 	//}
-
 	//for (int i = 0; i < objects.size(); i++)
 	//{
-
 	//	if (dynamic_cast<CCandle*>(listCandle.at(i)) || dynamic_cast<CDoor*>(objects.at(i))
 	//		|| dynamic_cast<HiddenObject*>(objects.at(i)) || dynamic_cast<CEnemy*>(objects.at(i))
 	//		|| dynamic_cast<Weapon*>(objects.at(i)) || dynamic_cast<CWhip*>(objects.at(i)))
@@ -330,6 +415,7 @@ void ScenePlayer::Update(float dt)
 	//}
 
 
+#pragma region CAMERA
 	//HAM UPDATE CAMERA THEO SIMON THEO MAP 1
 	if (stage == 1)
 	{
@@ -364,6 +450,9 @@ void ScenePlayer::Update(float dt)
 
 		CGame::GetInstance()->SetCamPos(cx, 0.0f);
 	}
+#pragma endregion CAMERA
+
+
 }
 
 
@@ -406,6 +495,11 @@ void ScenePlayer::Render()
 		{
 			listHiddenObj[i]->Render();
 		}
+		for (int i = 0; i < listStair.size(); i++)
+		{
+			listStair[i]->Render();
+		}
+
 		CSimon::GetInstance()->Render(); // Simon ve cuoi
 	}
 
@@ -414,7 +508,6 @@ void ScenePlayer::Render()
 		// xet sau
 	}
 }
-
 
 void ScenePlayer::UpdateStage()
 {
@@ -441,14 +534,15 @@ void ScenePlayer::UpdateStage()
 
 void  ScenePlayer::ReadFile()
 {
-	/*===========DECLARE========= */
+#pragma region DECLARE
 	CSprites* sprites = CSprites::GetInstance();
 	CAnimations* animations = CAnimations::GetInstance();
 	CTextures* textures = CTextures::GetInstance();
 
 	LPANIMATION ani;
+#pragma endregion DECLARE
 
-	/*===========READ TEXTURE FROM FILE TXT========= */
+#pragma region READ TEXTURE
 	ifstream inp(L"textures\\Resources.txt", ios::in);
 	if (inp.fail())
 	{
@@ -465,9 +559,9 @@ void  ScenePlayer::ReadFile()
 	}
 
 	LPDIRECT3DTEXTURE9 tex;
+#pragma endregion READ TEXTURE
 
-
-	/*===========ADD SPRITE + ADD ANIMATION ========= */
+#pragma region READ SPRITE + ANIMATION
 
 	TiXmlDocument doc("textures\\Textures.xml");
 
@@ -520,4 +614,26 @@ void  ScenePlayer::ReadFile()
 			animations->Add(aniId, ani);
 		};
 	}
+#pragma endregion READ SPRITE + ANIMATION
+
 }
+
+void ScenePlayer::CheckCollision_SimonAndEnemy()
+{
+
+}
+void ScenePlayer::CheckCollision_SimonAndItem()
+{
+	/*for (int i = 0; i < coObject1.size(); i++) {
+		if (dynamic_cast<Item*>(coObject1[i])) {
+				if (CSimon::GetInstance()->isCollisionWithItem(dynamic_cast<Item*>(coObject1[i]))) {
+				}
+			}
+
+		}
+	}*/
+}
+//void ScenePlayer::CheckCollision_SimonAndItem()
+//{
+//
+//}

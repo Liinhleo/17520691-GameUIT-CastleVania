@@ -32,18 +32,24 @@ enum WeaponType {
 
 class Weapon : public CGameObject
 {
-	//DWORD curtime = 0;
+	DWORD timeStart = 0;	// dem time isFire
 public:
 	int ani;
 	Weapon();
 
-	bool isFlying = false;
-	bool isThrowing = false;
+	bool isHide = false;	// sau khi weapon VS enemy/candle || bay ra khoi camera -> true
+	bool isFlying = false;	// khi xai dagger
+	bool isThrowing = false;// khi xai axe
+	bool isPutting = false; // khi xai cho stop watch + holly water
+	bool isFire = false;	// khi stopwatch + holly water va cham voi ground / enemy
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 
 	void Render();
 	void SetState(int state);
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	void WeaponCollisionObject(vector<LPGAMEOBJECT> coObjects);
+
 };
 

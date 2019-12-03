@@ -25,46 +25,41 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
 
-	// Calculate dx, dy 
-	if (isFlying)
-	{
-		x += dx;
-
-		//Xet va cham voi candle bang bbox 
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			float left_a, top_a, right_a, bottom_a;// obj khac
-			float left, top, right, bottom; // dagger
-
-			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a);			// bbox obj 
-			GetBoundingBox(left, top, right, bottom);									// bbox dagger 
-
-			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
-			{
-				
-				if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
-					coObjects->at(i)->SetState(CANDLE_STATE_FIRE);			
-				
-				if(dynamic_cast<CEnemy*>(coObjects->at(i))) // if e->obj is CANDLE 				
-					coObjects->at(i)->SetState(ENEMY_STATE_DEAD);
-
-				CSimon::GetInstance()->isUsingSupWeapon = false;
-			}
-		}
+	//// Calculate dx, dy 
+	//if (isFlying)
+	//{
+	//	x += dx;
+	//	//Xet va cham voi candle bang bbox 
+	//	for (UINT i = 0; i < coObjects->size(); i++)
+	//	{
+	//		float left_a, top_a, right_a, bottom_a;// obj khac
+	//		float left, top, right, bottom; // dagger
+	//		coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a);			// bbox obj 
+	//		GetBoundingBox(left, top, right, bottom);									// bbox dagger 
+	//		if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
+	//		{
+	//			if (dynamic_cast<CCandle*>(coObjects->at(i))) // if e->obj is CANDLE 				
+	//				coObjects->at(i)->SetState(CANDLE_STATE_FIRE);			
+	//			
+	//			if(dynamic_cast<CEnemy*>(coObjects->at(i))) // if e->obj is CANDLE 				
+	//				coObjects->at(i)->SetState(ENEMY_STATE_DEAD);
+	//			CSimon::GetInstance()->isUsingSupWeapon = false;
+	//		}
+	//	}
 
 		if (x > CGame::GetInstance()->GetCam_x() + SCREEN_WIDTH )
 		{
 			isFlying = false;
 			CSimon::GetInstance()->isUsingSupWeapon = false;
 		}
-	}
+	
 }
 
 void Weapon::Render()
 {
 	if (isFlying)
 	{
-		std::cout << "Ve cai coi" << endl;
+		DebugOut(L"Ve dao");
 		if (nx > 0) ani = DAGGER_ANI_RIGHT;
 		else ani = DAGGER_ANI_LEFT;
 	}
@@ -115,7 +110,10 @@ void Weapon::SetState(int state)
 	case WeaponType::NONE:
 		isFlying = false;
 		isThrowing = false;
+		isHide = false;	// sau khi weapon VS enemy/candle || bay ra khoi camera -> true
+		isPutting = false; // khi xai cho stop watch + holly water
 		break;
+
 	case WeaponType::DAGGER:
 		std::cout << "vo state dagger" << endl;
 		isFlying = true;
@@ -126,19 +124,24 @@ void Weapon::SetState(int state)
 	case WeaponType::AXE:
 		isThrowing = true;
 		vx = AXE_SPEED * nx;
-		vy = WEAPON_GRAVITY;
+		vy = -WEAPON_GRAVITY;
 		break;
 
 	case WeaponType::HOLLY_WATER:
-		isThrowing = true;
+		isPutting = true;
+		isFire = false;
 		vx = HOLLYWATER_SPEED * nx;
-		vy = WEAPON_GRAVITY;
+		vy = -WEAPON_GRAVITY;
 		break;
+
 	case WeaponType::STOP_WATCH:
-		isThrowing = true;
+		isPutting = true;
+		isFire = false;
 		vx = HOLLYWATER_SPEED * nx;
-		vy = WEAPON_GRAVITY;
+		vy = -WEAPON_GRAVITY;
 		break;
+
+	
 	}
 }
 
@@ -178,3 +181,21 @@ void Weapon::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 
 
+void Weapon::WeaponCollisionObject(vector<LPGAMEOBJECT> coObjects)
+{
+	if (CSimon::GetInstance()->isAttacking)
+	{
+		for (int i = 0; i < coObjects.size(); i++)
+		{
+			if (dynamic_cast<CCandle*>(coObjects[i]) && this->checkAABBExwithObject(coObjects[i]))
+			{
+				coObjects[i]->SetState(CANDLE_STATE_FIRE);
+			}
+
+			else if (dynamic_cast<CEnemy*>(coObjects[i]) && this->checkAABBExwithObject(coObjects[i]))
+			{
+				coObjects[i]->SetState(ENEMY_STATE_FIRE);
+			}
+		}
+	}
+}

@@ -47,7 +47,6 @@ CSimon::CSimon()
 
 	CWhip::GetInstance()->SetState(WHIP_STATE_DISABLE);
 }
-
 void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x + 15;
@@ -63,7 +62,6 @@ void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		bottom = y + SIMON_BBOX_HEIGHT + 5;
 	}
 }
-
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// khi doi mau thi vx = 0 (dung yen)
@@ -114,61 +112,56 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (ny != 0) vy = 0;				//va cham theo truc y
 
 
-		for (UINT i = 0; i < coObjects->size(); i++)
-		{
-			float left_a, top_a, right_a, bottom_a;// obj khac
-			float left, top, right, bottom; // whip
-			coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a);		 // bbox obj khac
-			GetBoundingBox(left, top, right, bottom);									// bbox whip 
-
-
-			if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
-			{
-				// Xu ly va cham voi item -> Set CurSupWeapon
-				if (dynamic_cast<Item*>(coObjects->at(i)))			// if e->obj is ITEM 				
-				{
-					DebugOut(L"La item");
-					switch (dynamic_cast<Item*>(coObjects->at(i))->GetItemState()) // gan itemstate = subweapon
-					{
-					// XU LY SAU
-					case ItemType::ITEM_BIG_HEART:
-						DebugOut(L"Dung vao tim bu");
-						break;
-					case ItemType::ITEM_SMALL_HEART:
-						break;
-
-					// default weaponType::NONE
-					case ItemType::ITEM_UPGRADE_WHIP:
-						SetState(SIMON_STATE_CHANGE_COLOR);
-						CWhip::GetInstance()->UpgradeWhip();
-						break;
-					case ItemType::ITEM_DAGGER:
-						curSupWeapon = WeaponType::DAGGER;
-						break;
-					case ItemType::ITEM_AXE:
-						curSupWeapon = WeaponType::AXE;
-						break;
-					case ItemType::ITEM_STOP_WATCH:
-						curSupWeapon = WeaponType::STOP_WATCH;
-						break;
-					case ItemType::ITEM_HOLLY_WATER:
-						curSupWeapon = WeaponType::HOLLY_WATER;
-						break;
-					}
-					coObjects->at(i)->SetState(ITEM_STATE_DISABLE);
-				}
-
-				if (dynamic_cast<CDoor*>(coObjects->at(i)))
-				{
-					DebugOut(L"Da cham cua");
-					isCollisionDoor = true;
-					/*door->SetState(DOOR_STATE_OPEN);
-					SetState(SIMON_STATE_AUTOGO);*/
-				}
-
-			}
-			
-		}
+		//for (UINT i = 0; i < coObjects->size(); i++)
+		//{
+		//	float left_a, top_a, right_a, bottom_a;// obj khac
+		//	float left, top, right, bottom; // whip
+		//	coObjects->at(i)->GetBoundingBox(left_a, top_a, right_a, bottom_a);		 // bbox obj khac
+		//	GetBoundingBox(left, top, right, bottom);									// bbox whip 
+		//	if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
+		//	{
+		//		// Xu ly va cham voi item -> Set CurSupWeapon
+		//		if (dynamic_cast<Item*>(coObjects->at(i)))			// if e->obj is ITEM 				
+		//		{
+		//			DebugOut(L"La item");
+		//			switch (dynamic_cast<Item*>(coObjects->at(i))->GetItemState()) // gan itemstate = subweapon
+		//			{
+		//			// XU LY SAU
+		//			case ItemType::ITEM_BIG_HEART:
+		//				DebugOut(L"Dung vao tim bu");
+		//				break;
+		//			case ItemType::ITEM_SMALL_HEART:
+		//				break;
+		//			// default weaponType::NONE
+		//			case ItemType::ITEM_UPGRADE_WHIP:
+		//				SetState(SIMON_STATE_CHANGE_COLOR);
+		//				CWhip::GetInstance()->UpgradeWhip();
+		//				break;
+		//			case ItemType::ITEM_DAGGER:
+		//				curSupWeapon = WeaponType::DAGGER;
+		//				break;
+		//			case ItemType::ITEM_AXE:
+		//				curSupWeapon = WeaponType::AXE;
+		//				break;
+		//			case ItemType::ITEM_STOP_WATCH:
+		//				curSupWeapon = WeaponType::STOP_WATCH;
+		//				break;
+		//			case ItemType::ITEM_HOLLY_WATER:
+		//				curSupWeapon = WeaponType::HOLLY_WATER;
+		//				break;
+		//			}
+		//			coObjects->at(i)->SetState(ITEM_STATE_DISABLE);
+		//		}
+		//		if (dynamic_cast<CDoor*>(coObjects->at(i)))
+		//		{
+		//			DebugOut(L"Da cham cua");
+		//			isCollisionDoor = true;
+		//			/*door->SetState(DOOR_STATE_OPEN);
+		//			SetState(SIMON_STATE_AUTOGO);*/
+		//		}
+		//	}
+		//	
+		//}
 	}
 	// ngan Simon rot ra man hinh
 	if (x <= 0)
@@ -225,7 +218,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 }
-
 void CSimon::Render()
 {
 	int alpha = 255;
@@ -316,7 +308,6 @@ void CSimon::Render()
 	 if (isAttacking && !isUsingSupWeapon)
 		CWhip::GetInstance()->Render();
 }
-
 void CSimon::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -445,65 +436,41 @@ void CSimon::AttackingState()
 	}
 }
 
-
-//bool CSimon::isCanChangeScene(vector<LPGAMEOBJECT> coObjects)
+//void CSimon::SetWeapon(Weapon* weapon)
 //{
-//	for (UINT i = 0; i < coObjects.size(); i++)
+//	if (isCollisionItem)
 //	{
-//		if (IscollisionDoor(dynamic_cast<CDoor*>(coObjects.at[i])))
-//			return true;
+//		switch () // gan itemstate = subweapon
+//					{
+//					// XU LY SAU
+//					case ItemType::ITEM_BIG_HEART:
+//						DebugOut(L"Dung vao tim bu");
+//						break;
+//					case ItemType::ITEM_SMALL_HEART:
+//						break;
+//					// default weaponType::NONE
+//					case ItemType::ITEM_UPGRADE_WHIP:
+//						SetState(SIMON_STATE_CHANGE_COLOR);
+//						CWhip::GetInstance()->UpgradeWhip();
+//						break;
+//					case ItemType::ITEM_DAGGER:
+//						curSupWeapon = WeaponType::DAGGER;
+//						break;
+//					case ItemType::ITEM_AXE:
+//						curSupWeapon = WeaponType::AXE;
+//						break;
+//					case ItemType::ITEM_STOP_WATCH:
+//						curSupWeapon = WeaponType::STOP_WATCH;
+//						break;
+//					case ItemType::ITEM_HOLLY_WATER:
+//						curSupWeapon = WeaponType::HOLLY_WATER;
+//						break;
+//					}
+//					coObjects->at(i)->SetState(ITEM_STATE_DISABLE);
 //	}
-//	return false;
 //}
 
-//bool CSimon::CheckCollisionDoor(CDoor* door)
-//{
-//	float left_a, top_a, right_a, bottom_a;		// item
-//	float left, top, right, bottom;				// simon
-//
-//	door->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox item 
-//	GetBoundingBox(left, top, right, bottom);				// bbox simon 
-//
-//	if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
-//	{
-//		DebugOut(L"Da cham cua");
-//		isCollisionDoor = true;
-//		/*door->SetState(DOOR_STATE_OPEN);
-//		SetState(SIMON_STATE_AUTOGO);*/
-//	}
-//	return isCollisionDoor;
-//}
-
-
-//bool CSimon::IscollisionDoor(CDoor* door)
-//{
-//	float left_a, top_a, right_a, bottom_a;		// item
-//	float left, top, right, bottom;				// simon
-//
-//	door->GetBoundingBox(left_a, top_a, right_a, bottom_a); // bbox item 
-//	GetBoundingBox(left, top, right, bottom);				// bbox simon 
-//
-//	if (CheckAABB(left_a, top_a, right_a, bottom_a, left, top, right, bottom))
-//		return true;
-//	LPCOLLISIONEVENT e = SweptAABBEx(door); // kt sweptAABB
-//	bool res = e->t > 0 && e->t <= 1.0f; // e->t > 0 co the xay ra va cham (tuong lai) && tgian va cham <= 1 
-//	delete(e);
-//	return res;
-//}
-
-
-//void CSimon::WalkingState()
-//{
-//	
-//}
-//void CSimon::JumpingState()
-//{
-//	
-//}
-//
-//void CSimon::SittingState()
-//{
-//	
-//}
-
-
+bool CSimon::isCollisionItem(Item* item)
+{
+	return this->CheckAABBwithObject(item);
+}

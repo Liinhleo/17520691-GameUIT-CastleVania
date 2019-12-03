@@ -4,8 +4,8 @@
 #include "Weapon.h"
 #include "Whip.h"
 #include "GameObject.h"
-#include "Door.h"
-
+#include  "Door.h"
+#include  "Item.h"
 #define SIMON_WALKING_SPEED			0.5f 
 
 #define SIMON_JUMP_SPEED_Y			0.5f
@@ -37,7 +37,6 @@ public:
 	Weapon* subWeapon;
 	WeaponType curSupWeapon = WeaponType::NONE;
 	//WeaponType curSupWeapon = WeaponType::DAGGER;
-
 	CSimon();
 
 	int ani;
@@ -56,12 +55,6 @@ public:
 	bool isDownStair = false; 
 	bool isCollisionDoor = false;
 
-	/*void AttackingState();
-	void WalkingState();
-	void JumpingState();
-	void SittingState();
-	bool isHurting;*/
-
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void SetState(int state);
@@ -69,16 +62,18 @@ public:
 
 	static CSimon* GetInstance();
 
-	//test
 	float GetVx() { return this->vx; };
-
-
-	//bool IscollisionItem(CCandle *item = NULL);
-	//void SetSubWeapon(CCandle* item); // set vu khi phu cho Simon
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void AttackingState();
+
+	bool isCollisionItem(Item *item);
+
+
+	//void SetWeapon(Weapon* subWeapon);
+
 	//bool CheckCollisionDoor(CDoor* door);
 	//bool isCanChangeScene(vector<LPGAMEOBJECT> coObjects);
-	
+	//bool IscollisionItem(CCandle *item = NULL);
+	//void SetSubWeapon(CCandle* item); // set vu khi phu cho Simon
 };
