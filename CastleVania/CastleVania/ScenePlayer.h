@@ -16,29 +16,29 @@
 class ScenePlayer :public Scene
 {
 	
+
+
+public:
 	vector <LPGAMEOBJECT> objects;
 	CCandle* candle;
 	CDoor* door;
 	CBrick* brick;
 	HiddenObject* hiddenOject;
-	CZombie* zombie;
 	Weapon* subWeapon;
 
-public:
 	ScenePlayer();
 	void ReadFile();
 
-	void UpdateStage();
 	void LoadResources();
 	void Update(float dt);
 	void Render();
 
+	void CreateZombie();	// tao zombie
+	void CreateItem();		// tao item ngay tai vi tri object die
+
+	void CheckCollision_SimonAndDoor();
 	void CheckCollision_SimonAndEnemy();
 	void CheckCollision_SimonAndItem();
-	
-	void CheckCollision_WeaponAndEnemy();
-	void CheckCollision_WhipAndEnemy();
-
 
 };
 #endif

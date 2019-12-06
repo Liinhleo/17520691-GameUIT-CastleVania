@@ -3,16 +3,18 @@
 
 class BottomStair : public CGameObject
 {
-	int id;
+	
+	int type;
 	int width;	// rong
 	int height;	// cao
 
 public:
-	BottomStair(int _id, int _width, int _height)
+	BottomStair(int _type, int x, int y, int _width, int _height)
 	{
 		type = ObjectType::BOTTOM_STAIR; 
-
-		this->id = _id;
+		this->x = x;
+		this->y = y;
+		this->type = _type;
 		this->width = _width;
 		this->height = _height;
 

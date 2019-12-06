@@ -122,7 +122,8 @@ void CWhip::WhipCollisionObject(vector<LPGAMEOBJECT> coObjects)
 
 			else if (dynamic_cast<CEnemy*>(coObjects[i]) && this->checkAABBExwithObject(coObjects[i]))
 			{
-				coObjects[i]->SetState(ENEMY_STATE_DEAD);
+				DebugOut(L"CHet ma ne");
+				coObjects[i]->GetAble() == false;
 			}
 		}
 	}

@@ -1,5 +1,4 @@
 #pragma once
-#include "define.h"
 #include "Enemy.h"
 
 
@@ -7,6 +6,7 @@
 
 class CZombie : public CEnemy
 {
+
 public:
 	CZombie();
 
@@ -15,6 +15,5 @@ public:
 	virtual void Render();
 
 	int ani;
-	virtual void SetState(int state);
 };
 

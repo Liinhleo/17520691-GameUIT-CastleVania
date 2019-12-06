@@ -21,25 +21,3 @@ CEnemy::CEnemy()
 }
 
 
-void CEnemy::SetState(int state)
-{
-	CGameObject::SetState(state);
-	switch (state)
-	{
-	case ENEMY_STATE_WALKING:
-		SetState(enemyID);
-		break;
-	case ENEMY_STATE_FIRE:
-		isHit = true;
-		break;
-
-	case ENEMY_STATE_FALLING_ITEM:
-		isFallingItem = true;
-		break;
-
-	case ENEMY_STATE_DEAD:
-		isAble = false;
-		break;
-
-	}
-}

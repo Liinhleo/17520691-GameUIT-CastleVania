@@ -13,6 +13,7 @@ vector <LPGAMEOBJECT> listHiddenObj;
 vector <LPGAMEOBJECT> listEnemy;
 vector <LPGAMEOBJECT> listDoor;
 vector <LPGAMEOBJECT> listStair;
+vector <LPGAMEOBJECT> listZombie;
 
 
 vector <LPGAMEOBJECT>coObject1;		// bao gom: Simon, brick
@@ -59,8 +60,6 @@ void ScenePlayer::LoadResources()
 	WeaponObject.push_back(subWeapon);
 
 
-
-
 #pragma region LOAD_OBJECT_STAGE_1
 	if (stage == 1)
 	{
@@ -80,10 +79,11 @@ void ScenePlayer::LoadResources()
 		brick->SetWidthHeigth(CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth(), BRICK_BBOX_WIDTH);
 		listBrick.push_back(brick);
 
-		//DOOR AN DE QUA MAN2	
-		CDoor* door = new CDoor();
-		door->SetPosition(1350.0f, 305);
-		listDoor.push_back(door);
+		//DOOR AN DE QUA MAN2
+		HiddenObject* hidden_obj = new HiddenObject(1,16,30);
+		hidden_obj->SetPosition(1300.0f, 305);
+		listHiddenObj.push_back(hidden_obj);
+
 	}
 #pragma endregion LOAD_OBJECT_STAGE_1
 
@@ -92,35 +92,35 @@ void ScenePlayer::LoadResources()
 	{	
 		/*===========BRICK========= */
 		// TAO GROUND
-		CBrick* brick = new CBrick();
+		brick = new CBrick();
 		brick->SetPosition(0, 400); 
 		brick->SetWidthHeigth(CTileMaps::GetInstance()->GetMap(MAP_2)->GetMapWidth(), BRICK_BBOX_WIDTH);
 		listBrick.push_back(brick);
 
 		for (int i = 0; i < 1; i++)	// tuong o cuoi map 2
 		{
-			CBrick* brick = new CBrick();
+			brick = new CBrick();
 			brick->SetPosition(3050 + i *500, 300);
 			brick->SetWidthHeigth(BRICK_BBOX_WIDTH,100);
 			listBrick.push_back(brick);
 		}
 		for (int i = 0; i < 1; i++) // them 1
 		{
-			CBrick* brick = new CBrick();
+			brick = new CBrick();
 			brick->SetPosition(1370.0f + i *1, FLOOR_2);
 			brick->SetWidthHeigth(100, BRICK_BBOX_WIDTH);
 			listBrick.push_back(brick);
 		}
 		for (int i = 0; i < 1; i++) // them 2
 		{
-			CBrick* brick = new CBrick();
+			brick = new CBrick();
 			brick->SetPosition(1500.0f , 210.0f);
 			brick->SetWidthHeigth(345, BRICK_BBOX_WIDTH);
 			listBrick.push_back(brick);
 		}
 		for (int i = 0; i < 1; i++) // them 3
 		{
-			CBrick* brick = new CBrick();
+			brick = new CBrick();
 			brick->SetPosition(1850.0f, FLOOR_2);
 			brick->SetWidthHeigth(200, BRICK_BBOX_WIDTH);
 			listBrick.push_back(brick);
@@ -167,7 +167,6 @@ void ScenePlayer::LoadResources()
 			candle->SetState(CANDLE_STATE_ABLE);
 			candle->SetAniCandle(CandleType::SMALL_CANDLE);
 			candle->SetPosition(190 + i * 250, FLOOR_2);
-			candle->SetId(i);
 			listCandle.push_back(candle);
 		}
 		for (int i = 0; i < 5; i++)
@@ -176,7 +175,6 @@ void ScenePlayer::LoadResources()
 			candle->SetState(CANDLE_STATE_ABLE);
 			candle->SetAniCandle(CandleType::SMALL_CANDLE);
 			candle->SetPosition(60 + i * 250, FLOOR_1);
-			candle->SetId(i);
 			listCandle.push_back(candle);
 		}
 		for (int i = 0; i < 2; i++)
@@ -185,7 +183,6 @@ void ScenePlayer::LoadResources()
 			candle->SetState(CANDLE_STATE_ABLE);
 			candle->SetAniCandle(CandleType::SMALL_CANDLE);
 			candle->SetPosition(1480.0f + i * 350, FLOOR_1);
-			candle->SetId(i);
 			listCandle.push_back(candle);
 		}
 		for (int i = 0; i < 3; i++)
@@ -194,7 +191,6 @@ void ScenePlayer::LoadResources()
 			candle->SetState(CANDLE_STATE_ABLE);
 			candle->SetAniCandle(CandleType::SMALL_CANDLE);
 			candle->SetPosition(1400.0f + i * 300, 150);
-			candle->SetId(i);
 			listCandle.push_back(candle);
 		}
 		for (int i = 0; i < 4; i++)
@@ -203,55 +199,26 @@ void ScenePlayer::LoadResources()
 			candle->SetState(CANDLE_STATE_ABLE);
 			candle->SetAniCandle(CandleType::SMALL_CANDLE);
 			candle->SetPosition(2100.0f + i * 130, FLOOR_1);
-			candle->SetId(i);
 			listCandle.push_back(candle);
 		}
 		
-		/*===========HIDDEN_OJECT========= */ 
-		// Dung de khoi dong enemy 
-		for (int i = 0; i < 2; i++)
-		{
-			hiddenOject = new HiddenObject(i, 30, 30);
-			hiddenOject->SetPosition(190 + i * 520, 370);
-			listHiddenObj.push_back(hiddenOject);
-		}
-
 		/*===========TOP STAIR ========= */
-		for (int i = 0; i < 1; i++)
-		{
-			BottomStair* bottomstair = new BottomStair(1, 30, 30);
-			bottomstair->SetPosition(1230 , 370);
-			listStair.push_back(bottomstair);
-		}
-		for (int i = 0; i < 1; i++)
-		{
-			TopStair* topStair = new TopStair(2, 30, 30);
-			topStair->SetPosition(1350 , 200);
-			listStair.push_back(topStair);
-		}
+		
+			listStair.push_back(new BottomStair(1, 1230, 370, 30, 30));
+			listStair.push_back(new BottomStair(1, 1350, 200, 30, 30));
+		
 
-		for (int i = 0; i < 1; i++)
-		{
-			BottomStair* bottomstair = new BottomStair(3, 30, 30);
+		
+			/*bottomstair = new BottomStair(3, 30, 30);
 			bottomstair->SetPosition(1750.0f, 180);
 			listStair.push_back(bottomstair);
-		}
-		for (int i = 0; i < 1; i++)
-		{
-			TopStair* topStair = new TopStair(4, 30, 30);
+		
+			topStair = new TopStair(4, 30, 30);
 			topStair->SetPosition(1500, 150);
-			listStair.push_back(topStair);
-		}
+			listStair.push_back(topStair);*/
+		
 
 		///*===========ENEMY========= */
-		/*for (int i = 0; i < 3; i++)
-		{
-			CZombie* zombie = new CZombie();
-			zombie->SetPosition(400 + i * 32.0f , 320);
-			zombie->SetState(ENEMY_STATE_WALKING);
-			listEnemy.push_back(zombie);
-		}*/
-
 		// Dog thu nhat tren cau thang
 		for (int i = 0; i < 2; i++)
 		{
@@ -266,6 +233,14 @@ void ScenePlayer::LoadResources()
 		dog->SetState(ENEMY_STATE_WALKING);
 		listEnemy.push_back(dog);
 
+		for (int i = 0; i < 3; i++)
+		{
+			CZombie *zombie = new CZombie();
+			zombie->SetPosition(400 + i * 100, 300);
+			listZombie.push_back(zombie);
+			objects.push_back(zombie);
+
+		}
 		//HiddenObject* hidden_obj = new HiddenObject(16,30);
 		//hidden_obj->SetPosition(1250.0f, 330.0f );
 		//objects.push_back(hidden_obj);
@@ -277,8 +252,6 @@ void ScenePlayer::LoadResources()
 		//objects.push_back(bat);
 
 		/*PUSH VO DANH SACH X*/
-
-
 	}
 #pragma endregion	LOAD_OBJECT_STAGE_2
 
@@ -297,22 +270,25 @@ void ScenePlayer::LoadResources()
 
 void ScenePlayer::Update(float dt)
 {
-	UpdateStage();
+
 	CSimon::GetInstance()->Update(dt,&coObject1);
+	for (int i = 0; i < listZombie.size(); i++)
+	{
+		listZombie[i]->Update(dt, &coObject1);
+	}
 
 #pragma region	COOBJECT 1
 	coObject1.push_back(CSimon::GetInstance());
 	for (int i = 0; i < listItem.size(); i++)
 	{
-		coObject1.push_back(listItem[i]);
-		listItem[i]->Update(dt);
+		if (listItem[i]->isAble)
+			coObject1.push_back(listItem[i]);
 	}
 	for (int i = 0; i < listBrick.size(); i++)
 	{
 		coObject1.push_back(listBrick[i]);
-		listBrick[i]->Update(dt,&coObject1);
 	}
-#pragma endregion COOBJECT 1: SIMON, BRICK, ITEM
+#pragma endregion SIMON, BRICK, ITEM
 
 
 #pragma region	COOBJECT 2
@@ -322,22 +298,21 @@ void ScenePlayer::Update(float dt)
 			coObject2.push_back(listCandle[i]);
 		listCandle[i]->Update(dt);
 	}
-	for (int i = 0; i < listDoor.size(); i++)
+	for (int i = 0; i < listEnemy.size(); i++)
 	{
-		coObject2.push_back(listDoor[i]);
-		listDoor[i]->Update(dt);
+		if (listEnemy[i]->isAble)
+			coObject2.push_back(listEnemy[i]);
+		listEnemy[i]->Update(dt);
+	}
+	for (int i = 0; i < listHiddenObj.size(); i++)
+	{
+		coObject2.push_back(listHiddenObj[i]);
 	}
 	for (int i = 0; i < listStair.size(); i++)
 	{
 		coObject2.push_back(listStair[i]);
-		listStair[i]->Update(dt);
 	}
-	for (int i = 0; i < listEnemy.size(); i++)
-	{
-		coObject1.push_back(listEnemy[i]);
-		listEnemy[i]->Update(dt, &coObject1);
-	}
-#pragma endregion COOBJECT 2: CANDLE, DOOR, HIDDENOBJ, STAIR, ENEMY
+#pragma endregion CANDLE, DOOR, HIDDENOBJ, STAIR, ENEMY
 
 
 #pragma region	WEAPONOBJECT
@@ -351,47 +326,49 @@ void ScenePlayer::Update(float dt)
 	{
 		if (listEnemy[i]->isAble)
 			WeaponObject.push_back(listEnemy[i]);
+
 	}
 	CWhip::GetInstance()->WhipCollisionObject(WeaponObject);
 	subWeapon->WeaponCollisionObject(WeaponObject);
-#pragma endregion	WEAPONOBJECT: WEAPON, WHIP, ENEMY, CANDLE
 
+#pragma endregion	WEAPON, WHIP, ENEMY, CANDLE
 	
+	
+	CheckCollision_SimonAndDoor();
 
 
-	// UPDATE NEW ITEM WHEN COLLISION VS WEAPON
-	for (int i = 0; i < listCandle.size(); i++)
-	{
-		listCandle[i]->Update(dt, &coObject2);
-		if (listCandle[i]->GetAble() == false) // dieu kien Candle bi roi danh
-		{
-			float x, y;
-			Item* item = new Item();
-			item->SetState(ITEM_STATE_SHOW);
-			switch (i)
-			{
-			case 0:
-				item->SetItemState(ItemType::ITEM_BIG_HEART);
-				break;
-			case 1:
-				item->SetItemState(ItemType::ITEM_SMALL_HEART);
-				break;
-			case 2:
-				item->SetItemState(ItemType::ITEM_UPGRADE_WHIP);
-				break;
-			case 3:
-				item->SetItemState(ItemType::ITEM_UPGRADE_WHIP);
-				break;
-			case 4:
-				item->SetItemState(ItemType::ITEM_DAGGER);
-				break;
-			}
-			listCandle[i]->GetPosition(x, y);	
-			item->SetPosition(x, y);
-			objects.push_back(item);
-			listCandle.erase(listCandle.begin() + i);// xoa candle tai vi tri thu i
-		}
-	}
+	 //UPDATE NEW ITEM WHEN COLLISION VS WEAPON
+	//for (int i = 0; i < listCandle.size(); i++)
+	//{
+	//	if (listCandle[i]->GetAble() == false) // dieu kien Candle bi roi danh
+	//	{
+	//		float x, y;
+	//		Item* item = new Item();
+	//		item->SetState(ITEM_STATE_SHOW);
+	//		switch (i)
+	//		{
+	//		case 0:
+	//			item->SetItemState(ItemType::ITEM_BIG_HEART);
+	//			break;
+	//		case 1:
+	//			item->SetItemState(ItemType::ITEM_SMALL_HEART);
+	//			break;
+	//		case 2:
+	//			item->SetItemState(ItemType::ITEM_UPGRADE_WHIP);
+	//			break;
+	//		case 3:
+	//			item->SetItemState(ItemType::ITEM_UPGRADE_WHIP);
+	//			break;
+	//		case 4:
+	//			item->SetItemState(ItemType::ITEM_DAGGER);
+	//			break;
+	//		}
+	//		listCandle[i]->GetPosition(x, y);	
+	//		item->SetPosition(x, y);
+	//		listItem.push_back(item);
+	//		listCandle.erase(listCandle.begin() + i);// xoa candle tai vi tri thu i
+	//	}
+	//}
 
 	//for (int i = 0; i < objects.size(); i++)
 	//{
@@ -417,22 +394,22 @@ void ScenePlayer::Update(float dt)
 
 #pragma region CAMERA
 	//HAM UPDATE CAMERA THEO SIMON THEO MAP 1
-	if (stage == 1)
-	{
-		int mapWidth = CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth();
-		float cx, cy;
-		CSimon::GetInstance()->GetPosition(cx, cy);
-		cx = cx - SCREEN_WIDTH / 2 + 30; // vi tri cam luon de Simon o giua man hinh
-		//cy -= SCREEN_HEIGHT / 2;
+	//if (stage == 1)
+	//{
+	//	int mapWidth = CTileMaps::GetInstance()->GetMap(MAP_1)->GetMapWidth();
+	//	float cx, cy;
+	//	CSimon::GetInstance()->GetPosition(cx, cy);
+	//	cx = cx - SCREEN_WIDTH / 2 + 30; // vi tri cam luon de Simon o giua man hinh
+	//	//cy -= SCREEN_HEIGHT / 2;
 
-		if (cx < 0) //TH: Simon o dau map
-			cx = 0;
+	//	if (cx < 0) //TH: Simon o dau map
+	//		cx = 0;
 
-		else if (cx + SCREEN_WIDTH > mapWidth) // TH: Simon di qua 1/2 cuoi map
-			return;
+	//	else if (cx + SCREEN_WIDTH > mapWidth) // TH: Simon di qua 1/2 cuoi map
+	//		return;
 
-		CGame::GetInstance()->SetCamPos(cx, 0.0f);
-	}
+	//	CGame::GetInstance()->SetCamPos(cx, 0.0f);
+	//}
 
 	if (stage == 2)
 	{
@@ -469,9 +446,9 @@ void ScenePlayer::Render()
 		{
 			listBrick[i]->Render();
 		}
-		for (int i = 0; i < listDoor.size(); i++)
+		for (int i = 0; i < listHiddenObj.size(); i++)
 		{
-			listDoor[i]->Render();
+			listHiddenObj[i]->Render();
 		}
 		CSimon::GetInstance()->Render(); // Simon ve cuoi
 	}
@@ -482,6 +459,10 @@ void ScenePlayer::Render()
 		for (int i = 0; i < listBrick.size(); i++)
 		{
 			listBrick[i]->Render();
+		}
+		for (int i = 0; i < objects.size(); i++)
+		{
+			objects[i]->Render();
 		}
 		for (int i = 0; i < listEnemy.size(); i++)
 		{
@@ -506,29 +487,6 @@ void ScenePlayer::Render()
 	else if (stage == 3)
 	{
 		// xet sau
-	}
-}
-
-void ScenePlayer::UpdateStage()
-{
-	switch (GetStage())
-	{
-	case 1:
-		if (CSimon::GetInstance()->isCollisionDoor)
-		{
-			Scenes::GetInstance()->GetScene(2)->SetStage(2);
-			LoadResources();
-		}
-		break;
-		/*case 2:
-			if (CSimon::GetInstance()->isCollisionDoor)
-			{
-				Scenes::GetInstance()->GetScene(3)->SetStage(3);
-				LoadResources();
-			}
-			break;*/
-	default:
-		break;
 	}
 }
 
@@ -622,6 +580,26 @@ void ScenePlayer::CheckCollision_SimonAndEnemy()
 {
 
 }
+
+void ScenePlayer::CheckCollision_SimonAndDoor()
+{
+	for (int i = 0; i < listHiddenObj.size(); i++)
+	{
+		if (CSimon::GetInstance()->CheckAABBwithObject(listHiddenObj[i]))
+		{
+			DebugOut(L"cham cua");
+			this->stage = 2;
+			listBrick.clear();
+			listCandle.clear();
+			listHiddenObj.clear();
+			coObject1.clear();
+			LoadResources();
+		}
+	}
+}
+
+
+
 void ScenePlayer::CheckCollision_SimonAndItem()
 {
 	/*for (int i = 0; i < coObject1.size(); i++) {

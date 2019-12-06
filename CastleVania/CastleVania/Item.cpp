@@ -50,7 +50,7 @@ void Item::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		timeStart += dt;
 
-		if (ani == ITEM_ANI_SMALL_HEART)
+		if (GetItemState()== ItemType::ITEM_SMALL_HEART)
 		{
 
 			if (vy != 0)

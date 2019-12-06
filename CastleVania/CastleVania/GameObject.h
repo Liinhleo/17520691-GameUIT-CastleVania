@@ -1,9 +1,7 @@
 #pragma once
-
 #include <Windows.h>
 #include <d3dx9.h>
 #include <vector>
-
 #include "Sprites.h"
 
 
@@ -68,6 +66,8 @@ public:
 
 public: 
 	bool isAble = true;
+
+
 	void SetId(int _id) { this->ID = _id; }
 	virtual void SetState(int state) { this->state = state; }
 	void SetDirection(int direction) { this->nx = direction; }

@@ -1,9 +1,9 @@
 #include "Zombie.h"
 
-
 CZombie::CZombie()
 {
 	enemyID = EnemyType::ZOMBIE;
+
 }
 
 
@@ -17,45 +17,54 @@ void CZombie::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CZombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (!isAble)
+		return;
+
 	CGameObject::Update(dt, coObjects);
+	vx = -0.02f;
+	vy += 0.015f * dt;
 
-	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 
-	x += dx;
-	y += dy;
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	if (x <= 0 || x >= 512) //screen_width
+	coEvents.clear();
+
+	CalcPotentialCollisions(coObjects, coEvents);
+
+	// No collision occured, proceed normally
+	if (coEvents.size() == 0)
 	{
-		nx = -nx;
-		vx = vx * nx;
-	}
 
-	// chua xet va cham
+		x += dx; //dx=vx*dt
+		y += dy;
+
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
+
+		if (nx != 0) vx = 0;				//va cham theo phuong x
+		if (ny != 0) vy = 0;				//va cham theo truc y
+	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
 }
 
 void CZombie::Render()
 {
-	if (state == ENEMY_STATE_WALKING)
-	{
-		if (nx > 0) ani = ZOMBIE_ANI_WALKING_RIGHT;
-		else ani = ZOMBIE_ANI_WALKING_LEFT;
-	}
-	animations[ani]->Render(x, y);
+	if (!isAble)
+		return;
+	/*ani = ZOMBIE_ANI_WALKING_LEFT;
+
+	if (nx > 0) ani = ZOMBIE_ANI_WALKING_RIGHT;
+	else ani = ZOMBIE_ANI_WALKING_LEFT;*/
+
+	animations[ZOMBIE_ANI_WALKING_LEFT]->Render(x, y);
 	RenderBoundingBox();
-}
-
-void CZombie::SetState(int state)
-{
-	//CEnemy::SetState(state);
-	switch (state)
-	{
-	case ENEMY_STATE_DEAD:
-		isAble = false;
-		break;
-
-	case ENEMY_STATE_WALKING:
-		vx = -ZOMBIE_WALKING_SPEED;
-		break;
-	}
-
 }
